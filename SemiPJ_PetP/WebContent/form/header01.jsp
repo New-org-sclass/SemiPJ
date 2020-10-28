@@ -28,6 +28,7 @@
    
 </head>
 <body>
+<main role="main" style="margin-top: 100px; margin-bottom: 100px; background-color: #fffff9; ">
    <header>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f5f5dc;">
          
@@ -79,6 +80,7 @@
          </div>
       </nav>
    </header>
+   </main>
 </body>
 
 </html>
