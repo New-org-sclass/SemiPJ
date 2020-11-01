@@ -33,7 +33,7 @@
          
          <!-- 로고 클릭시 마이페이지로 이동 -->
          <a class="navbar-brand" href="">
-             <img src="../resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
+             <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
              PetP
           </a>
           
@@ -59,7 +59,7 @@
         		<!-- 펫스타그램 droupdown 형식 (펫스타그램, 게시물 업로드) -->
       			<li class="nav-item dropdown">
         			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        				<img src="../resources/images/nav/nav01.png" width="30" height="30" >
+        				<img src="resources/images/nav/nav01.png" width="30" height="30" >
         			</a>
         			
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -70,25 +70,25 @@
       			
       			<li class="nav-item active">
         			<a class="nav-link" href="#">
-        				<img src="../resources/images/nav/nav02.png" width="30" height="30" >
+        				<img src="resources/images/nav/nav02.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
         			<a class="nav-link" href="#">
-        				<img src="../resources/images/nav/nav03.png" width="30" height="30" >
+        				<img src="resources/images/nav/nav03.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
         			<a class="nav-link" href="#">
-        				<img src="../resources/images/nav/nav04.png" width="30" height="30" >
+        				<img src="resources/images/nav/nav04.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
         			<a class="nav-link" href="#">
-        				<img src="../resources/images/profile.png" width="30" height="30" >
+        				<img src="resources/images/profile.png" width="30" height="30" >
         			</a>
       			</li>
     		</ul>

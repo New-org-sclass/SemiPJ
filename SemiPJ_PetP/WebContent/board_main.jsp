@@ -13,7 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-<title>petstagram</title>
+<title>PETP</title>
 
 <style type="text/css">
 	.uploadimg {
@@ -30,19 +30,27 @@
 		width: 30px;
 		height: 30px;
 	}
+	
+	body, wrapper {
+   		min-height:100vh;
+	}
+
+	.flex-fill {
+   		flex:1 1 auto;
+	}
 </style>
 </head>
 
 <body>
-	<jsp:include page="../form/header01.jsp" flush="true" />
-
+	<jsp:include page="form/header01.jsp" flush="true" />
+	
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
 		<div class="container">
 		
 			<div class="card">
 				
 				<div class="card-header" style="background-color: white;">
-    				<img src="../resources/images/profile.png">
+    				<img src="resources/images/profile.png">
     				User name
   				</div>
   				
@@ -54,9 +62,9 @@
 				</div>
 				
 				<div class="card-footer" style="background-color: white">
-					<a href="#" ><img class="linkimg" src="../resources/images/comment.png"></a>
+					<a href="#" ><img class="linkimg" src="resources/images/comment.png"></a>
 					&nbsp
-					<a href="#" ><img class="linkimg" src="../resources/images/kakaoshare.png"></a>
+					<a href="#" ><img class="linkimg" src="resources/images/kakaoshare.png"></a>
   				</div>
 				
 			</div>
@@ -64,6 +72,6 @@
 		</div>
 	</main>
 
-	<jsp:include page="../form/footer.jsp" flush="true" />
+	<jsp:include page="form/footer.jsp" flush="true" />
 </body>
 </html>
