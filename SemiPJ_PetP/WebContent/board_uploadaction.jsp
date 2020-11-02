@@ -59,5 +59,7 @@
 		}
 	}	
 %>
+
+	<button onclick="location.href='board_add.jsp'">확인</button>
 </body>
 </html>

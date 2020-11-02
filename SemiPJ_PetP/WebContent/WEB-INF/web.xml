@@ -4,4 +4,14 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- 펫스타그램 -->
+  <servlet>
+  	<servlet-name>BoardServlet</servlet-name>
+  	<servlet-class>com.petp.controller.BoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardServlet</servlet-name>
+    <url-pattern>/BoardServlet.do</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -53,6 +53,10 @@
 			}
 		} 
 	}
+	
+	function check() {
+		alert("command : " + command);
+	}
 </script>
 
 </head>
@@ -64,7 +68,14 @@
 		
 		<div class="card">
 		
-		<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">
+		
+		<form action="BoardServlet.do" method="post" enctype="multipart/form-data">  			
+  			<input type="hidden" name="command" value="fileupload">
+  			<!-- submit 클릭시 hidden 으로 처리되어 서버로 전달 -->
+  			
+  			<!-- 
+  			<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">
+  			 -->
   			<div class="card-header" style="background-color: white;">
     			<img src="resources/images/profile.png">
     			User name
@@ -99,7 +110,8 @@
 						</select>
 					
 						<div class="input-group-append">
-						    <button class="btn btn-outline-secondary" type="submit">Upload</button>
+						    <button class="btn btn-outline-secondary" type="submit" onclick="check();">Upload</button>
+							<!-- hidden 타입으로 command -->
 						</div>
 					</div>
 				
