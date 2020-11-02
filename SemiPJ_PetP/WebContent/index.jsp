@@ -10,10 +10,11 @@
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
-	<a href="board_main.jsp">펫스타</a>
+	<a href="BoardServlet.do">board test page</a>
+	<a href="Newscon.do?command=news">news test page</a>
 	
 	<!-- 소현 branch test -->	
+	<!-- testetest -->
 
 </body>
 </html>

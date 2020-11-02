@@ -4,4 +4,34 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <context-param>
+  	<param-name>url</param-name>
+  	<param-value>jdbc:oracle:thin:@localhost:1521:xe</param-value>
+  </context-param>
+  
+  
+  <servlet>
+  	<servlet-name>Board</servlet-name>
+  	<servlet-class>com.petp.controller.BoardServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Board</servlet-name>
+  	<url-pattern>/BoardServlet.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+  	<servlet-name>Newscon</servlet-name>
+  	<servlet-class>com.petp.controller.NewsController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Newscon</servlet-name>
+  	<url-pattern>/Newscon.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  
 </web-app>
