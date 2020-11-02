@@ -25,6 +25,7 @@ public class NewsBiz {
 	public NewsDto pnewsOne(int newsno) {
 		con = getConnection();
 		NewsDto oneN = newsdao.pnewsOne(con, newsno);
+		close(con);
 		return oneN;
 	}
 	
