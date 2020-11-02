@@ -14,7 +14,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 <title>PETP</title>
-
 <style type="text/css">
 	.uploadimg {
 		width: 300px;
@@ -39,6 +38,7 @@
    		flex:1 1 auto;
 	}
 </style>
+
 </head>
 
 <body>
@@ -55,16 +55,16 @@
   				</div>
   				
 				<!-- 사용자가 업로드한 이미지 -->
-				<img class = "uploadimg" src="..." class="card-img-top" alt="...">
+				<img class = "uploadimg" src="#" class="card-img-top" alt="#게시글1"> <!-- 게시글이  -->
 				<div class="card-body">
 					<b class="card-title">Card content</b>
 					<p class="card-text">#hashtag #hashtag #hastag</p>
 				</div>
 				
 				<div class="card-footer" style="background-color: white">
-					<a href="#" ><img class="linkimg" src="resources/images/comment.png"></a>
+					<a href="#" ><img class="linkimg" src="resources/images/comment.png"></a> <!-- 댓글달기 -->
 					&nbsp
-					<a href="#" ><img class="linkimg" src="resources/images/kakaoshare.png"></a>
+					<a id="kakao-link-btn" href="javascript:;"><img class="linkimg" src="resources/images/kakaoshare.png"></a> <!-- 카카오톡 공유 -->
   				</div>
 				
 			</div>
