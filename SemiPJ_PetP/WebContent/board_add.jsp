@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <title>PETP</title>
 
+<!-- .uploadimg 현재 작동 안됨 -->
 <style type="text/css">
 	.uploadimg {
 		width: 500px;
@@ -36,9 +37,10 @@
 		fileAreaCnt = fileArea.childElementCount - 1;
 	});
 	
+	
 	function addFileSelect() {
 		
-		var select = document.getElementById("addFileSelect");
+		var select = document.getElementById("fileOption");
 		var index = select.selectedIndex;
 		var selectVal = select.options[index].value;
 	
@@ -61,6 +63,8 @@
 		<div class="container">
 		
 		<div class="card">
+		
+		<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">
   			<div class="card-header" style="background-color: white;">
     			<img src="resources/images/profile.png">
     			User name
@@ -80,21 +84,20 @@
   					<input type="text" class="form-control" placeholder="#hashtag" aria-label="Recipient's username" aria-describedby="button-addon2">
 				</div>
 				
-				<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">
 					<!-- 업로드할 사진 갯수 정하기 -->
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<img src="resources/images/camera.png"> &nbsp;&nbsp;
 						</div>
 						
-						<select class="custom-select" id="addFileSelect" onchange="addFileSelect();">
+						<select class="custom-select" id="fileOption" onchange="addFileSelect();">
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
 							<option value="5">5</option>
 						</select>
-
+					
 						<div class="input-group-append">
 						    <button class="btn btn-outline-secondary" type="submit">Upload</button>
 						</div>
@@ -107,11 +110,10 @@
 							<label class="custom-file-label" for="inputGroupFile04"></label>
 						</div>
 					</div>
-				
 					<div id="empty"></div>
-				</form>
 				
-			</div> <!-- end of card-body -->
+				</div> <!-- end of card-body -->
+			</form> <!-- end of 사진 업로드 form -->
   			
   			<div class="card-footer" style="background-color: white">
 				<button type="button" class="btn btn-lg btn-block" style="background-color: #f5f5dc">Upload</button>
