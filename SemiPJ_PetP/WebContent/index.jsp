@@ -11,11 +11,9 @@
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
+	<a href="board_main.jsp">펫스타</a>
 	
 	<!-- 소현 branch test -->	
-	<!-- testetest -->
-	<!-- test3 -->
 
 </body>
 </html>

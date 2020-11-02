@@ -20,7 +20,7 @@
 <body>
 	<footer class="footer mt-auto py-3" style="background-color: #f5f5f5;">
 	  <div class="container">
-	    <span class="text-muted">2020 PETP FROM 멍멍아 야옹하자</span><br>
+	    <span class="text-muted font-italic">2020 PETP FROM 멍멍아 야옹하자</span><br>
 	  </div>
 	</footer>
 </body>
