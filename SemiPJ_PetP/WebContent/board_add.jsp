@@ -69,13 +69,9 @@
 		<div class="card">
 		
 		
-		<form action="BoardServlet.do" method="post" enctype="multipart/form-data">  			
-  			<input type="hidden" name="command" value="fileupload">
-  			<!-- submit 클릭시 hidden 으로 처리되어 서버로 전달 -->
+		<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">  			
+			<!-- multipart의 경우 request를 통해 서블릿으로 전달할 수 없음 -->
   			
-  			<!-- 
-  			<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">
-  			 -->
   			<div class="card-header" style="background-color: white;">
     			<img src="resources/images/profile.png">
     			User name
@@ -110,7 +106,7 @@
 						</select>
 					
 						<div class="input-group-append">
-						    <button class="btn btn-outline-secondary" type="submit" onclick="check();">Upload</button>
+						    <button class="btn btn-outline-secondary" type="submit">Upload</button>
 							<!-- hidden 타입으로 command -->
 						</div>
 					</div>
@@ -118,7 +114,7 @@
 					<!-- 사진 업로드 -->
 					<div class="input-group" id="fileArea" style="margin-bottom:10px">
 						<div class="custom-file">
-							<input type="file" class="custom-file-input" name="upfile1">
+							<input type="file" multiple ="true" class="custom-file-input" name="upfile1">
 							<label class="custom-file-label" for="inputGroupFile04"></label>
 						</div>
 					</div>

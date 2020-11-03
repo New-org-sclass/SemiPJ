@@ -11,9 +11,10 @@ import java.sql.Connection;
 public class BoardBizImpl implements BoardBiz{
 	private BoardDao dao = new BoardDaoImpl();
 	
-	
 	@Override
 	public int insertFile(FileDto dto) {
+		System.out.println("[BoardBizImpl]");
+		
 		Connection con = getConnection();
 		int res = dao.FileUpload(con, dto);
 		

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ page import = "com.petp.dto.FileDto" %>
 <%@ page import = "com.petp.dao.FileDao" %>
 <%@ page import = "java.io.File" %>
 <%@ page import = "java.util.Enumeration" %>
@@ -10,6 +11,8 @@
     
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -50,16 +53,30 @@
 			// 사진형식의 파일이 아니면 삭제
 			File file = new File(directory + filerealname);
 			file.delete();
-			out.write("업로드할 수 없는 확장자입니다.");
+			//out.write("업로드할 수 없는 확장자입니다.");
+%>
+			<script type="text/javascript">
+				alert("업로드할 수 없는 확장자입니다.");
+				location.href="board_add.jsp";
+			</script>
+<%
 			
 		} else {
 			new FileDao().upload(filename, filerealname);
-			out.write("파일명: " + filename + "<br>");
-			out.write("실제 파일명: " + filerealname + "<br>");
+			//out.write("파일명: " + filename + "<br>");
+			//out.write("실제 파일명: " + filerealname + "<br>");
+			//FileDto dto = new FileDto(filename, filerealname);
+			//System.out.println("filename: " + filename);
+			//System.out.println("filerealname: " + filerealname);
+%>
+		<script type="text/javascript">
+			alert("사진 업로드 성공");
+			location.href="BoardServlet.do?command=fileupload";
+		</script>
+<%
 		}
 	}	
 %>
-
-	<button onclick="location.href='board_add.jsp'">확인</button>
+	
 </body>
 </html>

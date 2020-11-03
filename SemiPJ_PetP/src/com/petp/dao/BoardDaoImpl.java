@@ -20,12 +20,12 @@ public class BoardDaoImpl implements BoardDao {
 			pstm = con.prepareStatement(insertFileSql);
 			System.out.println("03. query 준비: " + insertFileSql);
 			// INSERT INTO BPIC VALUES(BPICNO.NEXTVAL, GROUPNO.NEXTVAL, ?, ?)
-			
+			System.out.println("dto 요놈: " + dto.getFilename() + dto.getFilerealname());
 			pstm.setString(1, dto.getFilename());
 			pstm.setString(2, dto.getFilerealname());
 			
 			res = pstm.executeUpdate();
-			System.out.println("04.query 실행 및 리턴");
+			System.out.println("04. query 실행 및 리턴");
 			// 성공이면 res = 1
 		
 		} catch (SQLException e) {
@@ -33,7 +33,7 @@ public class BoardDaoImpl implements BoardDao {
 			e.printStackTrace();
 		} finally {
 			close(pstm);
-			System.out.println("05.db 종료\n");
+			System.out.println("05. db 종료\n");
 		}
 	
 		return res;
