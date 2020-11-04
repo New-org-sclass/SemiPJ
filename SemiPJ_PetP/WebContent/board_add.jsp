@@ -1,5 +1,3 @@
-<!-- 1101 form 태그 쓰면 왜 onchange가 안먹히는지 확인해보기. -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -53,10 +51,6 @@
 			}
 		} 
 	}
-	
-	function check() {
-		alert("command : " + command);
-	}
 </script>
 
 </head>
@@ -67,8 +61,6 @@
 		<div class="container">
 		
 		<div class="card">
-		
-		
 		<form action="board_uploadaction.jsp" method="post" enctype="multipart/form-data">  			
 			<!-- multipart의 경우 request를 통해 서블릿으로 전달할 수 없음 -->
   			
