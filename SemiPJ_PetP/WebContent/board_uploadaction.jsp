@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     
 <%@ page import = "com.petp.dto.FileDto" %>
-<%@ page import = "com.petp.dao.FileDao" %>
 <%@ page import = "java.io.File" %>
 <%@ page import = "java.util.Enumeration" %>
 <%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
@@ -62,12 +61,11 @@
 <%
 			
 		} else {
-			new FileDao().upload(filename, filerealname);
-			//out.write("파일명: " + filename + "<br>");
-			//out.write("실제 파일명: " + filerealname + "<br>");
-			//FileDto dto = new FileDto(filename, filerealname);
-			//System.out.println("filename: " + filename);
-			//System.out.println("filerealname: " + filerealname);
+			FileDto dto = new FileDto(filename, filerealname);
+			application.setAttribute("dto", dto);
+			
+			System.out.println("filename: " + filename);
+			System.out.println("filerealname: " + filerealname);
 %>
 		<script type="text/javascript">
 			alert("사진 업로드 성공");

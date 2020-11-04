@@ -3,6 +3,7 @@ package com.petp.controller;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ public class BoardServlet extends HttpServlet {
 	    
 	    String command = request.getParameter("command");
 	    System.out.println("[BoardServlet]");
+	    System.out.println("command: " + command);
 	    
 	    BoardBiz biz = new BoardBizImpl();
 	    
@@ -33,7 +35,9 @@ public class BoardServlet extends HttpServlet {
 	    
 	    } else if(command.equals("fileupload")) {
 	    	
-	    	FileDto dto = new FileDto();
+	    	ServletContext application = getServletContext();
+	    	FileDto dto = (FileDto)application.getAttribute("dto");
+	    	
 	    	System.out.println("dto 요놈: " + dto.getFilename() + dto.getFilerealname());
 	    	biz.insertFile(dto);
 	    	dispatch("board_add.jsp", request, response);
