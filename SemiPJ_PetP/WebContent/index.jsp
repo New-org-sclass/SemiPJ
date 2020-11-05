@@ -6,16 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>index</title>
+<title>PetP</title>
 </head>
 <body>
-	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
-	<a href="board_main.jsp">펫스타</a>
-	
-	<!-- 소현 branch test -->	
-
+	<a href="BoardServlet.do?command=list">펫스타그램</a>
 </body>
 </html>
