@@ -51,9 +51,9 @@ public class NewsController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String command = request.getParameter("command");
 		System.out.println("command: " + command);
-		
+		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
-		
+	
 		getnewS(nlist);
 		getkoreaS(nlist);
 		newsbiz.insertData(nlist);
@@ -255,7 +255,6 @@ public class NewsController extends HttpServlet {
 		
 		return ex;
 	}
-	
 	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {

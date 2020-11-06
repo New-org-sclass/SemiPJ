@@ -14,8 +14,7 @@ drop sequence newscommentgroupnosq;
 
 delete from petnews;
 
-create sequence petnewsnosq
-NOCACHE;
+create sequence petnewsnosq;
 
 create sequence newscommentnosq
 NOCACHE;
@@ -48,5 +47,6 @@ create table newscomment(
 	constraint fk_newscomment_writer foreign key(writer) references member(mem_id)
 );
 
-select * from petnews;
 select * from newscomment;
+select * from petnews order by newsno desc;
+COMMIT;

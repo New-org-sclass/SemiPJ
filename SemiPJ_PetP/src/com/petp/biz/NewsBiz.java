@@ -93,5 +93,8 @@ public class NewsBiz {
 			}
 		});
 	}
-
+	
+	public void tport(int pno) {
+		newsdao.tport(pno);
+	}
 }
