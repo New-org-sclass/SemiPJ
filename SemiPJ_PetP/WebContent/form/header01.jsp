@@ -63,8 +63,8 @@
         			</a>
         			
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          				<a class="dropdown-item" href="#">Petstagram</a>
-          				<a class="dropdown-item" href="#">Upload</a>
+          				<a class="dropdown-item" href="BoardServlet.do?command=boardmain">Petstagram</a>
+          				<a class="dropdown-item" href="location.href='board_add.jsp'">Upload</a>
           			</div>
       			</li>
       			

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ page import = "com.petp.dto.FileDto" %>
+<%@ page import = "com.petp.dto.BoardDto" %>
 <%@ page import = "java.io.File" %>
 <%@ page import = "java.util.Enumeration" %>
 <%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
@@ -45,7 +46,7 @@
 		String filename = multipartRequest.getOriginalFileName(parameter);
 		String filerealname = multipartRequest.getFilesystemName(parameter);
 		
-		if(filename == null)  // 파일을 3개 꽉 채워서 업로드 하지 않았다면
+		if(filename == null) 
 			continue;
 		
 		if(!filename.endsWith(".png") && !filename.endsWith(".jpg")) {
@@ -61,8 +62,10 @@
 <%
 			
 		} else {
-			FileDto dto = new FileDto(filename, filerealname);
-			application.setAttribute("dto", dto);
+			//FileDto dto = new FileDto(filename, filerealname);
+			//application.setAttribute("dto", dto);
+			
+			application.setAttribute("filerealname", filerealname);
 			
 			System.out.println("filename: " + filename);
 			System.out.println("filerealname: " + filerealname);

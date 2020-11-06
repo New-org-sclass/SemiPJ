@@ -11,9 +11,7 @@
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
-	<a href="board_main.jsp">펫스타</a>
-	
-	<!-- 소현 branch test -->	
+	<a href="BoardServlet.do?command=boardmain">펫스타</a>
 
 </body>
 </html>

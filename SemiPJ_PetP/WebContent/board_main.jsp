@@ -4,6 +4,9 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import = "com.petp.dto.BoardDto" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,25 +43,25 @@
 	}
 </style>
 </head>
-
 <body>
 	<jsp:include page="form/header01.jsp" flush="true" />
 	
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
 		<div class="container">
 		
-			<div class="card">
+			<c:forEach items="${list }" var="dto" >
+			<div class="card" style="margin-bottom: 30px">
 				
-				<div class="card-header" style="background-color: white;">
-    				<img src="resources/images/profile.png">
-    				User name
+				<div class="card-header" style="background-color: white;" onclick="location.href='board_user.jsp'">
+    				<img src="resources/images/profile.png">&nbsp;
+    				<b>${dto.board_writer }</b>
   				</div>
   				
 				<!-- 사용자가 업로드한 이미지 -->
-				<img class = "uploadimg" src="..." class="card-img-top" alt="...">
+				<img class = "uploadimg" src="" class="card-img-top">
 				<div class="card-body">
-					<b class="card-title">Card content</b>
-					<p class="card-text">#hashtag #hashtag #hastag</p>
+					<b class="card-title">${dto.board_content }</b>
+					<p class="card-text">${dto.board_hashtag }</p>
 				</div>
 				
 				<div class="card-footer" style="background-color: white">
@@ -67,9 +70,10 @@
 					<a href="#" ><img class="linkimg" src="resources/images/kakaoshare.png"></a>
   				</div>
 				
-			</div>
+			</div> <!-- end of card -->
+			</c:forEach>
 
-		</div>
+		</div> <!-- end of container -->
 	</main>
 
 	<jsp:include page="form/footer.jsp" flush="true" />
