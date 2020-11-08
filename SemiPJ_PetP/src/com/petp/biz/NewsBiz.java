@@ -95,6 +95,7 @@ public class NewsBiz {
 	}
 	
 	public void tport(int pno) {
+		System.out.println("pno is "+pno);
 		newsdao.tport(pno);
 	}
 }

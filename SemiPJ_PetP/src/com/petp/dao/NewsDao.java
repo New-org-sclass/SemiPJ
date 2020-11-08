@@ -13,13 +13,13 @@ import com.petp.dto.NewsDto;
 
 public class NewsDao {
 	private int pno = 0;
-	String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
 	
 	public List<NewsDto> pnewsAll(Connection con){
 		List<NewsDto> alist = new ArrayList<NewsDto>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews order by ndate desc, newsno desc ";
+		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -33,6 +33,7 @@ public class NewsDao {
 				tmp.setNsummary(doubleTosingle(rs.getString(4)));
 				tmp.setNcontent(rs.getString(5));
 				if(rs.getString(6) == null) {
+					System.out.println("dao's pno is "+ pno);
 					tmp.setNimg(noimg);
 				} else {
 					tmp.setNimg(rs.getString(6));
@@ -57,6 +58,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews where newsno = ? order by newsno desc ";
+		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -152,7 +154,8 @@ public class NewsDao {
 		List<NewsDto> sch = new ArrayList<NewsDto>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' ";
+		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' order by ndate desc, newsno desc ";
+		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);

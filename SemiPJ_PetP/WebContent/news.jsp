@@ -4,8 +4,8 @@
 <%	request.setCharacterEncoding("UTF-8"); %>
 <% 	response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<small%@ page import="java.util.List" %>
-<p%@ page import="com.petp.dto.NewsDto" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.petp.dto.NewsDto" %>
 
 
 <!DOCTYPE html>
@@ -17,6 +17,12 @@
 	<style type="text/css">
 		.card-group{
 			padding: 8px 50px;
+		}
+		.card{
+			border: 1px solid rgba(239, 204, 135, 0.5);
+		}
+		.card-img-top{
+			height: 250px;
 		}
 		.list-unstyled{
 			padding: 8px 50px!important;
@@ -36,7 +42,9 @@
 		 마치 jsp의 setAttribute처럼.   ajax의 success function{}처럼. 일반http말고 xmlhttp를 따로 받는 명령이 있나?
 		 무조건 클라의 ajax요청이 있어야 비동기식으로 json문서를 받을 수 있는 것인가?? */
 	</style>
+	<!-- <script type="text/javascript" src="view/jquery-3.5.1.min.js" ></script> -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="view/newsquery.js"></script>
     <script type="text/javascript">
 	
 		let totalData = 100;    // 총 데이터 수 -- 받은 리스트나 json의 row 수
@@ -48,6 +56,7 @@
 		let sumal = new Array();
 		let datel = new Array();
 		let urll = new Array();
+		let newsnol = new Array();
 
  		window.onload=function(){
 			//let tmp = "<c:out value='${alist[0].ntitle}'></c:out>";
@@ -57,6 +66,7 @@
 				sumal.push("${tlist.nsummary}");
 				datel.push("${tlist.ndate}");
 				urll.push("${tlist.nurl}");
+				newsnol.push("${tlist.newsno}");
 			</c:forEach>
 			
 			//console.log("list : " + list);
@@ -168,7 +178,8 @@
 				if(titlel[stdata+i] == null){
 					continue;
 				}
-				let aurl = "location"+urll[stdata+i]; //나중에 컨트롤러위치로 바꿔주기.
+				// let aurl = "location.href='Newscon.do?command=detail&newsno="+newsnol[stdata+i]+"'";
+				let aurl = newsnol[stdata+i];
 				let t1 = document.getElementsByClassName("card-img-top");
 				let t2 = document.getElementsByClassName("card-title");
 				let t3 = document.getElementsByClassName("card-text");
@@ -190,7 +201,8 @@
 				if(titlel[stdata+i+6] == null){
 					continue;
 				}
-				let aurl = urll[stdata+i+6]; //나중에 컨트롤러위치로 바꿔주기.
+				// let aurl = "location.href='Newscon.do?command=detail&newsno="+newsnol[stdata+i+6]+"'";
+				let aurl = newsnol[stdata+i+6];
 				let t1 = document.getElementsByClassName("mr-3 ulresize1");
 				let t2 = document.getElementsByClassName("mt-0 mb-1");
 				let t3 = document.getElementsByClassName("media-body");
@@ -219,11 +231,23 @@
 					}
 				//console.log("tag1.parentNode: "+tag1.parentNode);
 				link.innerHTML = tag1.outerHTML;
-				link.setAttribute('href', aurl);
+				link.setAttribute('href', '#');
+				//link.setAttribute('onclick', aurl);
+				// link.setAttribute('onclick', 'newsContentin(this);');
 				link.setAttribute('name', 'atag');
+				link.setAttribute('data-toggle', 'modal');
+				link.setAttribute('data-target', '#newsmodal');
+				link.setAttribute('data-no', aurl);
 				tag1.parentNode.insertBefore(link, tag1);
 				tag1.remove();
 			}
+			
+			$('#newsmodal').on('show.bs.modal', function(event){
+				var atag = $(event.relatedTarget); 
+				var no = atag.data('no');
+				newsContentin(no);
+
+			});
 
 			// cgroup[0].innerHTML = v1;
 			// cgroup[1].innerHTML = v2;
@@ -231,8 +255,16 @@
 			// $(".card-group:eq(1)").html(v2).trigger("create");
 			// document.getElementById("maingroup1").innerHTML += v1;
 			// document.getElementById("maingroup1").innerHTML += v2;
+
+
+
 		}
-	    
+		
+		
+
+
+
+
 /* 	    $("document").ready(function(){        
 	        paging1(totalData, dataPerPage, pagePerscreen, 1);
 			console.log("작동한다.2");
@@ -345,6 +377,29 @@
 	<br>
     <br>
     </main>
+
+	<div class="modal" id="newsmodal" tabindex="-1" aria-labelledby="newsmodalLabel">
+		<div class="modal-dialog modal-lg">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Modal title</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body">
+			  <p>Modal body text goes here.</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			  <button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+
+
 
 <jsp:include page="/form/footer.jsp" flush="true"></jsp:include>
 </body>
