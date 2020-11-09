@@ -4,18 +4,27 @@
 --		dto: no, title, url, summary content, img, date
 
 drop table petnews;
+drop sequence petnewsnosq;
+create sequence petnewsnosq;
+create table petnews(
+			   newsNo number primary key,
+			   nTitle varchar2(200) not null,
+			   nUrl varchar2(500),
+			   nSummary varchar2(500),
+			   nContent clob,
+			   nImg   varchar2(500),
+			   nDate   date
+);
+
 drop table newscomment;
 drop table member;
 
-drop sequence petnewsnosq;
 drop sequence newscommentnosq;
 drop sequence newscommentgroupsq;
 drop sequence newscommentgroupnosq;
 
 delete from petnews;
 
-create sequence petnewsnosq
-NOCACHE;
 
 create sequence newscommentnosq
 NOCACHE;
@@ -26,15 +35,6 @@ NOCACHE;
 create sequence newscommentgroupsq
 NOCACHE;
 
-create table petnews(
-			   newsNo number primary key,
-			   nTitle varchar2(200) not null,
-			   nUrl varchar2(500),
-			   nSummary varchar2(500),
-			   nContent clob,
-			   nImg   varchar2(500),
-			   nDate   date
-);
 
 create table newscomment(
 	commentno number primary key,
@@ -48,5 +48,6 @@ create table newscomment(
 	constraint fk_newscomment_writer foreign key(writer) references member(mem_id)
 );
 
-select * from petnews;
 select * from newscomment;
+select * from petnews order by newsno desc;
+COMMIT;
