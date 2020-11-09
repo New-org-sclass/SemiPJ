@@ -10,7 +10,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,8 +59,10 @@ public class BoardServlet extends HttpServlet {
 		    }
 
 	    	List<BoardDto> list = biz.selectBoardList(searchDefault, pageDefault); 
-
+	    	int count = biz.getBoardCount(searchDefault);
+	    	
 	    	request.setAttribute("list", list);
+	    	request.setAttribute("count", count);
 	    	
 	    	dispatch("board_main.jsp", request, response);
 	    
@@ -118,6 +119,7 @@ public class BoardServlet extends HttpServlet {
 	    	List<BoardDto> list = biz.selectUserBoard(memName, pageDefault);
 	    	
 	    	request.setAttribute("list", list);
+	    	request.setAttribute("board_writer", memName);
 	    	
 	    	dispatch("board_user.jsp", request, response);
 	    	

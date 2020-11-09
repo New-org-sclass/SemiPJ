@@ -5,6 +5,7 @@
 <% response.setContentType("text/html; charset=UTF-8"); %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import = "com.petp.dto.BoardDto" %>
 
 <!DOCTYPE html>
@@ -12,9 +13,6 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <!-- kakao share -->
 <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
@@ -29,32 +27,37 @@
 	}
 	
 	function sendLinkCustom() {
-    	Kakao.init("8beadd0ec13f943b2e3c8d21a0f51bd0");
-    	Kakao.Link.sendCustom({
-        	templateId: 39929
-    	});
-	}
+	       Kakao.init("8beadd0ec13f943b2e3c8d21a0f51bd0");
+	       Kakao.Link.sendCustom({
+	           templateId: 39929
+	       });
+	   }
+	
 </script>
 <script>	
+	
 	try {
-			function sendLinkDefault() {
+			function sendLinkDefault(boardNo, boardImg) {
+				alert(boardNo);
+				alert(boardImg);
+				
 			Kakao.init('8beadd0ec13f943b2e3c8d21a0f51bd0')
 			Kakao.Link.sendDefault({
   				objectType: 'feed',
   				content: {
     				title: '[PetP]',
     				description: '#귀여운 댕댕이 #펫스타그램',
-    				imageUrl: 'https://ppss.kr/wp-content/uploads/2018/09/gggg.png',
+    				imageUrl: 'localhost:8787/SemiPJ_PetP/resources/board_uploadimg/' + boardImg,
     				link: {
-      					mobileWebUrl: 'https://developers.kakao.com',
-      					webUrl: 'https://developers.kakao.com',
+      					mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
+      					webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
     				},
   				},
   				buttons: [{
       				title: '자세히 보기',
       				link: {
-        				mobileWebUrl: 'https://developers.kakao.com',
-        				webUrl: 'https://developers.kakao.com',
+        				mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
+        				webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + + boardNo,
       				},
     			}],
 				})
@@ -108,7 +111,7 @@
 
 </head>
 <body>
-	<jsp:include page="form/header_test.jsp" flush="false" />
+	<jsp:include page="form/header_test.jsp" flush="true" />
 	
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
 		<div class="container">
@@ -139,7 +142,7 @@
 						<!-- 개인 게시글 댓글창으로 넘어가는 버튼-->
 						<a href="BoardServlet.do?command=detail&board_no=${dto.board_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
 						<!-- 카카오톡 공유 버튼-->
-						<a id="kakao-link-btn" onClick="sendLinkDefault();"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
+						<a id="kakao-link-btn" onClick="sendLinkDefault('${dto.board_no}', '${dto.file_group}');"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
 	  				</div>
 					
 				</div> <!-- end of card -->
@@ -153,9 +156,10 @@
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center">
 
-		<c:set var="page" value="${(param.page == null) ? 1 : param.page}"></c:set>
+		<c:set var="page" value="${(empty param.page) ? 1 : param.page}"></c:set>
 		<c:set var="startNum" value="${page - (page-1) % 5}"></c:set>
-		<c:set var="lastNum" value="23"></c:set>
+		<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10), '.')}"></c:set>
+		<!-- 10.2 => 11 : Math.ceil(10.2) => 11 -->
 		
 		<!-- 이전 버튼 -->
 		<c:if test="${startNum > 1 }">
@@ -175,19 +179,20 @@
 		</c:if>
 		
 		<c:forEach var="i" begin="0" end="4">
+		<c:if test="${(startNum + i ) <= lastNum }"></c:if>
 		<li class="page-item"><a class="page-link text-warning" href="?command=boardmain&page=${startNum + i }&search=${param.search}">${startNum + i }</a></li>
 		</c:forEach>
     			
     	<!-- 다음 버튼 -->
-    	<c:if test="${startNum + 5 < lastNum }">
+    	<c:if test="${startNum + 4 < lastNum }">
 		    <li class="page-item">
-		    	<a class="page-link text-warning" href="?page=${startNum + 5 }&search=${param.search}" aria-label="Next">
+		    	<a class="page-link text-warning" href="?command=boardmain&page=${startNum + i }&search=${param.search}" aria-label="Next">
 		    		<span aria-hidden="true">&raquo;</span>
 		      	</a>
 		   	</li>
 	   	</c:if>
 	   	
-	   	<c:if test="${startNum + 5 >= lastNum }">
+	   	<c:if test="${startNum + 4 >= lastNum }">
 		    <li class="page-item">
 		    	<a class="page-link text-warning" aria-label="Next">
 		    		<span aria-hidden="true" onclick="alert('다음 페이지가 없습니다.');">&raquo;</span>
@@ -200,7 +205,7 @@
 		</div>
 	</main>
 	
-	<jsp:include page="form/footer.jsp" flush="false" />
+	<jsp:include page="form/footer.jsp" flush="true" />
 </body>
 </html>
 

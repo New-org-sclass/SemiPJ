@@ -81,15 +81,17 @@ public class BoardDaoImpl implements BoardDao{
 		BoardDto dto = new BoardDto();
 		
 		try {
-			pstm = con.prepareStatement(selectBoardSql);
-			System.out.println("03.query 준비 : " + selectBoardSql);
+			pstm = con.prepareStatement(selectBoardCntSql);
+			System.out.println("03.query 준비 : " + selectBoardCntSql);
 
 			pstm.setString(1, "%" + search + "%");
 
 			rs = pstm.executeQuery();
 			System.out.println("04.query 실행 및 리턴");
 			
-			res = rs.getInt(1);
+			if(rs.next()) {
+				res = rs.getInt(1);
+			}
 			
 		} catch (SQLException e) {
 			System.out.println("3/4단계 오류");
@@ -98,7 +100,7 @@ public class BoardDaoImpl implements BoardDao{
 		} finally {
 			close(rs);
 			close(pstm);
-			close(con);
+			//close(con);
 			System.out.println("05.db 종료\n");
 		}
 		
@@ -123,7 +125,6 @@ public class BoardDaoImpl implements BoardDao{
 			 * 	첫번째 ? ==> 1, 10, 20, 30 -> an = 1+(page-1)*9
 			 * 	두번째 ? ==> 9, 18, 27, 36 -> page * 9
 			 */
-			System.out.println("memName: " + memName);
 			pstm.setString(1, memName);
 			pstm.setInt(2, 1 + (page - 1) * 9);
 			pstm.setInt(3, page * 9);

@@ -59,7 +59,7 @@
         		
         		<!-- 펫스타그램 droupdown 형식 (펫스타그램, 게시물 업로드) -->
       			<li class="nav-item dropdown">
-        			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        			<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         				<img src="resources/images/nav/nav01.png" width="30" height="30" >
         			</a>
         			
