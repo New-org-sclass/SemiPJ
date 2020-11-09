@@ -12,12 +12,14 @@ import java.util.List;
 import com.petp.dto.NewsDto;
 
 public class NewsDao {
+	private int pno = 0;
 	
 	public List<NewsDto> pnewsAll(Connection con){
 		List<NewsDto> alist = new ArrayList<NewsDto>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = " select * from petnews order by newsno desc ";
+		String sql = " select * from petnews order by ndate desc, newsno desc ";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -26,11 +28,16 @@ public class NewsDao {
 			while(rs.next()) {
 				NewsDto tmp = new NewsDto();
 				tmp.setNewsno(rs.getInt(1));
-				tmp.setNtitle(rs.getString(2));
+				tmp.setNtitle(doubleTosingle(rs.getString(2)));
 				tmp.setNurl(rs.getString(3));
-				tmp.setNsummary(rs.getString(4));
+				tmp.setNsummary(doubleTosingle(rs.getString(4)));
 				tmp.setNcontent(rs.getString(5));
-				tmp.setNimg(rs.getString(6));
+				if(rs.getString(6) == null) {
+					System.out.println("dao's pno is "+ pno);
+					tmp.setNimg(noimg);
+				} else {
+					tmp.setNimg(rs.getString(6));
+				}
 				tmp.setNdate(rs.getDate(7));
 				alist.add(tmp);
 			}
@@ -51,6 +58,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews where newsno = ? order by newsno desc ";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -59,11 +67,15 @@ public class NewsDao {
 			
 			while(rs.next()) {
 				oneN.setNewsno(rs.getInt(1));
-				oneN.setNtitle(rs.getString(2));
+				oneN.setNtitle(doubleTosingle(rs.getString(2)));
 				oneN.setNurl(rs.getString(3));
-				oneN.setNsummary(rs.getString(4));
+				oneN.setNsummary(doubleTosingle(rs.getString(4)));
 				oneN.setNcontent(rs.getString(5));
-				oneN.setNimg(rs.getString(6));
+				if(rs.getString(6) == null) {
+					oneN.setNimg(noimg);
+				} else {
+					oneN.setNimg(rs.getString(6));
+				}
 				oneN.setNdate(rs.getDate(7));
 			}
 			System.out.println("03.oneN loaded");
@@ -142,7 +154,8 @@ public class NewsDao {
 		List<NewsDto> sch = new ArrayList<NewsDto>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' ";
+		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' order by ndate desc, newsno desc ";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -154,11 +167,16 @@ public class NewsDao {
 			while(rs.next()) {
 				NewsDto tmp = new NewsDto();
 				tmp.setNewsno(rs.getInt(1));
-				tmp.setNtitle(rs.getString(2));
+				tmp.setNtitle(doubleTosingle(rs.getString(2)));
 				tmp.setNurl(rs.getString(3));
-				tmp.setNsummary(rs.getString(4));
+				tmp.setNsummary(doubleTosingle(rs.getString(4)));
 				tmp.setNcontent(rs.getString(5));
 				tmp.setNimg(rs.getString(6));
+				if(rs.getString(6) == null) {
+					tmp.setNimg(noimg);
+				} else {
+					tmp.setNimg(rs.getString(6));
+				}
 				tmp.setNdate(rs.getDate(7));
 				sch.add(tmp);
 			}
@@ -207,5 +225,19 @@ public class NewsDao {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
     }
+	
+	public void tport(int pno) {
+		this.pno = pno;
+	}
+	
+	private String doubleTosingle(String raw) {
+		char[] ct = raw.toCharArray();
+		for(int i=0; i<ct.length; i++) {
+			if(ct[i] == '\"') {
+				ct[i] = '`';
+			}
+		}
+		return String.valueOf(ct);
+	}
 	
 }

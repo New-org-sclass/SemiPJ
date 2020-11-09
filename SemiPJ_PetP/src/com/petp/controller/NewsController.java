@@ -1,6 +1,7 @@
 package com.petp.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
 import com.petp.biz.NewsBiz;
 import com.petp.dto.NewsDto;
 
@@ -51,15 +53,15 @@ public class NewsController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String command = request.getParameter("command");
 		System.out.println("command: " + command);
-		
+		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
-		
-		getnewS(nlist);
-		getkoreaS(nlist);
-		newsbiz.insertData(nlist);
-		
+	
+		//해야할일 :  insert로직 session연동해서 횟수조절하기.
 		
 		if (command.equals("news")) {
+			getnewS(nlist);
+			getkoreaS(nlist);
+			newsbiz.insertData(nlist);
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);
@@ -67,8 +69,27 @@ public class NewsController extends HttpServlet {
 			
 		} else if (command.equals("search")) {
 			String word = (String)request.getParameter("word");
-			request.setAttribute("searchres",newsbiz.search(word));
-			dp("newsdetail.jsp",request, response);
+			request.setAttribute("alist",newsbiz.search(word));
+			System.out.println("search header~: "+ response.getHeaderNames());
+			dp("news.jsp",request, response);
+			
+		} else if (command.equals("detail")) {
+			int no = Integer.parseInt(request.getParameter("newsno"));
+			NewsDto tmp = newsbiz.pnewsOne(no);
+//			request.setAttribute("newsone", newsbiz.pnewsOne(no));
+			JsonObject json1 = new JsonObject();
+			json1.put("newsno", tmp.getNewsno());
+			json1.put("ntitle", tmp.getNtitle());
+			json1.put("nurl", tmp.getNurl());
+			json1.put("nnsummary", tmp.getNsummary());
+			json1.put("ncontent", tmp.getNcontent());
+			json1.put("nimg", tmp.getNimg());
+//			json1.put("ndate", tmp.getNdate());
+			
+			PrintWriter rp = response.getWriter();
+			rp.print(json1.toJson());
+//			dp("newsdetail.jsp", request, response);
+			
 		}
 
 	}
@@ -85,7 +106,7 @@ public class NewsController extends HttpServlet {
 								+ "&field=0&pd=0&nso=so:r,p:all,a:all&mynews=0&start=";
 		
 		try {
-			for (int i=1; i<2; i=i+10) { // paging 시작 지점 나누기. 일단은 1페이지 10개
+			for (int i=1; i<12; i=i+10) { // paging 시작 지점 나누기. 일단은 1페이지 10개
 				conj = Jsoup.connect(naverurl + naverparams + i);
 				naver = conj.get(); // get(): createnewObject 고로 conj재활용가능
 
@@ -149,7 +170,7 @@ public class NewsController extends HttpServlet {
 		
 		
 		try {
-			for(int i=0; i<10; i++) { //50ea
+			for(int i=0; i<20; i++) { //50ea
 				String koreaurl = "http://www.koreadognews.co.kr/news/view.php?no="+(recentno-i);
 				conj = Jsoup.connect(koreaurl);
 				korea = conj.get(); 
@@ -168,7 +189,8 @@ public class NewsController extends HttpServlet {
 				String smryEl = korea.selectFirst("#view_content").text().substring(0, 80)+"...";
 				System.out.println("smryEl: "+smryEl);
 				
-				String contentEl = korea.selectFirst("#view_content").text();
+//				String contentEl = korea.selectFirst("#view_content").text();
+				String contentEl = urlContent(urlEl)[0];
 //				String contentEl = "";
 				System.out.println("contentEl: "+contentEl);
 				
@@ -232,11 +254,21 @@ public class NewsController extends HttpServlet {
 		Document tmpdoc = conj.get();
 		String[] ex = new String[3];
 		
+		
 		Whitelist wlist = new Whitelist();
 //		wlist.addTags("div");
 		wlist.addTags("p","br","span","div","strong","img","a");
+		wlist.addAttributes("a", "href");
+		wlist.addAttributes("img", "src");
+//		wlist.addEnforcedAttribute("img", "max-width", "100%");
+//		wlist.addEnforcedAttribute("img", "width", "500px");
+//		wlist.addEnforcedAttribute("img", "height", "auto");
 //		wlist.addTags("p");
 //		Jsoup.clean(res, Whitelist.basicWithImages());
+		if(urlEl.substring(11, 23).equals("koreadognews")) {
+			ex[0] = Jsoup.clean(tmpdoc.getElementById("view_content").outerHtml(), wlist);
+			return ex;
+		}
 		
 		String cot = tmpdoc.getElementById("articleBodyContents").outerHtml();
 		ex[0] = Jsoup.clean(cot, wlist);
@@ -255,7 +287,6 @@ public class NewsController extends HttpServlet {
 		
 		return ex;
 	}
-	
 	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {

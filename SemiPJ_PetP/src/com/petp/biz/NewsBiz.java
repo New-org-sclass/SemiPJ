@@ -25,6 +25,7 @@ public class NewsBiz {
 	public NewsDto pnewsOne(int newsno) {
 		con = getConnection();
 		NewsDto oneN = newsdao.pnewsOne(con, newsno);
+		close(con);
 		return oneN;
 	}
 	
@@ -92,5 +93,9 @@ public class NewsBiz {
 			}
 		});
 	}
-
+	
+	public void tport(int pno) {
+		System.out.println("pno is "+pno);
+		newsdao.tport(pno);
+	}
 }

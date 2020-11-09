@@ -8,23 +8,32 @@ public class BoardDto {
 	private int group_sq;
 	private int board_tab;
 	private String board_writer;
+	private int mem_no;
 	private String board_content;
 	private String board_hashtag;
 	private String file_group;
 	private Date board_regdate;
 	
-	
+
 	public BoardDto() {
 		super();
 	}
 
-	
 	//board_detail에 content 작성
 	public BoardDto(String board_content) {
 		this.board_content = board_content;
 	}
 
-
+	public BoardDto(int group_sq, int board_tab, int mem_no, String board_content, String board_hashtag,
+			String file_group) {
+		super();
+		this.group_sq = group_sq;
+		this.board_tab = board_tab;
+		this.mem_no = mem_no;
+		this.board_content = board_content;
+		this.board_hashtag = board_hashtag;
+		this.file_group = file_group;
+	}
 
 	public BoardDto(int board_no, int group_no, int group_sq, int board_tab, String board_writer, String board_content,
 			String board_hashtag, String file_group, Date board_regdate) {
@@ -39,7 +48,6 @@ public class BoardDto {
 		this.file_group = file_group;
 		this.board_regdate = board_regdate;
 	}
-
 
 	public int getBoard_no() {
 		return board_no;
@@ -64,6 +72,12 @@ public class BoardDto {
 	}
 	public void setBoard_tab(int board_tab) {
 		this.board_tab = board_tab;
+	}
+	public int getMem_no() {
+		return mem_no;
+	}
+	public void setMem_no(int mem_no) {
+		this.mem_no = mem_no;
 	}
 	public String getBoard_writer() {
 		return board_writer;
@@ -95,15 +109,4 @@ public class BoardDto {
 	public void setBoard_regdate(Date board_regdate) {
 		this.board_regdate = board_regdate;
 	}
-
-	
-	
-	
-	
-
-
 }
-
-
-
-
