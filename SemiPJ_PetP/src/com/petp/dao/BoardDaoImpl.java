@@ -151,10 +151,8 @@ public class BoardDaoImpl implements BoardDao{
 			close(con);
 			System.out.println("05.db 종료\n");
 		}
-		
 		return res;
 	}
-
 
 	public int boardUpload(Connection con, BoardDto dto) {
 		System.out.println("[BoardDaoImpl]");
@@ -256,8 +254,10 @@ public class BoardDaoImpl implements BoardDao{
 		return 0;
 	}
 	
+	// detail 페이지에 board_no에 해당하는 리스트 불러오기
 	@Override
 	public BoardDto selectOne(int board_no) {
+		
 		return null;
 	}
 	
@@ -270,6 +270,7 @@ public class BoardDaoImpl implements BoardDao{
 	      
 	      try {
 	         pstm = con.prepareStatement(insertSql);
+	         
 	         pstm.setString(1, dto.getBoard_content());
 	         System.out.println("03. query 준비: " +  insertSql);
 	         
