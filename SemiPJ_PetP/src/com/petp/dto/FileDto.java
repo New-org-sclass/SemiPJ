@@ -19,6 +19,12 @@ public class FileDto {
 		this.filerealname = filerealname;
 	}
 	
+	public FileDto(String filename, String filerealname) {
+		super();
+		this.filename = filename;
+		this.filerealname = filerealname;
+	}
+	
 	public int getBpicno() {
 		return bpicno;
 	}
