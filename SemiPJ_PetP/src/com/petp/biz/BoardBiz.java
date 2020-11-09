@@ -3,10 +3,20 @@ package com.petp.biz;
 import java.util.List;
 
 import com.petp.dto.BoardDto;
-import com.petp.dto.FileDto;
 
 public interface BoardBiz {
-	public int insertFile(FileDto dto);
 	public int insertBoard(BoardDto dto);
 	public List<BoardDto> selectBoardList();
+	public List<BoardDto> selectBoardList(int page);
+	public List<BoardDto> selectBoardList(String search, int page); // 검색한 게시글
+	
+	// user board
+	public List<BoardDto> selectUserBoard(String memName);
+	
+	// 게시물 수
+	public int getBoardCount();
+	public int getBoardCount(String search); // 페이징 없이 검색된 게시물 수
+
+	// board detail
+//	public List<BoardDto> getBoardDetail(int boardNo);
 }

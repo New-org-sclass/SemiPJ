@@ -18,8 +18,6 @@ public class BoardDto {
 		super();
 	}
 
-
-
 	public BoardDto(int group_sq, int board_tab, int mem_no, String board_content, String board_hashtag,
 			String file_group) {
 		super();
@@ -30,8 +28,6 @@ public class BoardDto {
 		this.board_hashtag = board_hashtag;
 		this.file_group = file_group;
 	}
-
-
 
 	public BoardDto(int board_no, int group_no, int group_sq, int board_tab, String board_writer, String board_content,
 			String board_hashtag, String file_group, Date board_regdate) {
@@ -46,7 +42,6 @@ public class BoardDto {
 		this.file_group = file_group;
 		this.board_regdate = board_regdate;
 	}
-
 
 	public int getBoard_no() {
 		return board_no;

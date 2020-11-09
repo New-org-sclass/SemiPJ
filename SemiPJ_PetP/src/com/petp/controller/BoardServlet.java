@@ -42,11 +42,24 @@ public class BoardServlet extends HttpServlet {
 	    
 	    BoardBiz biz = new BoardBizImpl();
 	    BoardDto dto = new BoardDto();
-		
 	    
 	    if(command.equals("boardmain")) {
-	    	List<BoardDto> list = biz.selectBoardList();
 	    	
+		    String search = request.getParameter("search");
+		    String page = request.getParameter("page");
+		    
+		    String searchDefault = ""; // 검색어가 없는 경우 기본값
+		    if(search != null) { // 검색어가 있는 경우
+		    	searchDefault = search;
+		    }
+		    
+		    int pageDefault = 1; // 페이지 선택이 없는 경우 기본값
+		    if(page != null) { // 페이지를 선택한 경우
+		    	pageDefault = Integer.parseInt(page);
+		    }
+
+	    	List<BoardDto> list = biz.selectBoardList(searchDefault, pageDefault); 
+
 	    	request.setAttribute("list", list);
 	    	
 	    	dispatch("board_main.jsp", request, response);
@@ -58,6 +71,8 @@ public class BoardServlet extends HttpServlet {
 	    	String hashtag = request.getParameter("hashtag");
 	    	int memno = Integer.parseInt(request.getParameter("memno"));
 	    	
+	    	System.out.println("memno : " + memno);
+	    	
 	    	// file 받아오기
 	    	Part part = request.getPart("upfile");
 	    	
@@ -67,6 +82,7 @@ public class BoardServlet extends HttpServlet {
 			String filePath = "/resources/board_uploadimg/";
 	    	String directory = application.getRealPath(filePath);
 
+	    	
 	    	System.out.println("directory: " + directory);
 	    	
 	    	String filename = UUID.randomUUID().toString().replace("-", "");
@@ -77,6 +93,8 @@ public class BoardServlet extends HttpServlet {
   
 	        // db 에 저장
 	        dto = new BoardDto(groupsq, boardtab, memno, content, hashtag, filefullname);
+
+	        System.out.println("dto.getMemno : " + dto.getMem_no());
 	        
 	        int res = biz.insertBoard(dto);
 	        if (res>0) {
