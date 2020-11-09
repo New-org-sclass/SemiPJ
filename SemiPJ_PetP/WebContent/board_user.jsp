@@ -24,7 +24,7 @@
 
 </head>
 <body>
-	<jsp:include page="../form/header01.jsp" flush="true" />
+	<jsp:include page="form/header01.jsp" flush="true" />
 
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
 		<div class="container">
@@ -72,6 +72,6 @@
 		</div> <!-- end of container -->
 	</main>
 
-	<jsp:include page="../form/footer.jsp" flush="true" />
+	<jsp:include page="form/footer.jsp" flush="true" />
 </body>
 </html>

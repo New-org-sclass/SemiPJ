@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +8,6 @@
 <title>PetP</title>
 </head>
 <body>
-	<a href="BoardServlet.do?command=main">펫스타그램</a>
+	<a href="BoardServlet.do?command=boardmain">펫스타그램</a>
 </body>
 </html>

@@ -48,9 +48,10 @@
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       
             <!-- 검색 form -->
-            <form class="form-inline my-2 my-lg-0 ml-auto">
-               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-               <button class="btn btn-outline-success my-2 my-sm-0 btn-outline-warning" type="submit">Search</button>
+            <form class="form-inline my-2 my-lg-0 ml-auto" id="searchForm" onSubmit="formAction();">
+            	<input type="hidden" name="command" value=""><!-- value 각 jsp에서 js로 설정 -->
+               	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="${param.search }">
+               	<button class="btn btn-outline-success my-2 my-sm-0 btn-outline-warning">Search</button>
             </form>
             
             <!-- 오른쪽 정렬 nav -->
