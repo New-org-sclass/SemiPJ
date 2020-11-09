@@ -19,7 +19,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews order by ndate desc, newsno desc ";
-		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews where newsno = ? order by newsno desc ";
-		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -155,7 +155,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' order by ndate desc, newsno desc ";
-		String noimg = "http://127.0.0.1:"+pno+"/resources/images/noimage.jpg";
+		String noimg = "./resources/images/noimage.jpg";
 		
 		try {
 			pstm = con.prepareStatement(sql);

@@ -56,7 +56,7 @@ public class NewsController extends HttpServlet {
 		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
 	
-		//해야할일 : 뉴스본문 이미지 조절:동적조절로 테스트해보기. //  insert로직 session연동해서 횟수조절하기.
+		//해야할일 :  insert로직 session연동해서 횟수조절하기.
 		
 		if (command.equals("news")) {
 			getnewS(nlist);
