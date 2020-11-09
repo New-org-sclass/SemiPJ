@@ -24,16 +24,19 @@ public class BoardServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8"); 
 		
 		String command = request.getParameter("command");
-		System.out.println("[" + command +"]");
+		System.out.println("[command : "+command+"]");
 		
 		BoardBiz biz = new BoardBizImpl();
 		
-		if(command.equals("list")) {
-			List<BoardDto> list = biz.selectAll();
-			request.setAttribute("list", list);
-			dispatch("board_main.jsp", request, response);
+		if(command.equals("main")) {
+			response.sendRedirect("board_main.jsp");
 			
 		} else if(command.equals("detail")) {
+			List<BoardDto> list = biz.selectAll();
+			request.setAttribute("list", list);
+//			dispatch("board_detail.jsp", request, response);			
+			
+			
 			response.sendRedirect("board_detail.jsp");
 			
 		} else if(command.equals("boardwrite")) {			
