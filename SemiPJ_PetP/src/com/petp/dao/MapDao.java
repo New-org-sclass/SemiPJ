@@ -8,8 +8,8 @@ import com.petp.dto.MapDto;
 public interface MapDao {
 	
 	// 수정해야지
-	String selectAllSql = " SELECT * FROM BOARD ORDER BY GROUP_NO, GROUP_SQ ";
-	String selectOneSql = " SELECT * FROM BOARD WHERE BOARD_NO=? ";
+	String selectAllSql = " SELECT * FROM WALKTABLE ORDER BY WALK_NO DESC ";
+	String selectOneSql = " SELECT * FROM WALKTABLE WHERE WALK_NO=? ";
 	String insertSql = " INSERT INTO BOARD VALUES(BOARDNOSQ.NEXTVAL,GROUPNOSQ.NEXTVAL,1,0,NULL,?,NULL,NULL,SYSDATE) ";
 	String deleteSql = " DELETE FROM BOARD WHERE BOARD_NO=? ";
 	

@@ -15,7 +15,6 @@ public class MapDto {
 	}
 
 
-
 	public MapDto(int walk_no, String walk_name, String walk_writer, String walk_dong, Date walk_regdate) {
 		super();
 		this.walk_no = walk_no;
@@ -25,7 +24,10 @@ public class MapDto {
 		this.walk_regdate = walk_regdate;
 	}
 
-
+	public MapDto(int walk_no) {
+		this.walk_no = walk_no;
+	}
+	
 
 	public int getWalk_no() {
 		return walk_no;
