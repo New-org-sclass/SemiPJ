@@ -23,15 +23,16 @@ public interface BoardDao {
 			+ " FROM (SELECT * FROM BOARD WHERE BOARD_HASHTAG LIKE ? ORDER BY BOARD_REGDATE) BRD) ";
 	
 	public String selectUserBoardSql = 
-			"SELECT *" + 
-			"FROM BOARD" + 
-			"WHERE BOARD_WRITER = ?";
+			" SELECT * FROM "
+			+ " (SELECT ROWNUM AS RNUM, BRD.* "
+			+ " FROM (SELECT * FROM BOARD WHERE BOARD_WRITER = ? ORDER BY BOARD_REGDATE DESC) BRD) "
+			+ " WHERE RNUM BETWEEN ? AND ? ";
 	
 	
 	public int boardUpload(Connection con, BoardDto dto);
 	public List<BoardDto> boardList(Connection con, String search, int page);
 	public int boardCount(Connection con, String search);
-	public List<BoardDto> userBoardList(Connection con, String memName);
+	public List<BoardDto> userBoardList(Connection con, String memName, int page);
 	
 	/* board_detail */
 	String selectAllSql = " SELECT * FROM BOARD ORDER BY GROUP_NO, GROUP_SQ ";

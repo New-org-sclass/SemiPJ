@@ -121,7 +121,7 @@
 			<c:forEach items="${list }" var="dto" >
 				<div class="card" style="margin-bottom: 30px">
 					
-					<div class="card-header" style="background-color: white;" onclick="location.href='board_user.jsp'">
+					<div class="card-header" style="background-color: white;" onclick="location.href='BoardServlet.do?command=userBoard&board_writer=${dto.board_writer}'">
 	    				<img src="resources/images/profile.png">&nbsp;
 	    				<b>${dto.board_writer }</b>
 	  				</div>

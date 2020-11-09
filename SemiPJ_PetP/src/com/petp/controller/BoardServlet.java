@@ -21,7 +21,6 @@ import com.petp.biz.BoardBizImpl;
 import com.petp.dto.BoardDto;
 
 @MultipartConfig
-@WebServlet("/BoardServlet")
 // servlet 클래스에서 request를 javax.servlet.http.Part 타입으로 받을 수 있도록 어노테이션 추가
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -105,16 +104,33 @@ public class BoardServlet extends HttpServlet {
 	        	jsResponse("Failed to upload post :(", "board_add.jsp", response);
 	        }
 	        
+	    } else if(command.equals("userBoard")) {
+	    	String page = request.getParameter("page");
+		    
+		    int pageDefault = 1; // 페이지 선택이 없는 경우 기본값
+		    if(page != null) { // 페이지를 선택한 경우
+		    	pageDefault = Integer.parseInt(page);
+		    }
+	    	
+	    	String memName = request.getParameter("board_writer");
+	    	System.out.println("board_writer: " + memName);
+	    	
+	    	List<BoardDto> list = biz.selectUserBoard(memName, pageDefault);
+	    	
+	    	request.setAttribute("list", list);
+	    	
+	    	dispatch("board_user.jsp", request, response);
+	    	
 	    } else if(command.equals("detail")) {
 			//List<BoardDto> list = biz.selectAll();
 			//request.setAttribute("list", list);
 	    	
-	    	System.out.println("board_no: " + request.getParameter("board_no"));
 	    	int board_no = Integer.parseInt(request.getParameter("board_no"));
+	    	System.out.println("board_no: " + request.getParameter("board_no"));
 	    	
 	    	biz.selectOne(board_no);
 			
-			response.sendRedirect("board_detail.jsp");
+			dispatch("board_detail.jsp", request, response);
 			
 	    } else if(command.equals("boardwrite")) {			
 			String board_content = request.getParameter("comment_context");

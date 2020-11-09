@@ -106,13 +106,12 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public List<BoardDto> userBoardList(Connection con, String memName) {
+	public List<BoardDto> userBoardList(Connection con, String memName, int page) {
 		System.out.println("[BoardDaoImpl : userBoardList]");
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		List<BoardDto> res = new ArrayList<BoardDto>();
-		BoardDto dto = new BoardDto();
 		
 		try {
 			pstm = con.prepareStatement(selectUserBoardSql);
@@ -120,15 +119,20 @@ public class BoardDaoImpl implements BoardDao{
 			
 			/*
 			 * 	RNUM BETWEEN ? AND ?
-			 * 	첫번째 ? ==> 1, 11, 21, 31 -> an = 1+(page-1)*10
-			 * 	두번째 ? ==> 10, 20, 30, 40 -> page * 10
+			 * 	- 한페이지당 9개의 게시물
+			 * 	첫번째 ? ==> 1, 10, 20, 30 -> an = 1+(page-1)*9
+			 * 	두번째 ? ==> 9, 18, 27, 36 -> page * 9
 			 */
+			System.out.println("memName: " + memName);
 			pstm.setString(1, memName);
+			pstm.setInt(2, 1 + (page - 1) * 9);
+			pstm.setInt(3, page * 9);
 			
 			rs = pstm.executeQuery();
 			System.out.println("04.query 실행 및 리턴");
 			
 			while(rs.next()) {
+				BoardDto dto = new BoardDto();
 				dto.setBoard_no(rs.getInt(2));
 				dto.setGroup_no(rs.getInt(3));
 				dto.setGroup_sq(rs.getInt(4));

@@ -11,7 +11,7 @@ public interface BoardBiz {
 	public List<BoardDto> selectBoardList(String search, int page); // 검색한 게시글
 	
 	// user board
-	public List<BoardDto> selectUserBoard(String memName);
+	public List<BoardDto> selectUserBoard(String memName, int page);
 	
 	// 게시물 수
 	public int getBoardCount();

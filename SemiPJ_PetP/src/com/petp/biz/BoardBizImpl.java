@@ -76,11 +76,11 @@ public class BoardBizImpl implements BoardBiz{
 	}
 
 	@Override
-	public List<BoardDto> selectUserBoard(String memName) {
+	public List<BoardDto> selectUserBoard(String memName, int page) {
 		System.out.println("[BoardBizImpl : selectUserBoard]");
 		
 		Connection con = getConnection();
-		List<BoardDto> res = dao.userBoardList(con, memName); 
+		List<BoardDto> res = dao.userBoardList(con, memName, page); 
 		
 		close(con);
 		return res;

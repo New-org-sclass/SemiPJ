@@ -11,12 +11,10 @@
 
 	<a href="">나의 작업 페이지로 이동</a>
 	<a href="">나의 작업 페이지로 이동</a>
-	<a href="">나의 작업 페이지로 이동</a>
   <br>
+	<a href="chat_main.jsp">petTalk</a>
 	<a href="BoardServlet.do?command=boardmain">펫스타그램</a>
 	<a href="Newscon.do?command=news">news test page</a>
-	
-
 
 </body>
 </html>
