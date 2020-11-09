@@ -184,7 +184,8 @@ if(drawswitch=="on"){
 		var mouseEvent1 = function(mouseEvent) {
     // 마우스로 클릭한 위치입니다 
     var clickPosition = mouseEvent.latLng;
-
+	console.log("click : " + clickPosition);
+	console.log("click : " + typeof(clickPosition));
     // 지도 클릭이벤트가 발생했는데 선을 그리고있는 상태가 아니면
     if (!drawingFlag) {
 
@@ -491,6 +492,7 @@ if (navigator.geolocation) {
      
      	
      var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+      console.log(locPosition);
      
     //현재 위도 경도 값을 받아 넘겨주기
     
