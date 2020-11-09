@@ -105,25 +105,34 @@ public class BoardServlet extends HttpServlet {
 	        	jsResponse("Failed to upload post :(", "board_add.jsp", response);
 	        }
 	        
-	    } else if(command.equals("detail")) {
-			List<BoardDto> list = biz.selectAll();
-			request.setAttribute("list", list);
-			
-			response.sendRedirect("board_detail.jsp");
-			
-	    } else if(command.equals("boardwrite")) {			
-			String board_content = request.getParameter("board_content");
-			
-			dto = new BoardDto(board_content);
+	      //게시글 선택해서 들어옴
+	       } else if(command.equals("detail")) {
+	         List<BoardDto> list = biz.selectAll();
+	         request.setAttribute("list", list);
+	         
+	          
+	          System.out.println("board_no: " + request.getParameter("board_no"));
+	          int board_no = Integer.parseInt(request.getParameter("board_no"));
+	          
+	          biz.selectOne(board_no);
+	         
+	         response.sendRedirect("board_detail.jsp");
 
-			int res = biz.insert(dto);
-			
-			if(res>0) {
-				jsResponse("댓글 작성 성공","BoardServlet.do?command=detail",response);
-			}else {
-				jsResponse("댓글 작성 실패","BoardServlet.do?command=detail",response);
-			}
-		}
+	      //댓글 작성하는 부분   
+	       } else if(command.equals("boardwrite")) {   
+	          System.out.println("boardwrite");
+	          String board_no = request.getParameter("board_no");
+	         String board_content = request.getParameter("board_content");
+	         
+	         dto.setBoard_content(board_content);
+	         int res = biz.insert(dto);
+	         
+	         if(res>0) {
+	            jsResponse("댓글 작성 성공","BoardServlet.do?command=detail&board_no=${dto.board_no}",response);
+	         }else {
+	            jsResponse("댓글 작성 실패","BoardServlet.do?command=detail&board_no=${dto.board_no}",response);
+	         }
+	      }
 	}
 
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
