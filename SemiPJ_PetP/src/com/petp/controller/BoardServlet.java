@@ -106,13 +106,18 @@ public class BoardServlet extends HttpServlet {
 	        }
 	        
 	    } else if(command.equals("detail")) {
-			List<BoardDto> list = biz.selectAll();
-			request.setAttribute("list", list);
+			//List<BoardDto> list = biz.selectAll();
+			//request.setAttribute("list", list);
+	    	
+	    	System.out.println("board_no: " + request.getParameter("board_no"));
+	    	int board_no = Integer.parseInt(request.getParameter("board_no"));
+	    	
+	    	biz.selectOne(board_no);
 			
 			response.sendRedirect("board_detail.jsp");
 			
 	    } else if(command.equals("boardwrite")) {			
-			String board_content = request.getParameter("board_content");
+			String board_content = request.getParameter("comment_context");
 			
 			dto = new BoardDto(board_content);
 

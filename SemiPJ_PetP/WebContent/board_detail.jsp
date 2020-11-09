@@ -88,7 +88,13 @@
   						<table>
   							<col width="300">
   							<tr>
-  								<td><textarea class="form-control" id="chatContent" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="댓글 달기.." style="resize: none; font-size: 15px;"></textarea></td>
+  								<td>
+	  								<textarea class="form-control" id="chatContent" 
+	  								aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="댓글 달기.." 
+	  								style="resize: none; font-size: 15px;"
+	  								name="comment_context">
+	  								</textarea>
+  								</td>
   							</tr>
   						</table>
   						<div class="input-group-append">
