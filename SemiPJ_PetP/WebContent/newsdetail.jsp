@@ -22,7 +22,20 @@
 	
 
 </head>
+	
 <body>
+<% String st1 = (String)session.getAttribute("tre1"); %>
+<% String st2 = (String)session.getAttribute("tre2"); %>
+<% String st3 = (String)session.getAttribute("test1"); %>
+<br>
+	testreturn1 : <%=st1 %>
+	<br>testreturn2 : <%=st2 %> 
+	<br>testreturn3 : <%=st3 %> 
+	
+	<br>
+	<a href="Newscon.do?command=test1">test1으로..</a>
+	
+
 
 </body>
 </html>

@@ -55,13 +55,18 @@ public class NewsController extends HttpServlet {
 		System.out.println("command: " + command);
 		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
-	
-		//해야할일 :  insert로직 session연동해서 횟수조절하기.
+		
+		int scnt = (int)request.getSession().getAttribute("test1");
+		scnt += 1;
+		request.getSession().setAttribute("test1", scnt);
 		
 		if (command.equals("news")) {
-			getnewS(nlist);
-			getkoreaS(nlist);
-			newsbiz.insertData(nlist);
+			System.out.println("scnt: "+scnt);
+			if(scnt < 2) {
+				getnewS(nlist);
+				getkoreaS(nlist);
+				newsbiz.insertData(nlist);
+			}
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);
@@ -89,6 +94,13 @@ public class NewsController extends HttpServlet {
 			PrintWriter rp = response.getWriter();
 			rp.print(json1.toJson());
 //			dp("newsdetail.jsp", request, response);
+			
+		} else if(command.equals("test1")) {
+			request.getSession().getAttribute("test1");
+			request.getSession().setAttribute("tre1", "test1의 값");
+			request.getSession().setAttribute("tre2", "test22222222의 값");
+			
+			dp("newsdetail.jsp", request, response);
 			
 		}
 
