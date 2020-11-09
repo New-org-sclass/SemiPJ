@@ -9,6 +9,6 @@
 <title>PetP</title>
 </head>
 <body>
-	<a href="BoardServlet.do?command=list">펫스타그램</a>
+	<a href="BoardServlet.do?command=main">펫스타그램</a>
 </body>
 </html>
