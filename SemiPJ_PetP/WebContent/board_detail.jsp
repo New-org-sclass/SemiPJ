@@ -4,7 +4,8 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>    
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import = "com.petp.dto.BoardDto" %> 
     
 <!DOCTYPE html>
 <html>
@@ -53,11 +54,19 @@
   		<div class="row no-gutters">
   		
   			<!-- 사용자가 업로드한 이미지 -->
+  			<!-- 목록 없을경우 -->
+			<c:forEach items="${list }" var="dto" >
+			<c:if test="${empty list }">
+				<p>현재 데이터가 없습니다.</p>
+			</c:if>
+			
     		<div class="col-md-4" style="margin: 25px 80px 20px 60px;" >
-      			<img src="resources/images/dog_ex.png" class="card-img" alt="#게시글  이미지" style="width: 350px; height: 430px;">
+      			<img src="./resources/board_uploadimg/${dto.file_group }" class="card-img" alt="#게시글  이미지" style="width: 350px; height: 430px;">
     		</div>
     		
-    		<!-- 댓글 다는 부분 -->
+			
+			
+    		<!-- 댓글 보여주는 부분 -->
     		<div class="card my-4" id="content" style="width: 400px; height: 430px">
           		<div class="card-header">
     				<img src="resources/images/profile.png">&nbsp; User1
@@ -67,17 +76,18 @@
           			<div class="card-answer-user" style="background-color: #fff;">
     					<img src="resources/images/profile.png">&nbsp; User2
   					</div>
-						<c:forEach var="dto" items="${list }" >
 							<tr>
 								<td>${dto.board_content }</td>
 							</tr>
-						</c:forEach>
-
+          		</div>	
   					<!-- 
   					<div id="card-content">&emsp;&emsp;&nbsp; Content</div><br>
   					 -->
-          		</div>	
-          		
+        	</div>
+			</c:forEach>
+  					 
+  					 
+          		<!-- 댓글 입력부분 -->
 				<div class="input-group mb-3" style="width: 350px; margin: 0 auto;">
   					<form action="BoardServlet.do" method="post">
   						<input type="hidden" name="command" value="boardwrite">
@@ -99,19 +109,10 @@
 					</form>
 				</div>
 
-        	</div>
         </div>
         	
   	</div>
 
-
-
-
-
-
-
-
-	
 	
 	</main>
 	<jsp:include page="form/footer.jsp" flush="true" />

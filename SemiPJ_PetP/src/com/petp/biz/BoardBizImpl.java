@@ -98,8 +98,13 @@ public class BoardBizImpl implements BoardBiz{
 	}
 
 	@Override
-	public BoardDto selectOne(int board_no) {
-		return dao.selectOne(board_no);
+	public List<BoardDto> selectOne(int group_no) {
+		System.out.println("[BoardBizImpl : selectOne]");
+		
+		Connection con = getConnection();
+		List<BoardDto> res = dao.selectOne(con, group_no); 
+		
+		return res;
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public interface BoardBiz {
 	
 	public List<BoardDto> selectAll();
 	public int insert(BoardDto dto);
-	public BoardDto selectOne(int board_no);
+	public List<BoardDto> selectOne(int group_no);
 	
 	public int update(BoardDto dto);
 	public int delete(int board_no);

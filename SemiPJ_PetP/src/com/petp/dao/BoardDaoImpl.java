@@ -261,9 +261,45 @@ public class BoardDaoImpl implements BoardDao{
 	
 	// detail 페이지에 board_no에 해당하는 리스트 불러오기
 	@Override
-	public BoardDto selectOne(int board_no) {
+	public List<BoardDto> selectOne(Connection con, int group_no) {
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<BoardDto> res = new ArrayList<BoardDto>();
 		
-		return null;
+		try {
+			pstm = con.prepareStatement(selectOneSql);
+			System.out.println("03.query 준비 : " + selectOneSql);
+			
+			pstm.setInt(1, group_no);
+			
+			rs = pstm.executeQuery();
+			System.out.println("04.query 실행 및 리턴");
+			
+			while(rs.next()) {
+				BoardDto dto = new BoardDto();
+				dto.setBoard_no(rs.getInt(1));
+				dto.setGroup_no(rs.getInt(2));
+				dto.setGroup_sq(rs.getInt(3));
+				dto.setBoard_tab(rs.getInt(4));
+				dto.setBoard_writer(rs.getString(5));
+				dto.setBoard_content(rs.getString(6));
+				dto.setBoard_hashtag(rs.getString(7));
+				dto.setFile_group(rs.getString(8));
+				dto.setBoard_regdate(rs.getDate(9));
+				
+				res.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("3/4단계 오류");
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstm);
+			close(con);
+			System.out.println("05.db 종료\n");
+		}
+		return res;
 	}
 	
 	

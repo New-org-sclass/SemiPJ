@@ -140,7 +140,7 @@
 					
 					<div class="card-footer" style="background-color: white">
 						<!-- 개인 게시글 댓글창으로 넘어가는 버튼-->
-						<a href="BoardServlet.do?command=detail&board_no=${dto.board_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
+						<a href="BoardServlet.do?command=detail&group_no=${dto.group_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
 						<!-- 카카오톡 공유 버튼-->
 						<a id="kakao-link-btn" onClick="sendLinkDefault('${dto.board_no}', '${dto.file_group}');"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
 	  				</div>

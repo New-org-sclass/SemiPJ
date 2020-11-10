@@ -124,17 +124,17 @@ public class BoardServlet extends HttpServlet {
 	    	dispatch("board_user.jsp", request, response);
 	    	
 	    } else if(command.equals("detail")) {
-			//List<BoardDto> list = biz.selectAll();
-			//request.setAttribute("list", list);
 	    	
-	    	int board_no = Integer.parseInt(request.getParameter("board_no"));
-	    	System.out.println("board_no: " + request.getParameter("board_no"));
+	    	int group_no = Integer.parseInt(request.getParameter("group_no"));
+	    	System.out.println("group_no: " + request.getParameter("group_no"));
 	    	
-	    	biz.selectOne(board_no);
+	    	List<BoardDto> list = biz.selectOne(group_no);
+	    	request.setAttribute("list", list);
+	    	request.setAttribute("group_no", group_no);
 			
 			dispatch("board_detail.jsp", request, response);
 			
-	    } else if(command.equals("boardwrite")) {			
+	    } else if(command.equals("boardwrite")) {	
 			String board_content = request.getParameter("comment_context");
 			
 			dto = new BoardDto(board_content);
@@ -142,7 +142,7 @@ public class BoardServlet extends HttpServlet {
 			int res = biz.insert(dto);
 			
 			if(res>0) {
-				jsResponse("댓글 작성 성공","BoardServlet.do?command=detail",response);
+				//jsResponse("댓글 작성 성공","BoardServlet.do?command=detail&" + board_no ,response);
 			}else {
 				jsResponse("댓글 작성 실패","BoardServlet.do?command=detail",response);
 			}
