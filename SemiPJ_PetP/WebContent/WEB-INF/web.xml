@@ -51,4 +51,14 @@
     <url-pattern>/chatListServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>MemberServle</servlet-name>
+    <servlet-class>com.petp.controller</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MemberServlet</servlet-name>
+    <url-pattern>/member.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
