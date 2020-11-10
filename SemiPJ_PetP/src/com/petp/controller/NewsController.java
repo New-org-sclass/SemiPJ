@@ -65,9 +65,9 @@ public class NewsController extends HttpServlet {
 		if (command.equals("news")) {
 			System.out.println("scnt: "+scnt);
 			if(scnt < 2) {
-				getnewS(nlist);
-				getkoreaS(nlist);
-				newsbiz.insertData(nlist);
+				//getnewS(nlist);
+				//getkoreaS(nlist);
+				//newsbiz.insertData(nlist);
 			}
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
@@ -109,10 +109,16 @@ public class NewsController extends HttpServlet {
 			
 			
 		} else if(command.equals("outcomment")) {
-			int newsno = (int)request.getAttribute("newsno");
+			System.out.println(request.getParameter("newsno"));
+			int newsno = Integer.parseInt(request.getParameter("newsno"));
 			List<NewsCoDto> clist = newsbiz.selCo(newsno);
 			Gson gs1 = new Gson();
-			String st1 = gs1.toJson(src);
+			String st1 = gs1.toJson("dfdf:dfdf, aaaa:bbbbbb");
+			System.out.println(st1);
+			String st2 = gs1.toJson(clist);
+			System.out.println(st2);
+			PrintWriter out = response.getWriter();
+			out.print(st2);
 			
 		}
 		

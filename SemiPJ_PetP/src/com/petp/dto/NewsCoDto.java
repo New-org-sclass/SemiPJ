@@ -6,7 +6,7 @@ public class NewsCoDto {
 	private int groupno;
 	private int groupsq;
 	private String writer;
-	private String ncommnet;
+	private String ncomment;
 	private String commentdate;
 	
 	public NewsCoDto() {
@@ -21,7 +21,7 @@ public class NewsCoDto {
 		this.groupno = groupno;
 		this.groupsq = groupsq;
 		this.writer = writer;
-		this.ncommnet = ncommnet;
+		this.ncomment = ncommnet;
 		this.commentdate = commentdate;
 	}
 
@@ -66,12 +66,12 @@ public class NewsCoDto {
 		this.writer = writer;
 	}
 
-	public String getNcommnet() {
-		return ncommnet;
+	public String getNcomment() {
+		return ncomment;
 	}
 
-	public void setNcommnet(String ncommnet) {
-		this.ncommnet = ncommnet;
+	public void setNcomment(String ncomment) {
+		this.ncomment = ncomment;
 	}
 
 	public String getCommentdate() {

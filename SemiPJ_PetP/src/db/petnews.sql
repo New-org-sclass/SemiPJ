@@ -36,7 +36,7 @@ NOCACHE;
 
 create table newscomment(
 	commentno number primary key,
-	news_no number not null unique,
+	news_no number not null,
 	groupno number,
 	groupsq number,
 	writer varchar2(20) not null,
@@ -50,4 +50,7 @@ select * from newscomment;
 select * from petnews order by newsno desc;
 COMMIT;
 
-insert into newscomment values(1,78);
+ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
+insert into newscomment values(1,78,1,1, 'ADMIN', 'first comment!!!!!~', (select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) );
+
+delete from newscomment;

@@ -1,6 +1,6 @@
 package com.petp.dao;
 
-import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,7 +155,7 @@ public class NewsDao {
 				tmp.setGroupno(rs.getInt(3));
 				tmp.setGroupsq(rs.getInt(4));
 				tmp.setWriter(rs.getString(5));
-				tmp.setNcommnet(rs.getString(6));
+				tmp.setNcomment(rs.getString(6));
 				tmp.setCommentdate(rs.getString(7));
 				clist.add(tmp);
 			}
@@ -176,12 +176,13 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		int res = 0;
 		String sql = " insert into newscomment values(newscommentnosq.nextval, ?,newscommentgroupnosq.nextval, "
-				+ "1, (select mem_id from member where mem_no = 1) ,?, sysdate) ";
+				+ "1, (select mem_id from member where mem_no = 1) ,?, "
+				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) ) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
 			pstm.setInt(1, insertdto.getNewsno());
-			pstm.setString(2, insertdto.getNcommnet());
+			pstm.setString(2, insertdto.getNcomment());
 			
 			res = pstm.executeUpdate();
 			System.out.println("댓글 삽입 준비 및 쿼리실행");
@@ -199,13 +200,14 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		int res = 0;
 		String sql = " insert into newscomment values(newscommentnosq.nextval, ?, ?, "
-				+ "1, (select mem_id from member where mem_no = 1) ,?, sysdate) ";
+				+ "1, (select mem_id from member where mem_no = 1) ,?, "
+				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual)) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
 			pstm.setInt(1, insertCodto.getNewsno());
 			pstm.setInt(2, insertCodto.getGroupno());//부모댓글의 groupno view에서 전달받아와야함.
-			pstm.setString(3, insertCodto.getNcommnet());
+			pstm.setString(3, insertCodto.getNcomment());
 			
 			res = pstm.executeUpdate();
 			System.out.println("댓글 삽입 준비 및 쿼리실행");
