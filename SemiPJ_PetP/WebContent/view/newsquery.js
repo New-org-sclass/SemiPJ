@@ -19,6 +19,9 @@ function newsContentin(atagno){
     });
 }
 
-function getCommentInfo(){
+function getCommentInfo(atagno){
 	//후순위
+	let newsno = atagno;
+	
 }
+

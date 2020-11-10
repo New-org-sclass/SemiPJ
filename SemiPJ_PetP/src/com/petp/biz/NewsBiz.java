@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.petp.dao.NewsDao;
+import com.petp.dto.NewsCoDto;
 import com.petp.dto.NewsDto;
 
 public class NewsBiz {
@@ -48,17 +49,63 @@ public class NewsBiz {
 		}
 		close(con);
 	}
-
-	public int insert(List<NewsDto> insertdto) {
-		return 0;
+	
+	public List<NewsCoDto> selCo(int newsno) {
+		Connection con = getConnection();
+		List<NewsCoDto> clist = newsdao.selCo(con, newsno);
+		close(con);
+		System.out.println("clist successfully loaded!");
+		return clist;
+	}
+	
+	public int insertCo(NewsCoDto insertdto) {
+		Connection con = getConnection();
+		int res = newsdao.insertCo(con, insertdto);
+		if(res>0) {
+			commit(con);
+			System.out.println("최상위 댓글 작성 완료");
+		} else {
+			rollback(con);
+			System.out.println("최상위 댓글 작성 실패");
+		}
+		close(con);
+		return res;
+	}
+	public int insertAn(NewsCoDto insertCodto) {
+		Connection con = getConnection();
+		int res = newsdao.insertAn(con, insertCodto);
+		if(res>0) {
+			commit(con);
+			System.out.println("하위 댓글 작성 완료");
+		} else {
+			rollback(con);
+			System.out.println("하위 댓글 작성 실패");
+		}
+		close(con);
+		return res;
 	}
 
-	public int update(List<NewsDto> updatedto) {
-		return 0;
+	public int updateCo(int parentno) {
+		Connection con = getConnection();
+		int res = newsdao.updateCo(con, parentno);
+		if(res>0) {
+			System.out.println("댓글 sq 변경 완료");
+		} else {
+			System.out.println("댓글 sq 변경 실패");
+		}
+		close(con);
+		return res;
 	}
 
-	public int delete(int delnewsno) {
-		return 0;
+	public int deleteCo(int delcommentno) {
+		Connection con = getConnection();
+		int res = newsdao.deleteCo(con, delcommentno);
+		if(res>0) {
+			commit(con);
+			System.out.println("댓글 삭제 완료");
+		}
+		close(con);
+		return res;
 	}
 
 	public List<NewsDto> search(String sub) {

@@ -1,6 +1,6 @@
 package com.petp.dao;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.petp.dto.NewsCoDto;
 import com.petp.dto.NewsDto;
 
 public class NewsDao {
@@ -135,32 +136,146 @@ public class NewsDao {
 		return res;
 	}
 	
-	public int insert(Connection con, List<NewsDto> insertdto) {
+	public List<NewsCoDto> selCo(Connection con, int newsno) {
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<NewsCoDto> clist = new ArrayList<NewsCoDto>();
+		String sql = " select * from newscomment where news_no = ? ";
 		
-		return 0;
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, newsno);
+			
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				NewsCoDto tmp = new NewsCoDto();
+				tmp.setCommentno(rs.getInt(1));
+				tmp.setNewsno(rs.getInt(2));
+				tmp.setGroupno(rs.getInt(3));
+				tmp.setGroupsq(rs.getInt(4));
+				tmp.setWriter(rs.getString(5));
+				tmp.setNcommnet(rs.getString(6));
+				tmp.setCommentdate(rs.getString(7));
+				clist.add(tmp);
+			}
+			
+			System.out.println("댓글 select 준비 및 쿼리실행");
+			
+		} catch (SQLException e) {
+			System.out.println("answer select fail T.T");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+		}
+		
+		return clist;
 	}
 	
-	public int update(Connection con, List<NewsDto> updatedto) {
+	public int insertCo(Connection con, NewsCoDto insertdto) {
+		PreparedStatement pstm = null;
+		int res = 0;
+		String sql = " insert into newscomment values(newscommentnosq.nextval, ?,newscommentgroupnosq.nextval, "
+				+ "1, (select mem_id from member where mem_no = 1) ,?, sysdate) ";
 		
-		return 0;
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, insertdto.getNewsno());
+			pstm.setString(2, insertdto.getNcommnet());
+			
+			res = pstm.executeUpdate();
+			System.out.println("댓글 삽입 준비 및 쿼리실행");
+			
+		} catch (SQLException e) {
+			System.out.println("answer insert fail T.T");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+		}
+		
+		return res;
+	}
+	public int insertAn(Connection con, NewsCoDto insertCodto) {
+		PreparedStatement pstm = null;
+		int res = 0;
+		String sql = " insert into newscomment values(newscommentnosq.nextval, ?, ?, "
+				+ "1, (select mem_id from member where mem_no = 1) ,?, sysdate) ";
+		
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, insertCodto.getNewsno());
+			pstm.setInt(2, insertCodto.getGroupno());//부모댓글의 groupno view에서 전달받아와야함.
+			pstm.setString(3, insertCodto.getNcommnet());
+			
+			res = pstm.executeUpdate();
+			System.out.println("댓글 삽입 준비 및 쿼리실행");
+			
+		} catch (SQLException e) {
+			System.out.println("answer insert fail T.T");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+		}
+		
+		return res;
 	}
 	
-	public int delete(Connection con, int delnewsno) { //마지막 순위
+	public int updateCo(Connection con, int parentno) {//해당기사넘의 1번 댓글 groupsq
+		PreparedStatement pstm = null;
+		int res = 0;
+		String sql = " update newscomment set groupsq = groupsq+1 where "
+				+ " groupno = (select groupno from newscomment where commentno = ?) and "
+				+ " groupsq > (select groupsq from newscomment where commentno = ?) ";
 		
-		return 0;
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, parentno);
+			pstm.setInt(2, parentno);
+			
+			res = pstm.executeUpdate();
+			System.out.println("댓글 updateCo 준비 및 쿼리실행");
+			
+		} catch (SQLException e) {
+			System.out.println("answer groupsq modify fail T.T");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+		}
+		return res;
+	}
+	
+	public int deleteCo(Connection con, int delcommentno) { //마지막 순위
+		PreparedStatement pstm = null;
+		int res = 0;
+		String sql = " delete from newscomment where commentno = ? ";
+		
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, delcommentno);
+			
+			res = pstm.executeUpdate();
+			System.out.println("댓글 삭제 준비 및 쿼리실행");
+			
+		} catch (SQLException e) {
+			System.out.println("answer groupsq delete fail T.T");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+		}
+		return res;
 	}
 	
 	public List<NewsDto> search(Connection con, String sub){
 		List<NewsDto> sch = new ArrayList<NewsDto>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = " select * from petnews where ntitle like '%?%' or ncontent like '%?%' order by ndate desc, newsno desc ";
+		String sql = " select * from petnews where ntitle like ? or ncontent like ? order by ndate desc, newsno desc ";
 		String noimg = "./resources/images/noimage.jpg";
-		
+		System.out.println(sql);
 		try {
 			pstm = con.prepareStatement(sql);
-			pstm.setString(1, sub);
-			pstm.setString(2, sub);
+			pstm.setString(1, "%"+sub+"%");
+			pstm.setString(2, "%"+sub+"%");
 			
 			rs = pstm.executeQuery();
 			

@@ -76,7 +76,7 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="Newscon.do?command=news">
         				<img src="resources/images/nav/nav03.png" width="30" height="30" >
         			</a>
       			</li>

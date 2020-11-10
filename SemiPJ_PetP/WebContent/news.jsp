@@ -19,7 +19,7 @@
 			padding: 8px 50px;
 		}
 		.card{
-			border: 1px solid rgba(239, 204, 135, 0.5);
+			border: 1px solid rgba(239, 204, 135, 0.5)!important;
 		}
 		.card-img-top{
 			height: 250px;
@@ -46,7 +46,17 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript" src="view/newsquery.js"></script>
     <script type="text/javascript">
-	
+    
+	    function formAction() {
+	    	var form = document.getElementById('searchForm');
+	    	var command = document.getElementsByName("command");
+	    	command[0].setAttribute("value","search");
+	    	console.log("formAction command is"+command[0]);
+	    	//BoardServlet.do?search=
+	    	form.action;	
+	    }
+    	
+    	
 		let totalData = 100;    // 총 데이터 수 -- 받은 리스트나 json의 row 수
 	    let dataPerPage = 9;    // 한 페이지에 나타낼 데이터 수
 	    let pagePerscreen = 5;        // 한 화면에 나타낼 페이지 수 pagePerscreen
@@ -175,12 +185,16 @@
 				// 	+ '<div class="card-body">' + '<h5 class="card-title">'	+ titlel[stdata+i+3] +'</h5>'
 				// 	+ '<p class="card-text">' + sumal[stdata+i+3] + '</p>'
 				// 	+ '<p class="card-text"><small class="text-muted">' + datel[stdata+i+3] + '</small></p></div>';
+				let t1 = document.getElementsByClassName("card-img-top");
+					console.log("t1: "+ t1[i].getAttribute("src"));
+				if(t1[i].getAttribute("src") === ""){
+					t1[i].setAttribute("src", "./resources/images/noimage.jpg");
+				}
 				if(titlel[stdata+i] == null){
 					continue;
 				}
 				// let aurl = "location.href='Newscon.do?command=detail&newsno="+newsnol[stdata+i]+"'";
 				let aurl = newsnol[stdata+i];
-				let t1 = document.getElementsByClassName("card-img-top");
 				let t2 = document.getElementsByClassName("card-title");
 				let t3 = document.getElementsByClassName("card-text");
 				let t4 = document.getElementsByClassName("text-muted");
@@ -198,12 +212,16 @@
 				//document.getElementsByClassName("text-muted")[i].innerHTML = datel[stdata+i];
 			 }
 			for(var i=0; i<3; i++){
+				let t1 = document.getElementsByClassName("mr-3 ulresize1");
+				if(t1[i].getAttribute("src") == ""){
+					t1[i].setAttribute("src", "./resources/images/noimage.jpg");
+					console.log("t1: "+ t1[i].getAttribute("src"));
+				}
 				if(titlel[stdata+i+6] == null){
 					continue;
 				}
 				// let aurl = "location.href='Newscon.do?command=detail&newsno="+newsnol[stdata+i+6]+"'";
 				let aurl = newsnol[stdata+i+6];
-				let t1 = document.getElementsByClassName("mr-3 ulresize1");
 				let t2 = document.getElementsByClassName("mt-0 mb-1");
 				let t3 = document.getElementsByClassName("media-body");
 				let t4 = document.getElementsByClassName("seols");
@@ -246,7 +264,7 @@
 				var atag = $(event.relatedTarget); 
 				var no = atag.data('no');
 				newsContentin(no);
-
+				getCommentInfo(no);
 			});
 
 			// cgroup[0].innerHTML = v1;
@@ -278,11 +296,11 @@
 </head>
 
 <body>
-<jsp:include page="/form/header01.jsp" flush="true" />
+<jsp:include page="/form/header_test.jsp" flush="false" />
 
 	<main role="main" style="margin-top: 80px; background-color: #fffff9; ">
         <div class="container">
-		<h1>News list</h1>
+		<h1>News List</h1>
       	<div id="paging1" class="dogdogpaging"></div>
 		
         </div>
@@ -401,6 +419,6 @@
 
 
 
-<jsp:include page="/form/footer.jsp" flush="true"></jsp:include>
+<jsp:include page="/form/footer.jsp" flush="false"></jsp:include>
 </body>
 </html>

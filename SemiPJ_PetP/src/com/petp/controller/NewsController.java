@@ -22,7 +22,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
+import com.google.gson.Gson;
 import com.petp.biz.NewsBiz;
+import com.petp.dto.NewsCoDto;
 import com.petp.dto.NewsDto;
 
 @WebServlet("/Newscon")
@@ -73,7 +75,8 @@ public class NewsController extends HttpServlet {
 //			response.sendRedirect("news.jsp");
 			
 		} else if (command.equals("search")) {
-			String word = (String)request.getParameter("word");
+			String word = (String)request.getParameter("search");
+			System.out.println("word is "+word);
 			request.setAttribute("alist",newsbiz.search(word));
 			System.out.println("search header~: "+ response.getHeaderNames());
 			dp("news.jsp",request, response);
@@ -102,7 +105,17 @@ public class NewsController extends HttpServlet {
 			
 			dp("newsdetail.jsp", request, response);
 			
+		} else if(command.equals("incomment")) {
+			
+			
+		} else if(command.equals("outcomment")) {
+			int newsno = (int)request.getAttribute("newsno");
+			List<NewsCoDto> clist = newsbiz.selCo(newsno);
+			Gson gs1 = new Gson();
+			String st1 = gs1.toJson(src);
+			
 		}
+		
 
 	}
 	
