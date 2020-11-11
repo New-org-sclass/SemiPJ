@@ -24,9 +24,9 @@
 </head>
 	
 <body>
-<% String st1 = (String)session.getAttribute("tre1"); %>
-<% String st2 = (String)session.getAttribute("tre2"); %>
-<% String st3 = (String)session.getAttribute("test1"); %>
+<% String st1 = String.valueOf(session.getAttribute("test1")); %>
+<% String st2 = (String)session.getAttribute("tre1"); %>
+<% String st3 = (String)session.getAttribute("tre2"); %>
 <br>
 	testreturn1 : <%=st1 %>
 	<br>testreturn2 : <%=st2 %> 

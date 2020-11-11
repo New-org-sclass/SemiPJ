@@ -51,6 +51,8 @@ select * from petnews order by newsno desc;
 COMMIT;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
+--댓글 test용 insert 2개~
 insert into newscomment values(1,78,1,1, 'ADMIN', 'first comment!!!!!~', (select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) );
+insert into newscomment values(2,78,2,1, 'ADMIN', '두번째 댓글 입니다~ 잘나와야할텐데', (select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) );
 
 delete from newscomment;

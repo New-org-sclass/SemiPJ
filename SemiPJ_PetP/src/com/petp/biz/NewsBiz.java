@@ -102,7 +102,7 @@ public class NewsBiz {
 		int res = newsdao.deleteCo(con, delcommentno);
 		if(res>0) {
 			commit(con);
-			System.out.println("댓글 삭제 완료");
+			System.out.println("댓글 삭제 완료 DBcommited!");
 		}
 		close(con);
 		return res;

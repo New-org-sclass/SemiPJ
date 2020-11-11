@@ -99,14 +99,28 @@ public class NewsController extends HttpServlet {
 //			dp("newsdetail.jsp", request, response);
 			
 		} else if(command.equals("test1")) {
-			request.getSession().getAttribute("test1");
+			//int test1 = (int)request.getSession().getAttribute("test1");
+			System.out.println("test1 is "+scnt);
 			request.getSession().setAttribute("tre1", "test1의 값");
 			request.getSession().setAttribute("tre2", "test22222222의 값");
 			
 			dp("newsdetail.jsp", request, response);
 			
 		} else if(command.equals("incomment")) {
+			String jscomment = request.getParameter("jscomment");
+			Gson inputgs = new Gson();
+//			String st1 = inputgs.from
+			NewsCoDto tmpcom = inputgs.fromJson(jscomment, NewsCoDto.class);
+			tmpcom.setWriter((String)request.getSession().getAttribute("mem_id"));//이부분 완성되어야함.
+			System.out.println("tmpcom's writer(mem_id): "+tmpcom.getWriter());
+			System.out.println("tmpcom: "+tmpcom);
+			int res = newsbiz.insertCo(tmpcom);
 			
+			if(res>0) {
+				System.out.println("comment sucessfully inserted");
+			} else {
+				System.out.println("comment insert fail~");
+			}
 			
 		} else if(command.equals("outcomment")) {
 			System.out.println(request.getParameter("newsno"));
@@ -119,6 +133,17 @@ public class NewsController extends HttpServlet {
 			System.out.println(st2);
 			PrintWriter out = response.getWriter();
 			out.print(st2);
+			
+		} else if(command.equals("delcomment")) {
+			int commentno = Integer.parseInt(request.getParameter("commentno"));
+			System.out.println("commentno is" + commentno);
+			int res = newsbiz.deleteCo(commentno);
+			
+			if(res>0) {
+				System.out.println(commentno+"번 comment 삭제 성공");
+			} else {
+				System.out.println(commentno+"번 comment 삭제 실패...");
+			}
 			
 		}
 		

@@ -12,6 +12,15 @@ public class NewsCoDto {
 	public NewsCoDto() {
 		super();
 	}
+	
+	
+
+	public NewsCoDto(int newsno, String ncomment) {
+		super();
+		this.newsno = newsno;
+		this.ncomment = ncomment;
+	}
+
 
 	public NewsCoDto(int commentno, int newsno, int groupno, int groupsq, String writer, String ncommnet,
 			String commentdate) {
@@ -80,6 +89,12 @@ public class NewsCoDto {
 
 	public void setCommentdate(String commentdate) {
 		this.commentdate = commentdate;
+	}
+
+	@Override
+	public String toString() {
+		return "NewsCoDto [commentno=" + commentno + ", newsno=" + newsno + ", groupno=" + groupno + ", groupsq="
+				+ groupsq + ", writer=" + writer + ", ncomment=" + ncomment + ", commentdate=" + commentdate + "]";
 	}
 	
 	

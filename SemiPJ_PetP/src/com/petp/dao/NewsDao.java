@@ -140,7 +140,7 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		List<NewsCoDto> clist = new ArrayList<NewsCoDto>();
-		String sql = " select * from newscomment where news_no = ? ";
+		String sql = " select * from newscomment where news_no = ? order by groupno desc, groupsq ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
@@ -174,7 +174,7 @@ public class NewsDao {
 	
 	public int insertCo(Connection con, NewsCoDto insertdto) {
 		PreparedStatement pstm = null;
-		int res = 0;
+		int res = 0; //member id 는 이 밑에 where mem_no = 1 << 여기부분을 바꿔줘야한다! 
 		String sql = " insert into newscomment values(newscommentnosq.nextval, ?,newscommentgroupnosq.nextval, "
 				+ "1, (select mem_id from member where mem_no = 1) ,?, "
 				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) ) ";
@@ -182,6 +182,7 @@ public class NewsDao {
 		try {
 			pstm = con.prepareStatement(sql);
 			pstm.setInt(1, insertdto.getNewsno());
+			//pstm.setString(2, insertdto.getWriter()); mem_no추가해야되는 부분!
 			pstm.setString(2, insertdto.getNcomment());
 			
 			res = pstm.executeUpdate();

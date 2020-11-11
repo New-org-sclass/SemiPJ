@@ -38,9 +38,24 @@
 		.dogdogpaging{
 			text-align: center;
 		}
-		/* 그냥 서버에서 json스트링객체를 response로 클라한테 던지면, 클라의 자바스크립트등에서 받아 인식하는 다이렉트한 방법이 있나?
-		 마치 jsp의 setAttribute처럼.   ajax의 success function{}처럼. 일반http말고 xmlhttp를 따로 받는 명령이 있나?
-		 무조건 클라의 ajax요청이 있어야 비동기식으로 json문서를 받을 수 있는 것인가?? */
+		.floR{
+			float: right;
+		}
+		.floL{
+			float: Left;
+		}
+		.wid{
+			width: 100%;
+		}
+		#commentwrite1{
+			float: right;		
+		}
+		
+		#commentarea{
+			width: 100%;
+			float: right;		
+		}
+
 	</style>
 	<!-- <script type="text/javascript" src="view/jquery-3.5.1.min.js" ></script> -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -210,7 +225,7 @@
 				//document.getElementsByClassName("card-title")[i].innerHTML = titlel[stdata+i];
 				//document.getElementsByClassName("card-text")[6+(i%2)+i].innerHTML = sumal[stdata+i];
 				//document.getElementsByClassName("text-muted")[i].innerHTML = datel[stdata+i];
-			 }
+			}
 			for(var i=0; i<3; i++){
 				let t1 = document.getElementsByClassName("mr-3 ulresize1");
 				if(t1[i].getAttribute("src") == ""){
@@ -261,11 +276,22 @@
 			}
 			
 			$('#newsmodal').on('show.bs.modal', function(event){
-				var atag = $(event.relatedTarget); 
+				var atag = $(event.relatedTarget);
 				var no = atag.data('no');
 				newsContentin(no);
 				getCommentInfo(no);
+				$('#commentwrite1').on('click',  function(event){
+					//console.log("testinsert");
+					insertComment(no);
+				});
+				//let but1 = "btn btn-light floR";
+				//'#cobox2 p .btn btn-light'
+				
+				
+				
+				
 			});
+			
 
 			// cgroup[0].innerHTML = v1;
 			// cgroup[1].innerHTML = v2;
@@ -409,27 +435,15 @@
 			  <p>Modal body text goes here.</p>
 			</div>
 			<div class="modal-footer">
-			  <div>
-				  <br>
-				  <br>
-				  <br>
-				  <br>
-				  <br>
-				  <br>
-				  <br>
-				  <br>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <p>dkfjdkfjk</p>
-				  <br>
-				  <br>
-				  <br>
+			  <div id="cobox1">
+				  <div id="cobox2">
+				
+
+				  </div>
+				  <div id="cobox3">
+				  	<textarea id="commentarea" cols="50" rows="3" placeholder="댓글을 입력해주세요."></textarea>
+					<button type="button" class="btn btn-light" id="commentwrite1" >댓글쓰기</button>
+				  </div>
 			  </div>
 			</div>
 		  </div>
