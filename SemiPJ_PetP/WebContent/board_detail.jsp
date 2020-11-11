@@ -48,6 +48,27 @@ function getSize(obj) {
 	document.getElementsByClassName('card')[0].style.setProperty ("max-height", imgheight+"px");
 }
 
+
+
+// httpRequest 객체 생성
+function getXMLHttpRequest(){
+    var httpRequest = null;
+
+    if(window.ActiveXObject){
+        try{
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");    
+        } catch(e) {
+            try{
+                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e2) { httpRequest = null; }
+        }
+    }
+    else if(window.XMLHttpRequest){
+        httpRequest = new window.XMLHttpRequest();
+    }
+    return httpRequest;    
+}
+
 // 댓글 삭제 alert
 function delCommentAlert(boardNo) {
 	var msg = confirm("Delete comment");
@@ -59,17 +80,19 @@ function delCommentAlert(boardNo) {
 	}
 }
 
+var httpRequest = null;
 // 댓글 삭제
-function delComment(boardNo) {
-	var param = "boardNo=" + boardNo;
+function delComment(boardNo, groupNo) {
+	alert(boardNo);
+	alert(groupNo);
+	var params = "boardNo=" + boardNo + "&groupNo=" + groupNo;
 	
-	httpReqeust = getXMLHttpRequest();
+	httpRequest = getXMLHttpRequest();
 	httpRequest.onreadystatechange = checkFunc;
 	httpRequest.open("POST", "BoardServlet.do?command=delComment", true);
 	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=EUC-KR'); 
-    httpRequest.send(param);
+    httpRequest.send(params);
 }
-
 function checkFunc() {
 	// 데이터를 전부 받은 상태라면
 	if(httpRequest.readyState == 4) {
@@ -112,13 +135,13 @@ function checkFunc() {
           			<div class="card-body overflow-auto">
           			<c:forEach items="${list }" var="list" >
                         &nbsp;&nbsp;
-                     
+                     	
 	          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
 	    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
 	  						<!-- 댓글 주인 -->
 	  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
 	  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
-	  						<input type="button" onclick="delCommentAlert(${board.board_no});" value="댓글 삭제">
+	  						<input type="button" onclick="delCommentAlert(${list.board_no}, '${list.group_no }');" value="댓글 삭제">
 	  					</div>
 	  				</c:forEach>
           			</div>	

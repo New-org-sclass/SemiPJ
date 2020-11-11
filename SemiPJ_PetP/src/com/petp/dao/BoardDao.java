@@ -56,5 +56,6 @@ public interface BoardDao {
 	public int addComment(Connection con, BoardDto dto);
 	
 	/* common */
+	String deleteBoardSql = " DELETE FROM BOARD WHERE BOARD_NO = ? ";
 	public boolean deleteBoard(Connection con, int boardNo);
 }

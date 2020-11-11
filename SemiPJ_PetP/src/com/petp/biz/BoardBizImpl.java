@@ -132,7 +132,8 @@ public class BoardBizImpl implements BoardBiz{
 		
 		boolean res = dao.deleteBoard(con, boardNo); 
 		
-		return res;
+		close(con);
+		return res ;
 	}
 
 }
