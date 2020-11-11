@@ -135,10 +135,14 @@ public class BoardServlet extends HttpServlet {
 	    	
 	    	request.setAttribute("board", board);
 	    	request.setAttribute("list", list);
-
-	    	request.setAttribute("groupNo", groupNo);
+			
 			dispatch("board_detail.jsp", request, response);
 			
+	    } else if(command.equals("boardwrite")) {	
+			String board_content = request.getParameter("comment_context");
+			
+			dto = new BoardDto(board_content);
+
 	    } else if(command.equals("addComment")) {	
 	    	// boardNo, memNo, Comment
 	    	int boardNo = Integer.parseInt(request.getParameter("boardNo"));

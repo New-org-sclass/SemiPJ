@@ -64,7 +64,6 @@ public class BoardDaoImpl implements BoardDao{
 		} finally {
 			close(rs);
 			close(pstm);
-			close(con);
 			System.out.println("05.db 종료\n");
 		}
 		
