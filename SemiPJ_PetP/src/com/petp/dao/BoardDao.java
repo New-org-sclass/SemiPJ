@@ -54,4 +54,7 @@ public interface BoardDao {
 	public BoardDto getBoard(Connection con, int groupNo);
 	public List<BoardDto> getComments(Connection con, int groupNo);
 	public int addComment(Connection con, BoardDto dto);
+	
+	/* common */
+	public boolean deleteBoard(Connection con, int boardNo);
 }

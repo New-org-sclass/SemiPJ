@@ -153,8 +153,14 @@ public class BoardServlet extends HttpServlet {
 	    	if (res>0) {
 	        	jsResponse("You have completed your comment :)", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
 	        } else {
-	        	jsResponse("Failed to write a comment :(", "board_detail.jsp", response);
+	        	jsResponse("Failed to write a comment :(", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
 	        }
+	    	
+		} else if(command.equals("delComment")) {	
+			int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+			
+			boolean result = biz.deleteBoard(boardNo);
+			response.setContentType("text/html;charset=utf-8");
 		}
 	}
 

@@ -41,10 +41,45 @@
 	}
 </style>
 <script type="text/javascript">
+// 이미지의 크기만큼 div의 maxheight 설정
 function getSize(obj) {
 	var imgheight = obj.height;
 	
 	document.getElementsByClassName('card')[0].style.setProperty ("max-height", imgheight+"px");
+}
+
+// 댓글 삭제 alert
+function delCommentAlert(boardNo) {
+	var msg = confirm("Delete comment");
+	if(msg == true) {
+		// 확인 클릭
+		delComment(boardNo);
+	} else {
+		return false;
+	}
+}
+
+// 댓글 삭제
+function delComment(boardNo) {
+	var param = "boardNo=" + boardNo;
+	
+	httpReqeust = getXMLHttpRequest();
+	httpRequest.onreadystatechange = checkFunc;
+	httpRequest.open("POST", "BoardServlet.do?command=delComment", true);
+	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=EUC-KR'); 
+    httpRequest.send(param);
+}
+
+function checkFunc() {
+	// 데이터를 전부 받은 상태라면
+	if(httpRequest.readyState == 4) {
+		// 서버의 응답을 텍스트 문자열로 반환
+		var result = httpRequest.responseText;
+		// 반환 실패
+		if(result == 1) {
+			document.location.reload();
+		}
+	}
 }
 </script>
 </head>
@@ -54,6 +89,12 @@ function getSize(obj) {
 	
 	<main role="main" style="padding-top: 150px; padding-bottom: 100px; background-color: #fffff9; ">
 	<div class="container">	
+			
+			<c:if test="${empty list }">
+			<p>현재 데이터가 없습니다.</p>
+			</c:if>
+			
+			<c:if test="${list ne null }">
 			<div class="card-group">
 				<!-- 게시글 보여주는 부분 -->
 				<div class="col-mb-3">
@@ -77,13 +118,14 @@ function getSize(obj) {
 	  						<!-- 댓글 주인 -->
 	  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
 	  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
+	  						<input type="button" onclick="delCommentAlert(${board.board_no});" value="댓글 삭제">
 	  					</div>
 	  				</c:forEach>
           			</div>	
 	    		
 	    		<!-- 댓글 입력 부분 -->
 	    		<div class="card-footer">
-                  <form action="BoardServlet.do" method="post">
+                  <form id="commentForm" action="BoardServlet.do" method="post">
                   <div class="input-group">
                   	
                   	<!-- 서블릿으로 보내야할 값 boardNo, memNo, Comment -->
@@ -92,7 +134,7 @@ function getSize(obj) {
                   	<input type="hidden" name="boardNo" value="${board.board_no}">
                   	<input type="hidden" name="groupNo" value="${board.group_no }">
                   	
-                  	<input type="text" class="form-control" placeholder="댓글 달기.." aria-label="Recipient's username" aria-describedby="button-addon2" name="comment">
+                  	<input id="commentInput" type="text" class="form-control" placeholder="댓글 달기.." aria-label="Recipient's username" aria-describedby="button-addon2" name="comment">
   						<div class="input-group-append">
     						<button class="btn btn-outline-secondary" type="submit"><img class="linkimg" src="resources/images/send.png"></button>
   						</div>
@@ -101,6 +143,7 @@ function getSize(obj) {
           			</div>
 	    		</div> <!-- end of card -->
 	  		</div> <!-- end of card-group -->
+	  		</c:if>
 	</div> <!-- end of container -->
 
 	

@@ -125,8 +125,10 @@
 				</div> <!-- end of card-body -->
 	
 	  			
-	  			<div class="card-footer" style="background-color: white">
-					<button type="submit" class="btn btn-lg btn-block" style="background-color: #f5f5dc" >Upload</button>
+	  			<div class="card-footer justify-content-around" style="background-color: white">
+					<button type="submit" class="btn btn-lg col-9" style="background-color: #f5f5dc;" >Upload</button>
+					<button type="reset" class="btn btn-lg col-2 float-right" style="background-color: #f5f5dc;" >Reset</button>
+					
 	  			</div>
   			
 			</form> <!-- end of form -->
