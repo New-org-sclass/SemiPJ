@@ -12,6 +12,11 @@
 	<a href="">나의 작업 페이지로 이동</a>
   <br>
 	<a href="login.jsp">로그인</a>
+  <!-- 
+  memberDto 객체에서 mem_name 가져와서 작업. 
+  ${dto.mem_name}		
+  -->
+	<a href="location.href='BoardServlet.do?command=userBoard&board_writer=관리자'">userMain</a>
 	<a href="chat_main.jsp">petTalk</a>
 	<a href="BoardServlet.do?command=boardmain">펫스타그램</a>
 	<a href="Newscon.do?command=news">news test page</a>

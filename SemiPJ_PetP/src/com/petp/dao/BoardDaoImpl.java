@@ -303,4 +303,35 @@ public class BoardDaoImpl implements BoardDao{
 		}
 		return res;
 	}
+
+	@Override
+	public boolean deleteBoard(Connection con, int boardNo) {
+		System.out.println("[BoardDaoImpl : deleteBoard]");
+
+		PreparedStatement pstm = null;
+		int res = 0;
+		
+		try {
+			pstm = con.prepareStatement(deleteBoardSql);
+			System.out.println("03.query 준비 : " + deleteBoardSql);
+			System.out.println(boardNo);
+			pstm.setInt(1, boardNo);
+			
+			res = pstm.executeUpdate();
+			System.out.println("04.query 실행 및 리턴");
+			
+			if(res > 0) {
+				commit(con);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("3/4단계 오류");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+			System.out.println("05.db 종료\n");
+		}
+
+		return (res>0) ? true : false;
+	}
 }

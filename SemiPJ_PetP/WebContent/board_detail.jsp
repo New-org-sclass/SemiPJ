@@ -40,12 +40,34 @@
 		margin: auto;
 	}
 </style>
+
 <script type="text/javascript">
+// 이미지의 크기만큼 div의 maxheight 설정
 function getSize(obj) {
 	var imgheight = obj.height;
 	
 	document.getElementsByClassName('card')[0].style.setProperty ("max-height", imgheight+"px");
 }
+
+// httpRequest 객체 생성
+function getXMLHttpRequest(){
+    var httpRequest = null;
+
+    if(window.ActiveXObject){
+        try{
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");    
+        } catch(e) {
+            try{
+                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e2) { httpRequest = null; }
+        }
+    }
+    else if(window.XMLHttpRequest){
+        httpRequest = new window.XMLHttpRequest();
+    }
+    return httpRequest;    
+}
+
 </script>
 </head>
 
@@ -54,6 +76,8 @@ function getSize(obj) {
 	
 	<main role="main" style="padding-top: 150px; padding-bottom: 100px; background-color: #fffff9; ">
 	<div class="container">	
+
+			<c:if test="${list ne null }">
 			<div class="card-group">
 				<!-- 게시글 보여주는 부분 -->
 				<div class="col-mb-3">
@@ -71,19 +95,27 @@ function getSize(obj) {
           			<div class="card-body overflow-auto">
           			<c:forEach items="${list }" var="list" >
                         &nbsp;&nbsp;
-                     
-	          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
-	    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
-	  						<!-- 댓글 주인 -->
-	  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
-	  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
-	  					</div>
+                     	<!-- 댓글 작성자만 삭제 가능하도록 
+                     	<c:if test="${list.board_writer == session.sessionID }"></c:if>
+                     	-->
+                     	<form action="BoardServlet.do" method="post">
+		          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
+		    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
+		  						<!-- 댓글 주인 -->
+		  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
+		  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
+		  						<input type="hidden" name="boardNo" value="${list.board_no }">
+		  						<input type="hidden" name="groupNo" value="${list.group_no }">
+		  						<input type="hidden" name="command" value="delComment">
+		  						<input type="submit" value="댓글 삭제">
+		  					</div>
+	  					</form>
 	  				</c:forEach>
           			</div>	
-	    		
+          			
 	    		<!-- 댓글 입력 부분 -->
 	    		<div class="card-footer">
-                  <form action="BoardServlet.do" method="post">
+                  <form id="commentForm" action="BoardServlet.do" method="post">
                   <div class="input-group">
                   	
                   	<!-- 서블릿으로 보내야할 값 boardNo, memNo, Comment -->
@@ -92,7 +124,7 @@ function getSize(obj) {
                   	<input type="hidden" name="boardNo" value="${board.board_no}">
                   	<input type="hidden" name="groupNo" value="${board.group_no }">
                   	
-                  	<input type="text" class="form-control" placeholder="댓글 달기.." aria-label="Recipient's username" aria-describedby="button-addon2" name="comment">
+                  	<input id="commentInput" type="text" class="form-control" placeholder="댓글 달기.." aria-label="Recipient's username" aria-describedby="button-addon2" name="comment">
   						<div class="input-group-append">
     						<button class="btn btn-outline-secondary" type="submit"><img class="linkimg" src="resources/images/send.png"></button>
   						</div>
@@ -101,6 +133,7 @@ function getSize(obj) {
           			</div>
 	    		</div> <!-- end of card -->
 	  		</div> <!-- end of card-group -->
+	  		</c:if>
 	</div> <!-- end of container -->
 
 	

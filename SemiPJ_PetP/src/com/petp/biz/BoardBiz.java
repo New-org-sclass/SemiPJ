@@ -22,4 +22,7 @@ public interface BoardBiz {
 	public BoardDto getBoard(int groupNo);
 	public List<BoardDto> getComments(int groupNo);
 	public int insertComment(BoardDto dto);
+	
+	/* common */
+	public boolean deleteBoard(int boardNo);
 }

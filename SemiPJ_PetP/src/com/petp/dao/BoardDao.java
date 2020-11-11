@@ -52,4 +52,8 @@ public interface BoardDao {
 	public BoardDto getBoard(Connection con, int groupNo);
 	public List<BoardDto> getComments(Connection con, int groupNo);
 	public int addComment(Connection con, BoardDto dto);
+	
+	/* common */
+	String deleteBoardSql = " DELETE FROM BOARD WHERE BOARD_NO = ? ";
+	public boolean deleteBoard(Connection con, int boardNo);
 }
