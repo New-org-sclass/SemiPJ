@@ -2,6 +2,8 @@ package com.petp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.ProcessBuilder.Redirect;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,12 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 import com.petp.biz.MapBiz;
 import com.petp.biz.MapBizImpl;
 import com.petp.dto.MapDto;
 
 @WebServlet("/MapServlet")
+// MapServlet.do
 public class MapServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,35 +29,52 @@ public class MapServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8"); 
 		
 		String command = request.getParameter("command");
-		System.out.println("[Map) command : " + command + "]");
+		System.out.println("[Map command : " + command + "]");
 		
 		MapBiz biz = new MapBizImpl();
 		
-		if(command.equals("mapinsert")) {
+		if(command.equals("######")) {
 			response.sendRedirect("board_main.jsp");
 			
-		}else if(command.equals("#######")) {
+		}else if(command.equals("list")) {
 			List<MapDto> list = biz.selectAll();
 			request.setAttribute("list", list);
-//			dispatch("board_detail.jsp", request, response);
+			request.setAttribute("latlon", list.get(6));
+			dispatch("map_main.jsp", request, response);
+			System.out.println("[command:list] map_main으로 list받으면서 이동");
 			
-			response.sendRedirect("board_detail.jsp");
-
+		}else if(command.equals("selectlist")) {
+			 /*
+			int walk_no = Integer.parseInt(request.getParameter("seq"));
 			
-		} else if(command.equals("mapdelete")) {			
-			String walk_no = request.getParameter("walk_no");
-			int walk_no2 = Integer.parseInt(walk_no);
+			MapDto dto = biz.selectOne(walk_no);
 			
-			MapDto dto = new MapDto(walk_no2);
-
-			int res = biz.insert(dto);
+			String loca = dto.getWalk_loc();
+			System.out.println("loca : " + loca);
 			
-			if(res>0) {
-				jsResponse("댓글 작성 성공","BoardServlet.do?command=list",response);
+			request.setAttribute("locarray", loca);
+			
+			dispatch("MapServlet.do?command=list", request, response);
+			*/
+			
+			//jsResponse("MapServlet.do?command=list", response);
+			
+		}else if(command.equals("insertlist")) {
+			String name = request.getParameter("name");
+			String path = request.getParameter("path");
+			System.out.println("name : " + name);
+			System.out.println("path : " + path);
+			MapDto dto = new MapDto(name, path);
+			
+			boolean res = biz.insert(dto);
+			if(res) {
+				dispatch("MapServlet.do?command=list", request, response);
 			}else {
-				jsResponse("댓글 작성 실패","BoardServlet.do?command=detail",response);
+				jsResponse("입력되지 않았습니다. 다시 입력해주세요.","MapServlet.do?command=list", response);
 			}
-		}
+				
+				
+			}	
 	}
 
 
@@ -63,10 +84,10 @@ public class MapServlet extends HttpServlet {
 		
 	}
 	
-	private void jsResponse(String message, String url, HttpServletResponse response) throws IOException {
+	private void jsResponse(String ale,String url, HttpServletResponse response) throws IOException {
 		String s = "<script type='text/javascript'>"
-					+"alert('"+message+"');"
 					+"location.href='"+url+"';"
+					+"alert('"+ale+"');"
 					+"</script>";
 		PrintWriter out = response.getWriter();
 		out.print(s);

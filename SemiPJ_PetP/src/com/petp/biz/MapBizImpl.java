@@ -21,7 +21,7 @@ public class MapBizImpl implements MapBiz{
 	}
 
 	@Override
-	public int insert(MapDto dto) {
+	public boolean insert(MapDto dto) {
 		return dao.insert(dto);
 	}
 
