@@ -182,7 +182,7 @@
 			div > (img) , (div > h5 p p )  *3
 			*/
 			
-		}
+		} //paging1() 함수 끝.
 		
 		function rend(selectedPage, dataPerPage){
 			// let cgroup = document.getElementsByClassName("card-group");
@@ -275,21 +275,23 @@
 				tag1.remove();
 			}
 			
+			let atagnoInnewsmodal = 0; 
+			
 			$('#newsmodal').on('show.bs.modal', function(event){
 				var atag = $(event.relatedTarget);
-				var no = atag.data('no');
-				newsContentin(no);
-				getCommentInfo(no);
-				$('#commentwrite1').on('click',  function(event){
-					//console.log("testinsert");
-					insertComment(no);
-				});
+				atagnoInnewsmodal = atag.data('no');
+				newsContentin(atagnoInnewsmodal);
+				getCommentInfo(atagnoInnewsmodal);
+
 				//let but1 = "btn btn-light floR";
 				//'#cobox2 p .btn btn-light'
 				
 				
-				
-				
+			});
+			
+			$('#commentwrite1').on('click',  function(event){
+					//console.log("testinsert");
+				insertComment(atagnoInnewsmodal);
 			});
 			
 
@@ -302,7 +304,7 @@
 
 
 
-		}
+		} //rend()함수 끝.
 		
 		
 
@@ -441,7 +443,7 @@
 
 				  </div>
 				  <div id="cobox3">
-				  	<textarea id="commentarea" cols="50" rows="3" placeholder="댓글을 입력해주세요."></textarea>
+				  	<textarea id="commentarea" cols="550" rows="3" placeholder="댓글을 입력해주세요."></textarea>
 					<button type="button" class="btn btn-light" id="commentwrite1" >댓글쓰기</button>
 				  </div>
 			  </div>

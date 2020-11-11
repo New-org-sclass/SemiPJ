@@ -11,6 +11,7 @@ function newsContentin(atagno){
             $(".modal-body").html(html);
             $(".modal-body img").css({"max-width":"100%", "height":"auto", "display": "block", "margin": "0px auto" });
 			console.log("ajax통신 성공! ntitle:"+ cinfo.ntitle);
+
         },
         error: function(){
             alert("통신실패! ajax error!");
