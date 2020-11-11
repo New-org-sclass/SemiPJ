@@ -42,9 +42,9 @@
 
 	// 업로드 이미지 미리보기 처리	
 	var selfile;
-	$(document).ready(function() {
+	window.onload = function () {
 		$("#input_img").on("change", handleImgFileSelect);
-	});
+	}
 	
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
@@ -84,7 +84,7 @@
   				
 	  			<div class="card-header" style="background-color: white;">
 	    			<img src="resources/images/profile.png"> 
-	    			<input type="text" name="memno" value="1" readonly style="border: none;">
+	    			<input type="text" name="memno" value="1" readonly style="border: none; outline: none;">
 	    			<!-- 
 	    			로그인 성공시 서블릿에서 세션 객체 생성
 	    			HttpSession session = request.getSession(true);

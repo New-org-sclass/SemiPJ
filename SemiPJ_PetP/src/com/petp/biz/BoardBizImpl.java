@@ -86,49 +86,43 @@ public class BoardBizImpl implements BoardBiz{
 		return res;
 	}
 
-//	@Override
-//	public List<BoardDto> getBoardDetail(int boardNo) {
-//		return null;
-//	}
-	
-	/* board_detail */
 	@Override
-	public List<BoardDto> selectAll() {
-		return dao.selectAll();
-	}
-
-	@Override
-	public List<BoardDto> selectOne(int group_no) {
-		System.out.println("[BoardBizImpl : selectOne]");
+	public int insertComment(BoardDto dto) {
+		System.out.println("[BoardBizImpl : insertComment]");
 		
 		Connection con = getConnection();
-		List<BoardDto> res = dao.selectOne(con, group_no); 
+		int res = dao.addComment(con, dto);
 		
+		if(res > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
 		return res;
 	}
 
 	@Override
-	public int insert(BoardDto dto) {
-		return dao.insert(dto);
+	public BoardDto getBoard(int groupNo) {
+		System.out.println("[BoardBizImpl : getBoard]");
+		Connection con = getConnection();
+
+		BoardDto board = dao.getBoard(con, groupNo);
+		
+		close(con);
+		return board;
 	}
 
 	@Override
-	public int update(BoardDto dto) {
-		return dao.update(dto);
+	public List<BoardDto> getComments(int groupNo) {
+		System.out.println("[BoardBizImpl : getComments]");
+		Connection con = getConnection();
+		
+		List<BoardDto> res = dao.getComments(con, groupNo); 
+		
+		close(con);
+		return res;
 	}
 
-	@Override
-	public int delete(int board_no) {
-		return dao.delete(board_no);
-	}
-
-	@Override
-	public int insertAnswer(BoardDto dto) {
-		return dao.insertAnswer(dto);
-	}
-
-	@Override
-	public int updateAnswer(int group_no, int group_sq) {
-		return dao.updateAnswer(group_no, group_sq);
-	}
 }

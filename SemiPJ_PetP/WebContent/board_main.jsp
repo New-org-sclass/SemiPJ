@@ -64,9 +64,8 @@
 			}
 	; window.kakaoDemoCallback && window.kakaoDemoCallback() }
 	catch(e) { window.kakaoDemoException && window.kakaoDemoException(e) }
-</script>
 
-<title>PETP</title>
+</script>
 
 <style type="text/css">
 	.uploadimg {
@@ -107,8 +106,15 @@
 	#kakao-link-btn{
 		cursor: pointer;
 	}
+	
+	body {
+   		min-height:100vh;
+   		height: 100%;
+   		width: 100%;
+	}
 </style>
 
+<title>PETP</title>
 </head>
 <body>
 	<jsp:include page="form/header_test.jsp" flush="true" />
@@ -122,7 +128,7 @@
 			</c:if>
 		
 			<c:forEach items="${list }" var="dto" >
-				<div class="card" style="margin-bottom: 30px">
+				<div class="card" style="margin-bottom: 30px; width: 500px">
 					
 					<div class="card-header" style="background-color: white;" onclick="location.href='BoardServlet.do?command=userBoard&board_writer=${dto.board_writer}'">
 	    				<img src="resources/images/profile.png">&nbsp;
@@ -140,7 +146,7 @@
 					
 					<div class="card-footer" style="background-color: white">
 						<!-- 개인 게시글 댓글창으로 넘어가는 버튼-->
-						<a href="BoardServlet.do?command=detail&group_no=${dto.group_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
+						<a href="BoardServlet.do?command=detail&groupNo=${dto.group_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
 						<!-- 카카오톡 공유 버튼-->
 						<a id="kakao-link-btn" onClick="sendLinkDefault('${dto.board_no}', '${dto.file_group}');"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
 	  				</div>

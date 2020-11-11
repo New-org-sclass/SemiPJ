@@ -125,27 +125,36 @@ public class BoardServlet extends HttpServlet {
 	    	
 	    } else if(command.equals("detail")) {
 	    	
-	    	int group_no = Integer.parseInt(request.getParameter("group_no"));
-	    	System.out.println("group_no: " + request.getParameter("group_no"));
+	    	int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+	    	System.out.println("groupNo: " + request.getParameter("groupNo"));
+
+	    	// 본 게시글
+	    	BoardDto board = biz.getBoard(groupNo);
+	    	// 본 게시글의 댓글
+	    	List<BoardDto> list = biz.getComments(groupNo);
 	    	
-	    	List<BoardDto> list = biz.selectOne(group_no);
+	    	request.setAttribute("board", board);
 	    	request.setAttribute("list", list);
-	    	request.setAttribute("group_no", group_no);
-			
+
+	    	request.setAttribute("groupNo", groupNo);
 			dispatch("board_detail.jsp", request, response);
 			
-	    } else if(command.equals("boardwrite")) {	
-			String board_content = request.getParameter("comment_context");
-			
-			dto = new BoardDto(board_content);
-
-			int res = biz.insert(dto);
-			
-			if(res>0) {
-				//jsResponse("댓글 작성 성공","BoardServlet.do?command=detail&" + board_no ,response);
-			}else {
-				jsResponse("댓글 작성 실패","BoardServlet.do?command=detail",response);
-			}
+	    } else if(command.equals("addComment")) {	
+	    	// boardNo, memNo, Comment
+	    	int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+	    	int memNo = Integer.parseInt(request.getParameter("memNo"));
+	    	String comment = request.getParameter("comment");
+	    	int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+	    	
+	    	// dto 저장
+	        dto = new BoardDto(boardNo, memNo, comment);
+	    	
+	    	int res = biz.insertComment(dto);
+	    	if (res>0) {
+	        	jsResponse("You have completed your comment :)", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        } else {
+	        	jsResponse("Failed to write a comment :(", "board_detail.jsp", response);
+	        }
 		}
 	}
 

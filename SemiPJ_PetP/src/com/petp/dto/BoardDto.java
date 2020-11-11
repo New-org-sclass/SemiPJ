@@ -24,6 +24,13 @@ public class BoardDto {
 		this.board_content = board_content;
 	}
 
+	public BoardDto(int board_no, int mem_no, String board_content) {
+		super();
+		this.board_no = board_no;
+		this.mem_no = mem_no;
+		this.board_content = board_content;
+	}
+
 	public BoardDto(int group_sq, int board_tab, int mem_no, String board_content, String board_hashtag,
 			String file_group) {
 		super();
