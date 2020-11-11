@@ -22,7 +22,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
+import com.google.gson.Gson;
 import com.petp.biz.NewsBiz;
+import com.petp.dto.NewsCoDto;
 import com.petp.dto.NewsDto;
 
 @WebServlet("/Newscon")
@@ -55,20 +57,26 @@ public class NewsController extends HttpServlet {
 		System.out.println("command: " + command);
 		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
-	
-		//해야할일 :  insert로직 session연동해서 횟수조절하기.
+		
+		int scnt = (int)request.getSession().getAttribute("test1");
+		scnt += 1;
+		request.getSession().setAttribute("test1", scnt);
 		
 		if (command.equals("news")) {
-			getnewS(nlist);
-			getkoreaS(nlist);
-			newsbiz.insertData(nlist);
+			System.out.println("scnt: "+scnt);
+			if(scnt < 2) {
+				//getnewS(nlist);
+				//getkoreaS(nlist);
+				//newsbiz.insertData(nlist);
+			}
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);
 //			response.sendRedirect("news.jsp");
 			
 		} else if (command.equals("search")) {
-			String word = (String)request.getParameter("word");
+			String word = (String)request.getParameter("search");
+			System.out.println("word is "+word);
 			request.setAttribute("alist",newsbiz.search(word));
 			System.out.println("search header~: "+ response.getHeaderNames());
 			dp("news.jsp",request, response);
@@ -90,7 +98,55 @@ public class NewsController extends HttpServlet {
 			rp.print(json1.toJson());
 //			dp("newsdetail.jsp", request, response);
 			
+		} else if(command.equals("test1")) {
+			//int test1 = (int)request.getSession().getAttribute("test1");
+			System.out.println("test1 is "+scnt);
+			request.getSession().setAttribute("tre1", "test1의 값");
+			request.getSession().setAttribute("tre2", "test22222222의 값");
+			
+			dp("newsdetail.jsp", request, response);
+			
+		} else if(command.equals("incomment")) {
+			String jscomment = request.getParameter("jscomment");
+			Gson inputgs = new Gson();
+//			String st1 = inputgs.from
+			NewsCoDto tmpcom = inputgs.fromJson(jscomment, NewsCoDto.class);
+			tmpcom.setWriter((String)request.getSession().getAttribute("mem_id"));//이부분 완성되어야함.
+			System.out.println("tmpcom's writer(mem_id): "+tmpcom.getWriter());
+			System.out.println("tmpcom: "+tmpcom);
+			int res = newsbiz.insertCo(tmpcom);
+			
+			if(res>0) {
+				System.out.println("comment sucessfully inserted");
+			} else {
+				System.out.println("comment insert fail~");
+			}
+			
+		} else if(command.equals("outcomment")) {
+			System.out.println(request.getParameter("newsno"));
+			int newsno = Integer.parseInt(request.getParameter("newsno"));
+			List<NewsCoDto> clist = newsbiz.selCo(newsno);
+			Gson gs1 = new Gson();
+			String st1 = gs1.toJson("dfdf:dfdf, aaaa:bbbbbb");
+			System.out.println(st1);
+			String st2 = gs1.toJson(clist);
+			System.out.println(st2);
+			PrintWriter out = response.getWriter();
+			out.print(st2);
+			
+		} else if(command.equals("delcomment")) {
+			int commentno = Integer.parseInt(request.getParameter("commentno"));
+			System.out.println("commentno is" + commentno);
+			int res = newsbiz.deleteCo(commentno);
+			
+			if(res>0) {
+				System.out.println(commentno+"번 comment 삭제 성공");
+			} else {
+				System.out.println(commentno+"번 comment 삭제 실패...");
+			}
+			
 		}
+		
 
 	}
 	
