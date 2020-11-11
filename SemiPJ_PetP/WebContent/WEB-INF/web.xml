@@ -31,4 +31,34 @@
   	<url-pattern>/Newscon.do</url-pattern>
   </servlet-mapping>  
   
+  <servlet>
+    <servlet-name>ChatSubmitServlet</servlet-name>
+    <servlet-class>chat.ChatSubmitServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ChatSubmitServlet</servlet-name>
+    <url-pattern>/chatSubmitServlet</url-pattern>
+  </servlet-mapping>
+ 
+ <servlet>
+    <servlet-name>ChatListServlet</servlet-name>
+    <servlet-class>chat.ChatListServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ChatListServlet</servlet-name>
+    <url-pattern>/chatListServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MemberServlet</servlet-name>
+    <servlet-class>com.petp.controller.MemberServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MemberServlet</servlet-name>
+    <url-pattern>/member.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

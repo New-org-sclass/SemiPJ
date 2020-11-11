@@ -76,54 +76,64 @@ public class BoardBizImpl implements BoardBiz{
 	}
 
 	@Override
-	public List<BoardDto> selectUserBoard(String memName) {
+	public List<BoardDto> selectUserBoard(String memName, int page) {
 		System.out.println("[BoardBizImpl : selectUserBoard]");
 		
 		Connection con = getConnection();
-		List<BoardDto> res = dao.userBoardList(con, memName); 
+		List<BoardDto> res = dao.userBoardList(con, memName, page); 
 		
 		close(con);
 		return res;
 	}
 
-//	@Override
-//	public List<BoardDto> getBoardDetail(int boardNo) {
-//		return null;
-//	}
-	
-	/* board_detail */
 	@Override
-	public List<BoardDto> selectAll() {
-		return dao.selectAll();
+	public int insertComment(BoardDto dto) {
+		System.out.println("[BoardBizImpl : insertComment]");
+		
+		Connection con = getConnection();
+		int res = dao.addComment(con, dto);
+		
+		if(res > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		return res;
 	}
 
 	@Override
-	public BoardDto selectOne(int board_no) {
-		return dao.selectOne(board_no);
+	public BoardDto getBoard(int groupNo) {
+		System.out.println("[BoardBizImpl : getBoard]");
+		Connection con = getConnection();
+
+		BoardDto board = dao.getBoard(con, groupNo);
+		
+		close(con);
+		return board;
 	}
 
 	@Override
-	public int insert(BoardDto dto) {
-		return dao.insert(dto);
+	public List<BoardDto> getComments(int groupNo) {
+		System.out.println("[BoardBizImpl : getComments]");
+		Connection con = getConnection();
+		
+		List<BoardDto> res = dao.getComments(con, groupNo); 
+		
+		close(con);
+		return res;
 	}
 
 	@Override
-	public int update(BoardDto dto) {
-		return dao.update(dto);
+	public boolean deleteBoard(int boardNo) {
+		System.out.println("[BoardBizImpl : deleteBoard]");
+		Connection con = getConnection();
+		
+		boolean res = dao.deleteBoard(con, boardNo); 
+		
+		close(con);
+		return res ;
 	}
 
-	@Override
-	public int delete(int board_no) {
-		return dao.delete(board_no);
-	}
-
-	@Override
-	public int insertAnswer(BoardDto dto) {
-		return dao.insertAnswer(dto);
-	}
-
-	@Override
-	public int updateAnswer(int group_no, int group_sq) {
-		return dao.updateAnswer(group_no, group_sq);
-	}
 }
