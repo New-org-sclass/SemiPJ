@@ -7,7 +7,6 @@ import com.petp.dto.BoardDto;
 
 public interface BoardDao {
 	
-	
 	/* board_main & board_add & board_user */
 	public String insertFileSql = " INSERT INTO BPIC VALUES(BPICNO.NEXTVAL, ?, ?) ";
 	public String insertBoardSql = " INSERT INTO BOARD VALUES(BOARDNOSQ.NEXTVAL, GROUPNOSQ.NEXTVAL, ?, ?, "
@@ -35,7 +34,6 @@ public interface BoardDao {
 	public List<BoardDto> boardList(Connection con, String search, int page);
 	public int boardCount(Connection con, String search);
 	public List<BoardDto> userBoardList(Connection con, String memName, int page);
-
 	
 	/* board_detail */
 	String getBoardSql = " select * from board where group_no=? and group_sq =1 ";
