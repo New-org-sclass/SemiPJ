@@ -40,6 +40,7 @@
 		margin: auto;
 	}
 </style>
+
 <script type="text/javascript">
 // 이미지의 크기만큼 div의 maxheight 설정
 function getSize(obj) {
@@ -47,8 +48,6 @@ function getSize(obj) {
 	
 	document.getElementsByClassName('card')[0].style.setProperty ("max-height", imgheight+"px");
 }
-
-
 
 // httpRequest 객체 생성
 function getXMLHttpRequest(){
@@ -69,41 +68,6 @@ function getXMLHttpRequest(){
     return httpRequest;    
 }
 
-// 댓글 삭제 alert
-function delCommentAlert(boardNo) {
-	var msg = confirm("Delete comment");
-	if(msg == true) {
-		// 확인 클릭
-		delComment(boardNo);
-	} else {
-		return false;
-	}
-}
-
-var httpRequest = null;
-// 댓글 삭제
-function delComment(boardNo, groupNo) {
-	alert(boardNo);
-	alert(groupNo);
-	var params = "boardNo=" + boardNo + "&groupNo=" + groupNo;
-	
-	httpRequest = getXMLHttpRequest();
-	httpRequest.onreadystatechange = checkFunc;
-	httpRequest.open("POST", "BoardServlet.do?command=delComment", true);
-	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=EUC-KR'); 
-    httpRequest.send(params);
-}
-function checkFunc() {
-	// 데이터를 전부 받은 상태라면
-	if(httpRequest.readyState == 4) {
-		// 서버의 응답을 텍스트 문자열로 반환
-		var result = httpRequest.responseText;
-		// 반환 실패
-		if(result == 1) {
-			document.location.reload();
-		}
-	}
-}
 </script>
 </head>
 
@@ -112,11 +76,7 @@ function checkFunc() {
 	
 	<main role="main" style="padding-top: 150px; padding-bottom: 100px; background-color: #fffff9; ">
 	<div class="container">	
-			
-			<c:if test="${empty list }">
-			<p>현재 데이터가 없습니다.</p>
-			</c:if>
-			
+
 			<c:if test="${list ne null }">
 			<div class="card-group">
 				<!-- 게시글 보여주는 부분 -->
@@ -135,17 +95,24 @@ function checkFunc() {
           			<div class="card-body overflow-auto">
           			<c:forEach items="${list }" var="list" >
                         &nbsp;&nbsp;
-                     	
-	          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
-	    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
-	  						<!-- 댓글 주인 -->
-	  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
-	  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
-	  						<input type="button" onclick="delCommentAlert(${list.board_no}, '${list.group_no }');" value="댓글 삭제">
-	  					</div>
+                     	<!-- 댓글 작성자만 삭제 가능하도록 
+                     	<c:if test="${list.board_writer == session.sessionID }"></c:if>
+                     	-->
+                     	<form action="BoardServlet.do" method="post">
+		          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
+		    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
+		  						<!-- 댓글 주인 -->
+		  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
+		  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
+		  						<input type="hidden" name="boardNo" value="${list.board_no }">
+		  						<input type="hidden" name="groupNo" value="${list.group_no }">
+		  						<input type="hidden" name="command" value="delComment">
+		  						<input type="submit" value="댓글 삭제">
+		  					</div>
+	  					</form>
 	  				</c:forEach>
           			</div>	
-	    		
+          			
 	    		<!-- 댓글 입력 부분 -->
 	    		<div class="card-footer">
                   <form id="commentForm" action="BoardServlet.do" method="post">

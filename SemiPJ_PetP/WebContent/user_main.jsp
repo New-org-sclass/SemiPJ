@@ -41,7 +41,7 @@
 		<div class="container">
 			
 			<!-- 프로필 사진 -->
-			<img src="resources/images/profile.png" class="rounded mx-auto d-block profileimg" alt="profile_photo">
+			<img src="resources/images/profile.png" class="rounded mx-auto d-block profileimg rounded-circle" alt="profile_photo">
 			<br>
 			
 			<!-- 프로필명 -->
