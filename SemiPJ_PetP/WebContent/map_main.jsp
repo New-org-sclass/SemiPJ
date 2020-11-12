@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -164,8 +165,8 @@
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="dto" items="${list }"  varStatus="status">
-									<tr style="text-align:center; cursor:hand" onclick="drawmap();">
-										<td> ${fn:length(list)-status.index}</td>
+									<tr style="text-align:center; cursor:Pointer;" onclick="location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }'; checkpls();" >
+										<td>${fn:length(list)-status.index}</td>
 										<td>${dto.walk_name }</td>
 										<td>${dto.walk_writer }</td>
 										<td>${dto.walk_dong }</td>
@@ -239,38 +240,58 @@ this.title = (i+1) + '번째 최근글';
 //**************************************/
 //**************************************/
 //**************************************/
+<% boolean checking = false; %>
+<% String latlon_res = "값없음";%>
 
-$(window).on('load', function(){
-	
-});
+var pathlatlon ;
 
-function drawmap(){
-	
-	<%String latlon = (String)request.getAttribute("latlon");%>
-	console.log(<%=latlon%>);
+function checkpls(){
+	<%
+	checking = true;
+	%>
+}
 
+window.onload = function(){
 	
-	var liPath = [
-		new kakao.maps.LatLng(33.452344169439975, 126.56878163224233),
-		new kakao.maps.LatLng(33.452739313807456, 126.5709308145358),
-		new kakao.maps.LatLng(33.45178067090639, 126.5726886938753)
-	];
+	<% if(checking){ %>
+	console.log("drawmap()실행!");
+	 <%
+	 latlon_res = (String)session.getAttribute("latlon");
+	System.out.println("latlon_res : " + latlon_res);
+	String[] latlon = latlon_res.split("\\),\\(") ; 
+	for(int i=0; i<latlon.length;i++){
+		System.out.println("latlon[] : " + latlon[i]);
+	}
 	
+	
+	%> 
+		for (var i = 0; i < latlon.length; i++) {
+			
+		}
+	
+		pathlatlon = new kakao.maps.LatLng(latlon[i]);
+		
+		console.log("pathlatlon : " + pathlatlon);
+		
 	poly1 = new kakao.maps.Polyline({
-        map: map, // 선을 표시할 지도입니다 
-        path: liPath, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
-        strokeWeight: 3, // 선의 두께입니다 
-        strokeColor: '#db4040', // 선의 색깔입니다
-        strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid' // 선의 스타일입니다
-    });
-
-    
-    console.log("poly1.getPath() : " + poly1.getPath());
-    poly1.setMap(map); // 지도에 올린다.
-    
-    // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
-
+	    map: map, // 선을 표시할 지도입니다 
+	    path: latlon, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+	    strokeWeight: 3, // 선의 두께입니다 
+	    strokeColor: '#db4040', // 선의 색깔입니다
+	    strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+	    strokeStyle: 'solid' // 선의 스타일입니다
+	});
+	
+	
+	console.log("poly1.getPath() : " + poly1.getPath());
+	poly1.setMap(map); // 지도에 올린다.
+	
+	// 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
+	
+	<% 
+	checking = false;
+	} 
+	%>
 
 }
 
@@ -290,7 +311,7 @@ function drawmap(){
 
 function drawin(){
 	document.getElementById("writetable").style.display="block";
-	document.getElementById('foucsplease').scrollIntoView();
+	//document.getElementById('foucsplease').scrollIntoView();
 	document.getElementById('foucsplease').focus();
 
 	document.getElementById("focusplz").style.display="none";

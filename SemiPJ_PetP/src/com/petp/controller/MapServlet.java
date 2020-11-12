@@ -12,7 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
+
+import org.apache.catalina.Session;
 
 import com.petp.biz.MapBiz;
 import com.petp.biz.MapBizImpl;
@@ -39,23 +42,30 @@ public class MapServlet extends HttpServlet {
 		}else if(command.equals("list")) {
 			List<MapDto> list = biz.selectAll();
 			request.setAttribute("list", list);
-			request.setAttribute("latlon", list.get(6));
+			
 			dispatch("map_main.jsp", request, response);
-			System.out.println("[command:list] map_main으로 list받으면서 이동");
 			
 		}else if(command.equals("selectlist")) {
-			 /*
+			 
 			int walk_no = Integer.parseInt(request.getParameter("seq"));
 			
 			MapDto dto = biz.selectOne(walk_no);
 			
 			String loca = dto.getWalk_loc();
-			System.out.println("loca : " + loca);
+			System.out.println("dto.getWalk_loc() : " + loca);
 			
-			request.setAttribute("locarray", loca);
+			
+			String loca_res = loca.substring(1, loca.length()-1);
+			System.out.println("loca_res : " + loca_res);
+			
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("latlon", loca_res);
+			
+			//request.setAttribute("latlon", loca_res);
 			
 			dispatch("MapServlet.do?command=list", request, response);
-			*/
+			
 			
 			//jsResponse("MapServlet.do?command=list", response);
 			
