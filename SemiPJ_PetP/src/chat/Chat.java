@@ -1,16 +1,15 @@
 package chat;
 
-import java.util.Date;
 
 public class Chat {
 	 int seq;
      String chatName;
      String chatContent;
-     Date regdate;
+     String regdate;
 	public Chat() {
 		super();
 	}
-	public Chat(int seq, String chatName, String chatContent, Date regdate) {
+	public Chat(int seq, String chatName, String chatContent, String regdate) {
 		super();
 		this.seq = seq;
 		this.chatName = chatName;
@@ -35,10 +34,10 @@ public class Chat {
 	public void setChatContent(String chatContent) {
 		this.chatContent = chatContent;
 	}
-	public Date getRegdate() {
+	public String getRegdate() {
 		return regdate;
 	}
-	public void setRegdate(Date regdate) {
+	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
 	
