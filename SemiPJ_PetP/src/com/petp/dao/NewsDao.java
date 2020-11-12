@@ -177,7 +177,7 @@ public class NewsDao {
 		int res = 0; //member id 는 이 밑에 where mem_no = 1 << 여기부분을 바꿔줘야한다! 
 		String sql = " insert into newscomment values(newscommentnosq.nextval, ?,newscommentgroupnosq.nextval, "
 				+ "1, (select mem_id from member where mem_no = 1) ,?, "
-				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm:ss') from dual) ) ";
+				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm') from dual) ) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);

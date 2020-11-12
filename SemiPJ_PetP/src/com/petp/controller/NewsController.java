@@ -32,15 +32,6 @@ public class NewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	NewsBiz newsbiz = new NewsBiz();
 
-	private int newsno = 0;
-	private int bno = 0;	//보드넘
-	private String title = "";
-	private String nurl = "";
-	private String summary = "";
-	private String content = "";
-	private String img = "";
-	private String date = ""; 
-
 	private Document naver = null;
 	private Document korea = null;
 	private Connection conj = null;
@@ -62,9 +53,9 @@ public class NewsController extends HttpServlet {
 		scnt += 1;
 		request.getSession().setAttribute("test1", scnt);
 		
-		if (command.equals("news")) {
+		if (command.equals("news")) {	//뉴스 메인 화면 ㄱㄱ
 			System.out.println("scnt: "+scnt);
-			if(scnt < 2) {
+			if(scnt < 2) {				//session test1의 값(페이지 새로고침수)에 따라 크롤링 로드율 감소
 				//getnewS(nlist);
 				//getkoreaS(nlist);
 				//newsbiz.insertData(nlist);
@@ -74,14 +65,14 @@ public class NewsController extends HttpServlet {
 			dp("news.jsp",request, response);
 //			response.sendRedirect("news.jsp");
 			
-		} else if (command.equals("search")) {
+		} else if (command.equals("search")) {	//뉴스 검색
 			String word = (String)request.getParameter("search");
 			System.out.println("word is "+word);
 			request.setAttribute("alist",newsbiz.search(word));
 			System.out.println("search header~: "+ response.getHeaderNames());
 			dp("news.jsp",request, response);
 			
-		} else if (command.equals("detail")) {
+		} else if (command.equals("detail")) {	//뉴스본문 출력
 			int no = Integer.parseInt(request.getParameter("newsno"));
 			NewsDto tmp = newsbiz.pnewsOne(no);
 //			request.setAttribute("newsone", newsbiz.pnewsOne(no));
@@ -98,7 +89,7 @@ public class NewsController extends HttpServlet {
 			rp.print(json1.toJson());
 //			dp("newsdetail.jsp", request, response);
 			
-		} else if(command.equals("test1")) {
+		} else if(command.equals("test1")) {	//newsdetail session test부문
 			//int test1 = (int)request.getSession().getAttribute("test1");
 			System.out.println("test1 is "+scnt);
 			request.getSession().setAttribute("tre1", "test1의 값");
@@ -106,7 +97,7 @@ public class NewsController extends HttpServlet {
 			
 			dp("newsdetail.jsp", request, response);
 			
-		} else if(command.equals("incomment")) {
+		} else if(command.equals("incomment")) {	//댓글 입력
 			String jscomment = request.getParameter("jscomment");
 			Gson inputgs = new Gson();
 //			String st1 = inputgs.from
@@ -122,7 +113,7 @@ public class NewsController extends HttpServlet {
 				System.out.println("comment insert fail~");
 			}
 			
-		} else if(command.equals("outcomment")) {
+		} else if(command.equals("outcomment")) {	//댓글 출력
 			System.out.println(request.getParameter("newsno"));
 			int newsno = Integer.parseInt(request.getParameter("newsno"));
 			List<NewsCoDto> clist = newsbiz.selCo(newsno);
@@ -134,7 +125,7 @@ public class NewsController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print(st2);
 			
-		} else if(command.equals("delcomment")) {
+		} else if(command.equals("delcomment")) {	//댓글 삭제
 			int commentno = Integer.parseInt(request.getParameter("commentno"));
 			System.out.println("commentno is" + commentno);
 			int res = newsbiz.deleteCo(commentno);
@@ -155,7 +146,7 @@ public class NewsController extends HttpServlet {
 		dp.forward(request, response);
 	}
 
-	public void getnewS(List<NewsDto> nlist) {
+	public void getnewS(List<NewsDto> nlist) {	//뉴스 메인의 값을 불러오는 함수. 데이터 수집.
 		String naverurl = "https://search.naver.com/search.naver?";
 		String naverparams = "&where=news&query=%EB%B0%98%EB%A0%A4%EB%8F%99%EB%AC%BC" 
 								+ "&sm=tab_pge&sort=0&photo=0"
@@ -167,7 +158,7 @@ public class NewsController extends HttpServlet {
 				naver = conj.get(); // get(): createnewObject 고로 conj재활용가능
 
 				
-				for(int f=0; f<10; f++) {
+				for(int f=0; f<10; f++) {	//데이터를 가져오는 숫자 조절란.
 					Element t1 = naver.select(".list_news > li").get(f);
 					System.out.println("각 기사의 첫번째!!");
 					String titleEl = t1.selectFirst(".news_area > .news_tit").text();
@@ -209,7 +200,7 @@ public class NewsController extends HttpServlet {
 	}
 	
 	
-	public void getkoreaS(List<NewsDto> nlist) {
+	public void getkoreaS(List<NewsDto> nlist) {	//2번째 신문사(백업)의 값을 가져오는 함수.
 //		List<NewsDto> klist = new ArrayList<NewsDto>();
 		String korearec1 = "http://www.koreadognews.co.kr/news/index.php?code=20140925141441_2377&page_rows=3&page=1#bottom_list";
 		conj = Jsoup.connect(korearec1);
@@ -226,7 +217,7 @@ public class NewsController extends HttpServlet {
 		
 		
 		try {
-			for(int i=0; i<20; i++) { //50ea
+			for(int i=0; i<20; i++) { //가져오는 데이터의 개수를 조절.
 				String koreaurl = "http://www.koreadognews.co.kr/news/view.php?no="+(recentno-i);
 				conj = Jsoup.connect(koreaurl);
 				korea = conj.get(); 
@@ -270,7 +261,7 @@ public class NewsController extends HttpServlet {
 	}
 	
 	
-	public Date StToDate(String date) {
+	public Date StToDate(String date) {	//sql입력용 날짜 변환
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy.MM.dd");
 		try {
 			return sf.parse(date);

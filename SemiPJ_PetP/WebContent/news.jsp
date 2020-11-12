@@ -47,6 +47,10 @@
 		.wid{
 			width: 100%;
 		}
+		.RA{
+			right: 90px;
+			position: absolute;
+		}
 		#commentwrite1{
 			float: right;		
 		}
@@ -184,7 +188,7 @@
 			
 		} //paging1() 함수 끝.
 		
-		function rend(selectedPage, dataPerPage){
+		function rend(selectedPage, dataPerPage){ //페이지 내 데이터 만들기.
 			// let cgroup = document.getElementsByClassName("card-group");
 			//let megroup = document.getElementsByClassName("list-unstyled");
 			let stdata = (selectedPage*dataPerPage)-dataPerPage;
@@ -253,7 +257,7 @@
 
 			$('a[name="atag"]').css({"text-decoration":"none", "color":"black"})
 
-			function aadd(classname, i, aurl){
+			function aadd(classname, i, aurl){ //a tag들을 페이지내의 데이터들에 추가.
 				let tag1 = classname[i];
 				let link = document.createElement('a');
 					if(tag1.parentNode.getAttribute('name') == 'atag'  ){
@@ -277,7 +281,7 @@
 			
 			let atagnoInnewsmodal = 0; 
 			
-			$('#newsmodal').on('show.bs.modal', function(event){
+			$('#newsmodal').on('show.bs.modal', function(event){ //뉴스 본문을 실행하는 이벤트처리.
 				var atag = $(event.relatedTarget);
 				atagnoInnewsmodal = atag.data('no');
 				newsContentin(atagnoInnewsmodal);
@@ -289,7 +293,7 @@
 				
 			});
 			
-			$('#commentwrite1').on('click',  function(event){
+			$('#commentwrite1').on('click',  function(event){ //본문 내에서 댓글쓰기 이벤트를 처리.
 					//console.log("testinsert");
 				insertComment(atagnoInnewsmodal);
 			});
@@ -307,9 +311,6 @@
 		} //rend()함수 끝.
 		
 		
-
-
-
 
 /* 	    $("document").ready(function(){        
 	        paging1(totalData, dataPerPage, pagePerscreen, 1);
