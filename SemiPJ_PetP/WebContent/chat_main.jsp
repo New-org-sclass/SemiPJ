@@ -8,11 +8,33 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
 <title>채팅채팅</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
+ var lastSEQ = 0;  
+ 
+function chatListFunction(type){
+   	 $.ajax({
+  		  method: "post",
+  		  url: "./chatListServlet",
+  		  data: {
+  			  listType: type,
+  			  
+  		 },
+  	     success: function(data){
+  	    	 if(data == "") 
+  	    		 return;
+  	    	var parsed =JSON.parse(data);
+  	    	var result = parsed.result;
+  	    	for(var i = 0; i < result.length; i++){
+  	    		addChat(result[i][0].value, result[i][1].value, result[i][2].value);
+  	    	}
+  	    	lastSEQ = Number(parsed.last);     
+  	     }
+  	   });
+    }
+ 
  function submitFunction(){
-	 alert("submitFunction");
 	 var chatName = $('#chatName').val();
 	 var chatContent = $('#chatContent').val();
 	 $.ajax({
@@ -20,16 +42,16 @@
 		  url: "./chatSubmitServlet",
 		  data: {
 			  
-			  chatName: chatName,
-			  chatContent: chatContent
+			  chatName: encodeURIComponent(chatName),
+			  chatContent: encodeURIComponent(chatContent)     //encodeURIComponent 특수문자가능하게
 		 },
 	     success: function(result){  //전송 성공
 	    	 if(result == 1){
-	    		 autoClosingAlert('#successMessage', 2000); //2초뒤에 지워지게    
+	    		 autoClosingAlert('#successMessage', 1500); //1.5초뒤에 지워지게    
 	    	 }else if(result == 0){
-                 autoClosingAlert('#dangerMessage', 2000);  //글자 0이면 실패 둘다입력하세요
+                 autoClosingAlert('#dangerMessage', 1500);  //글자 0이면 실패 둘다입력하세요
 	    	 }else {
-                 autoClosingAlert('#warningMesseage', 2000); 
+                 autoClosingAlert('#warningMesseage', 1500); 
 	    	 }
 	     }
 	 });
@@ -40,26 +62,10 @@
         	 alert.show();
         	 window.setTimeout(function() {alert.hide()},delay);
          }
-         function chatListFuntion(type){
-        	 $.ajax({
-       		  method: "post",
-       		  url: "./chatListServlet",
-       		  data: {
-       			  listType: type,
-       			  
-       		 },
-       	     success: function(data){
-       	    	 console.log(data);
-       	    	var parsed =JSON.parse(data);
-       	    	var result = parsed.result;
-       	    	for(var i = 0; i < result.length; i++){
-       	    		addChat(result[i][0].value, result[i][1].value, result[i][2].value);
-       	    	
-       	    	}
-       	     }
-       	   });
-         }
+         
          function addChat(chatName, chatContent, regdate){
+        	
+          	
         	 $('#chatList').append('<div class="row">' +
         			 '<div class="col-lg-12">' +
                      '<div class="media">' +
@@ -70,7 +76,7 @@
                      '<h4 class="media-heading">' +
                      chatName +
                      '<span class="small pull-right">' +
-                     regdate +
+                     regdate + 
                      '</span>' +
                      '</h4>' +
                      '<p>' +
@@ -81,8 +87,26 @@
                      '</div>' +
                      '</div>' +
                      '<hr>');
-            
+        	 
+        	$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
          }
+         
+         window.onload = function() { 
+        	 var type="ten";
+        	 chatListFunction(type);
+        	 getInfiniteChat();  
+        };
+         function getInfiniteChat(){
+        	 setInterval(function(){
+        		 chatListFunction(lastSEQ);
+        	 }, 1000);
+         }   
+         
+          
+            
+     	
+     
+     
 </script>
 </head>
 <body>
@@ -104,7 +128,7 @@
                     <div class="row">
                      <div class="form-group col-xs-4">
                                <input style="height: 40px;" type="text" id="chatName" class="form-control" placeholder="이름" maxlength="8">             
-                  </div>
+                   </div>
                    </div>
                         <div class="row" style="height: 90px">
                        <div class="form-group col-xs-10">
@@ -112,7 +136,7 @@
                      </div>
                      <div class="form-group col-xs-2">
                          <button type="button" class="btn btn-default pull-right" onclick="submitFunction();">전송</button>
-                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>                                              
                      </div>
                   </div>
                 </div>
@@ -131,6 +155,6 @@
         <strong>데이터베이스 오류가 발생했습니다.</strong>
     </div>    
     </div>
-    <button type="button" class="btn btn-default pull-right" onclick="chatListFuntion('today');">추가</button>
+     <button type="button" class="btn btn-default pull-right" onclick="chatListFuntion('ten'); ">이전내용불러오기</button> 
 </body>
 </html>
