@@ -26,7 +26,8 @@ public interface BoardDao {
 	public String selectUserBoardSql = 
 			" SELECT * FROM "
 			+ " (SELECT ROWNUM AS RNUM, BRD.* "
-			+ " FROM (SELECT * FROM BOARD WHERE BOARD_WRITER = ? ORDER BY BOARD_REGDATE DESC) BRD) "
+			+ " FROM (SELECT * FROM BOARD WHERE BOARD_WRITER = ? and group_sq =1 "
+			+ " ORDER BY BOARD_REGDATE DESC) BRD) "
 			+ " WHERE RNUM BETWEEN ? AND ? ";
 	
 	
@@ -54,6 +55,9 @@ public interface BoardDao {
 	public int addComment(Connection con, BoardDto dto);
 	
 	/* common */
-	String deleteBoardSql = " DELETE FROM BOARD WHERE BOARD_NO = ? ";
+	String deleteCommentSql = " DELETE FROM BOARD WHERE BOARD_NO = ? ";
+	String deleteBoardSql = " DELETE FROM BOARD WHERE GROUP_NO = ? ";
+	
+	public boolean deleteComment(Connection con, int boardNo);
 	public boolean deleteBoard(Connection con, int boardNo);
 }

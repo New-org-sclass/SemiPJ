@@ -64,7 +64,4 @@ public class MemberDto {
 	public void setMemenabled(String memenabled) {
 		this.memenabled = memenabled;
 	}
-	
-	
-	
 }

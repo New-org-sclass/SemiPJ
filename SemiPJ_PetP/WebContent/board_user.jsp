@@ -54,12 +54,12 @@
 				<p>현재 데이터가 없습니다.</p>
 			</c:if>
 			
-			<div class="card-group" >
+			<div class="row" >
 				<c:forEach items="${list }" var="dto" >
-					<div class="card" >
+					<div class="col" style="margin-top: 30px;">
 				    	<!-- 사용자가 올린 사진만 보여줌 -->
 				    	<a href="BoardServlet.do?command=detail&groupNo=${dto.group_no }" >
-				    		<img src="./resources/board_uploadimg/${dto.file_group }" class="card-img-top uploadimg" >
+				    		<img src="./resources/board_uploadimg/${dto.file_group }" class="uploadimg" >
 				    	</a>
 				    </div>
 				</c:forEach>

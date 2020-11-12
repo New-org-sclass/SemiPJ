@@ -87,6 +87,11 @@ function getXMLHttpRequest(){
 	   			<!-- 댓글 보여주는 부분 -->
 	    		<div class="card">
 		    		<div class="card-header">
+		    			<button type="button" class="close" aria-label="Close" style="outline: none;" 
+		    					onclick="location.href='BoardServlet.do?command=delBoard&groupNo=${board.group_no }&board_writer=관리자'">
+	  						<span aria-hidden="true">&times;</span>
+						</button>
+									
     					<img src="resources/images/profile.png" class="profileimg ">&nbsp; 
     					<!-- 게시글 주인 -->
     					<input class="bg-light font-weight-bold" type="text" name="memno" value="${board.board_writer }" readonly style="border: none; outline: none;">
@@ -94,24 +99,28 @@ function getXMLHttpRequest(){
           		
           			<div class="card-body overflow-auto">
           			<c:forEach items="${list }" var="list" >
-                        &nbsp;&nbsp;
                      	<!-- 댓글 작성자만 삭제 가능하도록 
                      	<c:if test="${list.board_writer == session.sessionID }"></c:if>
                      	-->
-                     	<form action="BoardServlet.do" method="post">
-		          			<div class="card-answer-user" id="comments" style="background-color: #f5f5dc;">
-		    					<img src="resources/images/profile.png" class="profileimg">&nbsp; 
-		  						<!-- 댓글 주인 -->
-		  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; ">
-		  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; display: block; margin-left: 40px;">
-		  						<input type="hidden" name="boardNo" value="${list.board_no }">
-		  						<input type="hidden" name="groupNo" value="${list.group_no }">
-		  						<input type="hidden" name="command" value="delComment">
-		  						<input type="submit" value="댓글 삭제">
-		  					</div>
-	  					</form>
+	                     	<form action="BoardServlet.do" method="post">
+			          			<div class="badge rounded-pill text-wrap " id="comments" style="background-color: #f5f5dc; width: 100%; padding: 10px 10px; margin-bottom: 10px;">
+								
+			    					<img src="resources/images/profile.png" class="profileimg">
+			  						<!-- 댓글 주인 -->
+			  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; background-color: #f5f5dc; ">
+			  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; background-color: #f5f5dc;">
+			  						<input type="text" value="${list.board_regdate }"readonly style="border: none; outline: none; background-color: #f5f5dc;">
+			  						<input type="hidden" name="boardNo" value="${list.board_no }">
+			  						<input type="hidden" name="groupNo" value="${list.group_no }">
+			  						<input type="hidden" name="command" value="delComment">
+			  									          			
+				          			<button type="submit" class="close" aria-label="Close" style="outline: none;">
+	  									<span aria-hidden="true">&times;</span>
+									</button>
+			  					</div>
+		  					</form>
 	  				</c:forEach>
-          			</div>	
+          			</div>
           			
 	    		<!-- 댓글 입력 부분 -->
 	    		<div class="card-footer">

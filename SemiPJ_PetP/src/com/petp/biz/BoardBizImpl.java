@@ -126,11 +126,22 @@ public class BoardBizImpl implements BoardBiz{
 	}
 
 	@Override
-	public boolean deleteBoard(int boardNo) {
+	public boolean deleteComment(int boardNo) {
+		System.out.println("[BoardBizImpl : deleteComment]");
+		Connection con = getConnection();
+		
+		boolean res = dao.deleteComment(con, boardNo); 
+		
+		close(con);
+		return res ;
+	}
+
+	@Override
+	public boolean deleteBoard(int groupNo) {
 		System.out.println("[BoardBizImpl : deleteBoard]");
 		Connection con = getConnection();
 		
-		boolean res = dao.deleteBoard(con, boardNo); 
+		boolean res = dao.deleteBoard(con, groupNo); 
 		
 		close(con);
 		return res ;

@@ -305,7 +305,38 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public boolean deleteBoard(Connection con, int boardNo) {
+	public boolean deleteComment(Connection con, int boardNo) {
+		System.out.println("[BoardDaoImpl : deleteComment]");
+
+		PreparedStatement pstm = null;
+		int res = 0;
+		
+		try {
+			pstm = con.prepareStatement(deleteCommentSql);
+			System.out.println("03.query 준비 : " + deleteCommentSql);
+			System.out.println(boardNo);
+			pstm.setInt(1, boardNo);
+			
+			res = pstm.executeUpdate();
+			System.out.println("04.query 실행 및 리턴");
+			
+			if(res > 0) {
+				commit(con);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("3/4단계 오류");
+			e.printStackTrace();
+		} finally {
+			close(pstm);
+			System.out.println("05.db 종료\n");
+		}
+
+		return (res>0) ? true : false;
+	}
+
+	@Override
+	public boolean deleteBoard(Connection con, int groupNo) {
 		System.out.println("[BoardDaoImpl : deleteBoard]");
 
 		PreparedStatement pstm = null;
@@ -314,8 +345,8 @@ public class BoardDaoImpl implements BoardDao{
 		try {
 			pstm = con.prepareStatement(deleteBoardSql);
 			System.out.println("03.query 준비 : " + deleteBoardSql);
-			System.out.println(boardNo);
-			pstm.setInt(1, boardNo);
+			System.out.println(groupNo);
+			pstm.setInt(1, groupNo);
 			
 			res = pstm.executeUpdate();
 			System.out.println("04.query 실행 및 리턴");
