@@ -8,7 +8,7 @@ public interface MapBiz {
 
 	public List<MapDto> selectAll();
 	public MapDto selectOne(int walk_no);
-	public int insert(MapDto dto);
+	public boolean insert(MapDto dto);
 	public int delete(int walk_no);
 	
 }

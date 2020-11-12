@@ -1,7 +1,19 @@
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%  request.setCharacterEncoding("UTF-8"); %>
 <%  response.setContentType("text/html; charset=UTF-8"); %>    
+
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.List" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,12 +62,22 @@
 	.distanceInfo:after {content:none;}
 	
     </style>
+ <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     
     
 </head>
 
+
+
 <body>
-<jsp:include page="form/header01.jsp" flush="true" /> 
+
+
+
+
+
+	
+
+	<jsp:include page="form/header01.jsp" flush="true" /> 
 
 
 <div class="map_wrap">
@@ -90,11 +112,8 @@
     
         <div id="btnme" onclick="setMyLoc();"></div>
     
-    
 </div>
-    
-    
-  
+
 <div id="main">
 	
 <hr> 
@@ -102,17 +121,34 @@
 				<div class="panel-heading" style="margin:20px;">
 					<h2 class="panel-title" >산책로 게시판</h2>
 					
-					  <p><em>지도를 <span style="color:red;">마우스로 클릭</span>하면 선 그리기가 시작되고<br><span style="color:red;">오른쪽 마우스를 클릭</span>하면 선 그리기가 종료됩니다</em></p>
-					  <button onclick="drawin();">나만의 산책로 만들기</button>
-					  <button onclick="drawout();">산책로만들기 끄기</button>
-					  
+						<button id="focusplz" onclick="drawin();">나만의 산책로 만들기</button>
+					  <br><br>
+				<form action="MapServlet.do"  method="post">
+					 <input type="hidden" name="command" value="insertlist">
+					 <input type="hidden" id="ppp" name="path" value="" >
+					 
+					  <table  id="writetable" style="display:none;" >
+					  	<col width="80"><col width="300"><col width="70"><col width="70">
+					  	<thead>
+					  		<tr>
+					  		<th>산책로명 : </th>
+					  		<th><input type="text" id="foucsplease" name="name" placeholder="산책로 이름을 입력하세요." style="width:300px;"></th>
+					  		<th><input type="submit" id="drawouts" onclick="return drawout();" value="작성"></th>
+					  		<th><input type="button" value="취소" onclick="drawhide();" ></th>
+					  		</tr>
+					  		<tr><th colspan="4"><em>지도를 <span style="color:red;">마우스로 클릭</span>하면 선 그리기가 시작되고<br><span style="color:red;">오른쪽 마우스를 클릭</span>하면 선 그리기가 종료됩니다</em>
+					  		</th></tr>
+					  	</thead>
+					  </table>
+				</form>
 					
 				</div>
 				<hr>
 				<div class="panel-body">
 					<table class="table table-hover">
+					<col width="150"><col width="500"><col width="300"><col width="300"><col width="200">
 						<thead>
-							<tr>
+							<tr style="text-align:center">
 							<th>#</th>
 							<th>산책로(명)</th>
 							<th>글쓴이</th>
@@ -121,10 +157,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr><td>1</td><td>Steve</td><td>Jobs</td><td>@steve</td><td>20-11-09</td></tr>
-							<tr><td>2</td><td>Simon</td><td>Philips</td><td>@simon</td><td>20-11-09</td></tr>
-							<tr><td>3</td><td>Jane</td><td>Doe</td><td>@jane</td><td>20-11-09</td></tr>
-							<tr><td>3</td><td>Jane</td><td>Doe</td><td>@jane</td><td>20-11-09</td></tr>
+						<c:choose>
+							<c:when test="${empty list }">
+								<tr>
+									<td colspan="5" style="text-align:center">---- 작성된 산책로가 없습니다. 산책로를 만들어보세요! ----</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="dto" items="${list }"  varStatus="status">
+									<tr style="text-align:center; cursor:Pointer;" onclick="location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }'; checkpls();" >
+										<td>${fn:length(list)-status.index}</td>
+										<td>${dto.walk_name }</td>
+										<td>${dto.walk_writer }</td>
+										<td>${dto.walk_dong }</td>
+										<td>${dto.walk_regdate }</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 						</tbody>
 					</table>
 				</div>
@@ -133,10 +183,19 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=10d92f7c71b75a49429cc13ea5d030f6&libraries=services,clusterer,drawing"></script>
-
-
-<script>
+<script type="text/javascript">
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
@@ -152,40 +211,159 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 
 
 // global
-var clickedOverlay = null; // 맵에 이용되는 overlay
-var realLoc = ""; // 동이름과 같이 keywordsearch에 들어가는 변수
-var dongname =""; // 동이름만 가져오는 변수
-var drawswitch = "off"; // console 확인용
+var clickedOverlay ; // 맵에 이용되는 overlay
+var realLoc ; // 동이름과 같이 keywordsearch에 들어가는 변수
+var dongname ; // 동이름만 가져오는 변수
+var mouseEvent1;
 var mouseEvent1_res; // 버튼클릯시 선그리기 제어
+var paths;
+var path;
+
+var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
+var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
+var clickLine; // 마우스로 클릭한 좌표로 그려질 선 객체입니다
+var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
+var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
+
+var poly1;
+
+$('table>tbody>tr').each(function(i) {
+this.title = (i+1) + '번째 최근글';
+});
+	
+	
+	
+//**************************************/
+//**************************************/
+//**************************************/
+// 			산책로 게시판 관련
+//**************************************/
+//**************************************/
+//**************************************/
+<% boolean checking = false; %>
+<% String latlon_res = "값없음";%>
+
+var pathlatlon ;
+
+function checkpls(){
+	<%
+	checking = true;
+	%>
+}
+
+window.onload = function(){
+	
+	<% if(checking){ %>
+	console.log("drawmap()실행!");
+	 <%
+	 latlon_res = (String)session.getAttribute("latlon");
+	System.out.println("latlon_res : " + latlon_res);
+	String[] latlon = latlon_res.split("\\),\\(") ; 
+	for(int i=0; i<latlon.length;i++){
+		System.out.println("latlon[] : " + latlon[i]);
+	}
+	
+	
+	%> 
+		for (var i = 0; i < latlon.length; i++) {
+			
+		}
+	
+		pathlatlon = new kakao.maps.LatLng(latlon[i]);
+		
+		console.log("pathlatlon : " + pathlatlon);
+		
+	poly1 = new kakao.maps.Polyline({
+	    map: map, // 선을 표시할 지도입니다 
+	    path: latlon, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+	    strokeWeight: 3, // 선의 두께입니다 
+	    strokeColor: '#db4040', // 선의 색깔입니다
+	    strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+	    strokeStyle: 'solid' // 선의 스타일입니다
+	});
+	
+	
+	console.log("poly1.getPath() : " + poly1.getPath());
+	poly1.setMap(map); // 지도에 올린다.
+	
+	// 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
+	
+	<% 
+	checking = false;
+	} 
+	%>
+
+}
 
 
 
 
 
-// 산책로 게시판 관련
-//////////////////////////////////////////////////////
+
+//**************************************/
+//**************************************/
+
+/* 밑에 부터 산책로 그리기 btn클릭 시 drawin 실행
+ * -> 이후 kakao 선그리기 메소드 실행.
+ */
+//**************************************/
+//**************************************/
 
 function drawin(){
+	document.getElementById("writetable").style.display="block";
+	//document.getElementById('foucsplease').scrollIntoView();
+	document.getElementById('foucsplease').focus();
 
-	drawswitch = "on";	
-	console.log(drawswitch);
+	document.getElementById("focusplz").style.display="none";
+	kakao.maps.event.addListener(map, 'click', 	mouseEvent1);
+	mouseEvent1_res = mouseEvent1;
+}
 
 
+
+function drawhide(){
+	document.getElementById("writetable").style.display="none";
+	document.getElementById("focusplz").style.display="block";
+	kakao.maps.event.removeListener(map, 'click', mouseEvent1_res);
+	//이동해서 지우기 일단..
+	
+    // 지도 위에 선이 표시되고 있다면 지도에서 제거합니다
+    deleteClickLine();
+    
+    // 지도 위에 커스텀오버레이가 표시되고 있다면 지도에서 제거합니다
+    deleteDistnce();
+
+    // 지도 위에 선을 그리기 위해 클릭한 지점과 해당 지점의 거리정보가 표시되고 있다면 지도에서 제거합니다
+    deleteCircleDot();
+	
+}
+
+function drawout(){ //그려진 선과 산책로명 저장
+	kakao.maps.event.removeListener(map, 'click', mouseEvent1_res);
+	document.getElementById("writetable").style.display="none";
+	document.getElementById("focusplz").style.display="block";
+
+	
+	document.getElementById("ppp").value= path ;
+	console.log("ppp-path : " + path);
+	console.log("realpaths : " + paths);
+	alert("산책로 작성 완료!");
+	
+}
 // 지도에 클릭 이벤트를 등록합니다
 // 지도를 클릭하면 선 그리기가 시작됩니다 그려진 선이 있으면 지우고 다시 그립니다
-if(drawswitch=="on"){
 	
-	var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
-	var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
-	var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
-	var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
-	var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 	
-		var mouseEvent1 = function(mouseEvent) {
+	
+	//mouseEvent 제거하기 위한 변수선언
+	 mouseEvent1 = function(mouseEvent) {
     // 마우스로 클릭한 위치입니다 
     var clickPosition = mouseEvent.latLng;
 	console.log("click : " + clickPosition);
-	console.log("click : " + typeof(clickPosition));
+	
+	
+	
+	
     // 지도 클릭이벤트가 발생했는데 선을 그리고있는 상태가 아니면
     if (!drawingFlag) {
 
@@ -218,32 +396,40 @@ if(drawswitch=="on"){
             strokeOpacity: 0.5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
             strokeStyle: 'solid' // 선의 스타일입니다    
         });
-    
-        // 클릭한 지점에 대한 정보를 지도에 표시합니다
+        
+        
         displayCircleDot(clickPosition, 0);
 
             
     } else { // 선이 그려지고 있는 상태이면
-
+    	
         // 그려지고 있는 선의 좌표 배열을 얻어옵니다
-        var path = clickLine.getPath();
-
+        path = clickLine.getPath();
+    
+        
         // 좌표 배열에 클릭한 위치를 추가합니다
         path.push(clickPosition);
         
+        
+        
+        console.log("path : " + path);
+        
         // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
         clickLine.setPath(path);
-
+		paths = path;
+		console.log("paths : "+ paths);
+		
+		
+		
+		
+        
         var distance = Math.round(clickLine.getLength());
         displayCircleDot(clickPosition, distance);
     }
 
-};
-kakao.maps.event.addListener(map, 'click', 	mouseEvent1);
-mouseEvent1_res = mouseEvent1;
-}else{
-	
 }
+	
+	
 // 지도에 마우스무브 이벤트를 등록합니다
 // 선을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 선의 위치를 동적으로 보여주도록 합니다
 kakao.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
@@ -426,23 +612,18 @@ function getTimeHTML(distance) {
     content += '    <li>';
     content += '        <span class="label">도보</span>' + walkHour + walkMin;
     content += '    </li>';
-    content += '    <li>';
-    content += '        <button class="label" class="hide" onclick="">저장</button>';
-    content += '    </li>';
     content += '</ul>';
-    	
     return content;
+    
 	}
 	
-	return drawswitch="off";
+	
 
-}
 
-function drawout(){
-	drawswitch="off";
-	console.log(drawswitch);
-	kakao.maps.event.removeListener(map, 'click', mouseEvent1_res);
-}
+
+
+
+
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 
@@ -762,7 +943,6 @@ function teaTime(lat,lon){
 		dongname = dongname_res;
 	};
 	geocoder.coord2RegionCode(lon, lat, callback);
-	
 	
 }
 

@@ -31,6 +31,17 @@
   	<url-pattern>/Newscon.do</url-pattern>
   </servlet-mapping>  
   
+
+   <servlet>
+  	<servlet-name>Map</servlet-name>
+  	<servlet-class>com.petp.controller.MapServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Map</servlet-name>
+  	<url-pattern>/MapServlet.do</url-pattern>
+  </servlet-mapping>  
+
   <servlet>
     <servlet-name>ChatSubmitServlet</servlet-name>
     <servlet-class>chat.ChatSubmitServlet</servlet-class>
@@ -60,5 +71,6 @@
     <servlet-name>MemberServlet</servlet-name>
     <url-pattern>/member.do</url-pattern>
   </servlet-mapping>
+
   
 </web-app>

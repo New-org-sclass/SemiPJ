@@ -8,23 +8,43 @@ public class MapDto {
 	private String walk_writer;
 	private String walk_dong;
 	private Date walk_regdate;
+	private String walk_loc;
 	
-	
+
+
 	public MapDto() {
 		super();
 	}
 
 
+	public MapDto(String walk_name, String walk_loc) {
+		super();
+		this.walk_name = walk_name;
+		this.walk_loc = walk_loc;
+	}
 
-	public MapDto(int walk_no, String walk_name, String walk_writer, String walk_dong, Date walk_regdate) {
+
+	public MapDto(int walk_no) {
+		this.walk_no = walk_no;
+	}
+	
+	public MapDto(int walk_no, String walk_name, String walk_writer, String walk_dong, Date walk_regdate, String walk_loc) {
 		super();
 		this.walk_no = walk_no;
 		this.walk_name = walk_name;
 		this.walk_writer = walk_writer;
 		this.walk_dong = walk_dong;
 		this.walk_regdate = walk_regdate;
+		this.walk_loc  = walk_loc;
 	}
 
+	
+	
+
+	public MapDto(String walk_loc) {
+		super();
+		this.walk_loc = walk_loc;
+	}
 
 
 	public int getWalk_no() {
@@ -85,7 +105,14 @@ public class MapDto {
 		this.walk_regdate = walk_regdate;
 	}
 	
-	
+	public String getWalk_loc() {
+		return walk_loc;
+	}
+
+
+	public void setWalk_loc(String walk_loc) {
+		this.walk_loc = walk_loc;
+	}
 
 
 }
