@@ -87,10 +87,16 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
         			</a>
       			</li>
       			
-      			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+      			<!-- profile droupdown 형식 (로그아웃, 마이페이지) -->
+      			<li class="nav-item dropdown">
+        			<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         				<img src="resources/images/profile.png" width="30" height="30" >
         			</a>
+        			
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=logout'">Logout</button>
+          				<button class="dropdown-item" onclick="location.href='profile_main.jsp'">Profile</button>
+          			</div>
       			</li>
     		</ul>
     		

@@ -33,6 +33,12 @@
 .logo {
 	text-center
 }
+.card-img2{
+	width: 100px;
+}
+span{
+	font-size: 60px;
+}
 </style>
 <title>PETP</title>
 </head>
@@ -42,16 +48,21 @@
 			<div class="col leftside"></div>
 			
 			<div class="col rightside" style="background-color: #fffff9;">
-			
-				<div class="row mx-auto" style="width: 200px; margin-top: 200px;">
-					<img src="resources/images/logo01.png" width="100" height="100" alt="">
-					<p class="text-center">PETP</p>
-				</div>
 				
-				<div class="mx-auto" style="width: 300px; margin-top: 150px;">
-					<button type="button" class="btn btn-dark btn-lg" style="width: 300px;">Large button</button><br><br>
-					<button type="button" class="btn btn-secondary btn-lg" style="width: 300px;">Large button</button>
-				</div>
+				<div class="card-section-2" align="center" style="margin-top: 250px;">
+		    		<img src="resources/images/logo01.png" class="card-img2" alt="로고 사진2" >&nbsp;&nbsp;
+		      		<span><strong>PETP</strong></span>
+    			</div>
+    			<br><br><br>
+    			
+    			<div class="card" id="card-section-3" style="background-color: #fffff9; border: none; width: 350px; margin: 0 auto;">
+					<button type="button" class="btn btn-secondary btn-lg" style="border: none;" 
+					onclick="location.href='home_register.jsp'">Sign Up</button> <br>
+					
+					<button type="button" class="btn btn-secondary btn-lg" style="background-color: silver; border: none;" 
+					onclick="location.href='home_login.jsp'">Sign In</button>
+    			</div>
+				
 			</div>
 		</div>
 	</div>

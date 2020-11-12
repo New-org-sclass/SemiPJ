@@ -69,7 +69,7 @@
   
   <servlet-mapping>
     <servlet-name>MemberServlet</servlet-name>
-    <url-pattern>/member.do</url-pattern>
+    <url-pattern>/MemberServlet.do</url-pattern>
   </servlet-mapping>
 
   
