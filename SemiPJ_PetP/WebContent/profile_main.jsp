@@ -79,7 +79,7 @@
 		<!-- 이전 버튼 -->
 		<c:if test="${startNum > 1 }">
 			<li class="page-item">
-				<a class="page-link text-warning" href="?command=userBoard&page=${startNum - 1 }&boardwriter=${board_writer}" aria-label="Previous">
+				<a class="page-link text-warning" href="BoardServlet.do?command=userBoard&page=${startNum - 1 }&boardwriter=${board_writer}" aria-label="Previous">
 	  				<span aria-hidden="true" class="btn-prev">&laquo;</span>
 	     		</a>
 	    	</li>
@@ -95,13 +95,13 @@
 		
 		<c:forEach var="i" begin="0" end="4">
 		<c:if test="${(startNum + i ) <= lastNum }"></c:if>
-		<li class="page-item"><a class="page-link text-warning" href="?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}">${startNum + i }</a></li>
+		<li class="page-item"><a class="page-link text-warning" href="BoardServlet.do?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}">${startNum + i }</a></li>
 		</c:forEach>
     			
     	<!-- 다음 버튼 -->
     	<c:if test="${startNum + 4 < lastNum }">
 		    <li class="page-item">
-		    	<a class="page-link text-warning" href="?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}" aria-label="Next">
+		    	<a class="page-link text-warning" href="BoardServlet?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}" aria-label="Next">
 		    		<span aria-hidden="true">&raquo;</span>
 		      	</a>
 		   	</li>

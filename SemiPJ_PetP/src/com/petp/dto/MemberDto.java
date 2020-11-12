@@ -11,6 +11,22 @@ public class MemberDto {
 	public MemberDto() {
 		super();
 	}
+	
+	public MemberDto(String memid, String mempw, String mememail) {
+		super();
+		this.memid = memid;
+		this.mempw = mempw;
+		this.mememail = mememail;
+	}
+
+	public MemberDto(String memid, String memname, String mempw, String mememail) {
+		super();
+		this.memid = memid;
+		this.memname = memname;
+		this.mempw = mempw;
+		this.mememail = mememail;
+	}
+
 	public MemberDto(int memno, String memid, String mempw, String memname, String mememail, String mempic,
 			String memenabled) {
 		super();

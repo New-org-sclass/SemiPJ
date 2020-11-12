@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
    
    	<!-- jQuery and Bootstrap Bundle (includes Popper) -->
-   <!-- 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <!-- 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	
 	<title>Insert title here</title>
@@ -87,10 +87,16 @@
         			</a>
       			</li>
       			
-      			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+      			<!-- profile droupdown 형식 (로그아웃, 마이페이지) -->
+      			<li class="nav-item dropdown">
+        			<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         				<img src="resources/images/profile.png" width="30" height="30" >
         			</a>
+        			
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=logout'">Logout</button>
+          				<button class="dropdown-item" onclick="location.href='profile_main.jsp'">Profile</button>
+          			</div>
       			</li>
     		</ul>
     		
