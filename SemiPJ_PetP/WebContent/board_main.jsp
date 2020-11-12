@@ -21,8 +21,7 @@
 		var form = document.getElementById('searchForm');
 		var command = document.getElementsByName("command");
 		command[0].setAttribute("value","boardmain");
-		
-		//BoardServlet.do?search=
+
 		form.action;	
 	}
 	
@@ -47,7 +46,7 @@
   				content: {
     				title: '[PetP]',
     				description: '#귀여운 댕댕이 #펫스타그램',
-    				imageUrl: 'localhost:8787/SemiPJ_PetP/resources/board_uploadimg/' + boardImg,
+    				imageUrl: 'https://ppss.kr/wp-content/uploads/2018/09/gggg.png',
     				link: {
       					mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
       					webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,

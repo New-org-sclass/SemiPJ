@@ -118,6 +118,8 @@ public class BoardServlet extends HttpServlet {
 	    	
 	    	List<BoardDto> list = biz.selectUserBoard(memName, pageDefault);
 	    	
+	    	System.out.println("list_size" + list.size());
+	    	
 	    	request.setAttribute("list", list);
 	    	request.setAttribute("board_writer", memName);
 	    	
@@ -166,12 +168,28 @@ public class BoardServlet extends HttpServlet {
 			int groupNo = Integer.parseInt(request.getParameter("groupNo"));
 			System.out.println(groupNo);
 			
-			boolean result = biz.deleteBoard(boardNo);
+			boolean result = biz.deleteComment(boardNo); 
 			
 			if (result) {
 	        	jsResponse("댓글 삭제 성공", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
 	        } else {
 	        	jsResponse("댓글 삭제 실패", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        }
+
+ 			response.setContentType("text/html;charset=utf-8");
+ 			
+		} else if(command.equals("delBoard")) {
+			int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+			System.out.println(groupNo);
+			String memName = request.getParameter("board_writer");
+	    	System.out.println("board_writer: " + memName);
+	    	
+	    	boolean result = biz.deleteBoard(groupNo);
+	    	
+	    	if (result) {
+	        	jsResponse("게시글 삭제 성공", "BoardServlet.do?command=userBoard&board_writer=" + memName, response);
+	        } else {
+	        	jsResponse("게시글 삭제 실패", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
 	        }
 
  			response.setContentType("text/html;charset=utf-8");

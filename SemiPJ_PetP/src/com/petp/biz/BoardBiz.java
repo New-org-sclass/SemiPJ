@@ -24,5 +24,6 @@ public interface BoardBiz {
 	public int insertComment(BoardDto dto);
 	
 	/* common */
-	public boolean deleteBoard(int boardNo);
+	public boolean deleteComment(int boardNo);
+	public boolean deleteBoard(int groupNo);
 }
