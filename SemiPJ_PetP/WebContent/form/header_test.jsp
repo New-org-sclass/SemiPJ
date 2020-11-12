@@ -13,7 +13,7 @@
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   
+   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    	<!-- jQuery and Bootstrap Bundle (includes Popper) -->
    <!-- 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
       <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f5f5dc;">
          
          <!-- 로고 클릭시 마이페이지로 이동 -->
-         <a class="navbar-brand" href="">
+         <a class="navbar-brand" href="user_main.jsp">
              <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
              PetP
           </a>
@@ -70,7 +70,7 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="chat_main.jsp">
         				<img src="resources/images/nav/nav02.png" width="30" height="30" >
         			</a>
       			</li>
@@ -82,7 +82,7 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="MapServlet.do?command=list">
         				<img src="resources/images/nav/nav04.png" width="30" height="30" >
         			</a>
       			</li>

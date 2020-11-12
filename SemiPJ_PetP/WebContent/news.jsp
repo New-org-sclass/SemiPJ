@@ -16,7 +16,7 @@
 
 	<style type="text/css">
 		.card-group{
-			padding: 8px 50px;
+			padding: 8px 250px;
 		}
 		.card{
 			border: 1px solid rgba(239, 204, 135, 0.5)!important;
@@ -25,7 +25,7 @@
 			height: 250px;
 		}
 		.list-unstyled{
-			padding: 8px 50px!important;
+			padding: 8px 250px!important;
 		}
 		.ulresize1{
 			width: 150px;
@@ -158,7 +158,7 @@
 			//document.getElementById("paging1").innerHTML = html;
 			//console.log($("#paging1").text());
 			console.log(document.getElementById("paging1").innerHTML);
-	        $("#paging1 a").css("color", "black");
+	        $("#paging1 a").css({ "color":"black", "font-size":"25px",});
 	        $("#paging1 a#" + currentPage).css({ "color":"black", "font-weight":"bold"});
 	                                           
 	        $("#paging1 a").click(function(){
@@ -206,10 +206,10 @@
 				// 	+ '<p class="card-text"><small class="text-muted">' + datel[stdata+i+3] + '</small></p></div>';
 				let t1 = document.getElementsByClassName("card-img-top");
 					console.log("t1: "+ t1[i].getAttribute("src"));
-				if(t1[i].getAttribute("src") === ""){
+				if(t1[i].getAttribute("src") === ""){	//기사의 사진이 없을 경우 이미지 대체.
 					t1[i].setAttribute("src", "./resources/images/noimage.jpg");
 				}
-				if(titlel[stdata+i] == null){
+				if(titlel[stdata+i] == null){	//기사가 없을 경우 그만
 					continue;
 				}
 				// let aurl = "location.href='Newscon.do?command=detail&newsno="+newsnol[stdata+i]+"'";
@@ -255,7 +255,7 @@
 				//document.getElementsByClassName("seols")[i].wrap
 			}
 
-			$('a[name="atag"]').css({"text-decoration":"none", "color":"black"})
+			$('a[name="atag"]').css({"text-decoration":"none", "color":"black"});
 
 			function aadd(classname, i, aurl){ //a tag들을 페이지내의 데이터들에 추가.
 				let tag1 = classname[i];
@@ -330,7 +330,7 @@
 	<main role="main" style="margin-top: 80px; background-color: #fffff9; ">
         <div class="container">
 		<h1>News List</h1>
-      	<div id="paging1" class="dogdogpaging"></div>
+      	
 		
         </div>
 		
@@ -452,7 +452,8 @@
 		  </div>
 		</div>
 	  </div>
-
+	
+	<div id="paging1" class="dogdogpaging"></div>
 
 
 
