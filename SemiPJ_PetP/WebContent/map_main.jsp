@@ -165,7 +165,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="dto" items="${list }"  varStatus="status">
-									<tr style="text-align:center; cursor:Pointer;" onclick="location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }'; checkpls();" >
+									<tr id="selwalk" style="text-align:center; cursor:Pointer;" onclick="location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }'; " >
 										<td>${fn:length(list)-status.index}</td>
 										<td>${dto.walk_name }</td>
 										<td>${dto.walk_writer }</td>
@@ -223,9 +223,12 @@ var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있�
 var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
 var clickLine; // 마우스로 클릭한 좌표로 그려질 선 객체입니다
 var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
+var distanceOverlay2;
 var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 
-var poly1;
+var polyline2;
+var pathlatlon = new Array() ;
+
 
 $('table>tbody>tr').each(function(i) {
 this.title = (i+1) + '번째 최근글';
@@ -240,63 +243,86 @@ this.title = (i+1) + '번째 최근글';
 //**************************************/
 //**************************************/
 //**************************************/
-<% boolean checking = false; %>
-<% String latlon_res = "값없음";%>
 
-var pathlatlon ;
 
-function checkpls(){
-	<%
-	checking = true;
-	%>
-}
-
-window.onload = function(){
-	
-	<% if(checking){ %>
+$(function(){
+	$("#selWalk")
 	console.log("drawmap()실행!");
-	 <%
-	 latlon_res = (String)session.getAttribute("latlon");
-	System.out.println("latlon_res : " + latlon_res);
-	String[] latlon = latlon_res.split("\\),\\(") ; 
-	for(int i=0; i<latlon.length;i++){
-		System.out.println("latlon[] : " + latlon[i]);
-	}
 	
-	
-	%> 
-		for (var i = 0; i < latlon.length; i++) {
-			
+		 var latlonArray = new Array();
+		 
+		 <c:forEach var='tlist' items='${latlon}'>
+		 	latlonArray.push("${tlist}");
+		 </c:forEach>
+		 
+		 console.log("latlonArray : " + latlonArray);
+		var lat = new Array();
+ 		var lon = new Array();
+ 		
+ 		var latlon_res = latlonArray.toString().split(",");
+ 		
+ 		console.log("latlon_res : " + latlon_res);
+ 		
+	    for (var i = 0; i < latlon_res.length/2; i++) {
+			var lat_res = (latlon_res[2*i]);
+			lat.push(lat_res);
+			var lon_res = (latlon_res[(2*i)+1]);
+			lon.push(lon_res);
 		}
-	
-		pathlatlon = new kakao.maps.LatLng(latlon[i]);
+		 console.log("lat : " + lat);
+		 console.log("lon : " + lon);
 		
-		console.log("pathlatlon : " + pathlatlon);
+		 // 받은 lat과 lon값을 뿌려준다. 배열형태로
+		 
+		 for (var i = 0; i < lat.length; i++) {
+			 pathlatlon.push(
+				new kakao.maps.LatLng(lat[i], lon[i])
+				);
+			}
+		 console.log("pathlatlon : " + pathlatlon );
 		
-	poly1 = new kakao.maps.Polyline({
-	    map: map, // 선을 표시할 지도입니다 
-	    path: latlon, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
-	    strokeWeight: 3, // 선의 두께입니다 
-	    strokeColor: '#db4040', // 선의 색깔입니다
-	    strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-	    strokeStyle: 'solid' // 선의 스타일입니다
-	});
+		 polyline2 = null;     // 저장된 산책로(선) 초기화
+		
+		  polyline2 = new kakao.maps.Polyline({
+				map: map, // 선을 표시할 지도입니다 
+	            path: pathlatlon, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+	            strokeWeight: 3, // 선의 두께입니다 
+	            strokeColor: '#db4040', // 선의 색깔입니다
+	            strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+	            strokeStyle: 'solid' // 선의 스타일입니다
+			});
+	
+	console.log("polyline2.getPath() : " + polyline2.getPath());
 	
 	
-	console.log("poly1.getPath() : " + poly1.getPath());
-	poly1.setMap(map); // 지도에 올린다.
+	polyline2.setMap(map); // 지도에 올린다.
 	
-	// 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
+	 //그려진 길이 값 distance
+	var distance = Math.round(polyline2.getLength());
+	console.log("distance : " + distance);
 	
-	<% 
-	checking = false;
-	} 
-	%>
+	content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
+	
+	distanceOverlay2 = null;
+	
+	distanceOverlay2 = new kakao.maps.CustomOverlay({
+        map: map, // 커스텀오버레이를 표시할 지도입니다
+        content: content,  // 커스텀오버레이에 표시할 내용입니다
+        position: pathlatlon[pathlatlon.length-1], // 커스텀오버레이를 표시할 위치입니다.
+        xAnchor: 0,
+        yAnchor: 1,
+        zIndex: 3  
+    });  
 
-}
-
-
-
+	//distanceOverlay.setPosition(position);
+    //distanceOverlay.setContent(content);
+    
+	distanceOverlay2.setMap(map);
+    
+    
+    
+    
+});
 
 
 
@@ -316,7 +342,11 @@ function drawin(){
 
 	document.getElementById("focusplz").style.display="none";
 	kakao.maps.event.addListener(map, 'click', 	mouseEvent1);
+	polyline2 = null; // 저장된 산책로(선) 초기화
 	mouseEvent1_res = mouseEvent1;
+	    
+
+	
 }
 
 
@@ -405,7 +435,7 @@ function drawout(){ //그려진 선과 산책로명 저장
     	
         // 그려지고 있는 선의 좌표 배열을 얻어옵니다
         path = clickLine.getPath();
-    
+    	
         
         // 좌표 배열에 클릭한 위치를 추가합니다
         path.push(clickPosition);
