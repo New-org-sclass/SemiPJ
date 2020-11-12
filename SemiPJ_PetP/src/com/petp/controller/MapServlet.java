@@ -59,8 +59,18 @@ public class MapServlet extends HttpServlet {
 			System.out.println("loca_res : " + loca_res);
 			
 			
+			String[] latlon = loca_res.split("\\),\\(") ; 
+			System.out.println("latlon - split: " + latlon);
+			
+			
+			for (int i = 0; i < latlon.length; i++) {
+				
+			}
+			
+			
 			HttpSession session = request.getSession();
-			session.setAttribute("latlon", loca_res);
+			session.setAttribute("latlon", latlon);
+			
 			
 			//request.setAttribute("latlon", loca_res);
 			
