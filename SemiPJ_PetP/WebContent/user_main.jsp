@@ -41,7 +41,7 @@
 		<div class="container">
 			
 			<!-- 프로필 사진 -->
-			<img src="resources/images/profile.png" class="rounded mx-auto d-block profileimg" alt="profile_photo">
+			<img src="resources/images/profile.png" class="rounded mx-auto d-block profileimg rounded-circle" alt="profile_photo">
 			<br>
 			
 			<!-- 프로필명 -->
@@ -54,12 +54,12 @@
 				<p>현재 데이터가 없습니다.</p>
 			</c:if>
 			
-			<div class="row" >
+			<div class="card-group" >
 				<c:forEach items="${list }" var="dto" >
-					<div class="col" style="margin-top: 30px;">
+					<div class="card" >
 				    	<!-- 사용자가 올린 사진만 보여줌 -->
 				    	<a href="BoardServlet.do?command=detail&groupNo=${dto.group_no }" >
-				    		<img src="./resources/board_uploadimg/${dto.file_group }" class="uploadimg" >
+				    		<img src="./resources/board_uploadimg/${dto.file_group }" class="card-img-top uploadimg" >
 				    	</a>
 				    </div>
 				</c:forEach>

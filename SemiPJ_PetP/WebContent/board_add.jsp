@@ -38,17 +38,13 @@
 	}
 </style>
 
-<!-- jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
 <script type="text/javascript">
 
 	// 업로드 이미지 미리보기 처리	
 	var selfile;
-	$(document).ready(function() {
+	window.onload = function () {
 		$("#input_img").on("change", handleImgFileSelect);
-	});
+	}
 	
 	function handleImgFileSelect(e) {
 		var files = e.target.files;
@@ -88,7 +84,7 @@
   				
 	  			<div class="card-header" style="background-color: white;">
 	    			<img src="resources/images/profile.png"> 
-	    			<input type="text" name="memno" value="1" readonly style="border: none;">
+	    			<input type="text" name="memno" value="1" readonly style="border: none; outline: none;">
 	    			<!-- 
 	    			로그인 성공시 서블릿에서 세션 객체 생성
 	    			HttpSession session = request.getSession(true);
@@ -129,8 +125,10 @@
 				</div> <!-- end of card-body -->
 	
 	  			
-	  			<div class="card-footer" style="background-color: white">
-					<button type="submit" class="btn btn-lg btn-block" style="background-color: #f5f5dc" >Upload</button>
+	  			<div class="card-footer justify-content-around" style="background-color: white">
+					<button type="submit" class="btn btn-lg col-9" style="background-color: #f5f5dc;" >Upload</button>
+					<button type="reset" class="btn btn-lg col-2 float-right" style="background-color: #f5f5dc;" >Reset</button>
+					
 	  			</div>
   			
 			</form> <!-- end of form -->

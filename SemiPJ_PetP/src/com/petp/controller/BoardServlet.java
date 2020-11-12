@@ -10,7 +10,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,6 @@ import com.petp.biz.BoardBizImpl;
 import com.petp.dto.BoardDto;
 
 @MultipartConfig
-@WebServlet("/BoardServlet")
 // servlet 클래스에서 request를 javax.servlet.http.Part 타입으로 받을 수 있도록 어노테이션 추가
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -61,8 +59,10 @@ public class BoardServlet extends HttpServlet {
 		    }
 
 	    	List<BoardDto> list = biz.selectBoardList(searchDefault, pageDefault); 
-
+	    	int count = biz.getBoardCount(searchDefault);
+	    	
 	    	request.setAttribute("list", list);
+	    	request.setAttribute("count", count);
 	    	
 	    	dispatch("board_main.jsp", request, response);
 	    
@@ -105,29 +105,94 @@ public class BoardServlet extends HttpServlet {
 	        	jsResponse("Failed to upload post :(", "board_add.jsp", response);
 	        }
 	        
+	    } else if(command.equals("userBoard")) {
+	    	String page = request.getParameter("page");
+		    
+		    int pageDefault = 1; // 페이지 선택이 없는 경우 기본값
+		    if(page != null) { // 페이지를 선택한 경우
+		    	pageDefault = Integer.parseInt(page);
+		    }
+	    	
+	    	String memName = request.getParameter("board_writer");
+	    	System.out.println("board_writer: " + memName);
+	    	
+	    	List<BoardDto> list = biz.selectUserBoard(memName, pageDefault);
+	    	
+	    	System.out.println("list_size" + list.size());
+	    	
+	    	request.setAttribute("list", list);
+	    	request.setAttribute("board_writer", memName);
+	    	
+	    	dispatch("board_user.jsp", request, response);
+	    	
 	    } else if(command.equals("detail")) {
-			//List<BoardDto> list = biz.selectAll();
-			//request.setAttribute("list", list);
 	    	
-	    	System.out.println("board_no: " + request.getParameter("board_no"));
-	    	int board_no = Integer.parseInt(request.getParameter("board_no"));
+	    	int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+	    	System.out.println("groupNo: " + request.getParameter("groupNo"));
+
+	    	// 본 게시글
+	    	BoardDto board = biz.getBoard(groupNo);
+	    	// 본 게시글의 댓글
+	    	List<BoardDto> list = biz.getComments(groupNo);
 	    	
-	    	biz.selectOne(board_no);
+	    	request.setAttribute("board", board);
+	    	request.setAttribute("list", list);
 			
-			response.sendRedirect("board_detail.jsp");
+			dispatch("board_detail.jsp", request, response);
 			
-	    } else if(command.equals("boardwrite")) {			
+	    } else if(command.equals("boardwrite")) {	
 			String board_content = request.getParameter("comment_context");
 			
 			dto = new BoardDto(board_content);
 
-			int res = biz.insert(dto);
+	    } else if(command.equals("addComment")) {	
+	    	// boardNo, memNo, Comment
+	    	int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+	    	int memNo = Integer.parseInt(request.getParameter("memNo"));
+	    	String comment = request.getParameter("comment");
+	    	int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+	    	
+	    	// dto 저장
+	        dto = new BoardDto(boardNo, memNo, comment);
+	    	
+	    	int res = biz.insertComment(dto);
+	    	if (res>0) {
+	        	jsResponse("You have completed your comment :)", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        } else {
+	        	jsResponse("Failed to write a comment :(", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        }
+	    	
+		} else if(command.equals("delComment")) {	
+			int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+			System.out.println(boardNo);
+			int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+			System.out.println(groupNo);
 			
-			if(res>0) {
-				jsResponse("댓글 작성 성공","BoardServlet.do?command=detail",response);
-			}else {
-				jsResponse("댓글 작성 실패","BoardServlet.do?command=detail",response);
-			}
+			boolean result = biz.deleteComment(boardNo); 
+			
+			if (result) {
+	        	jsResponse("댓글 삭제 성공", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        } else {
+	        	jsResponse("댓글 삭제 실패", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        }
+
+ 			response.setContentType("text/html;charset=utf-8");
+ 			
+		} else if(command.equals("delBoard")) {
+			int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+			System.out.println(groupNo);
+			String memName = request.getParameter("board_writer");
+	    	System.out.println("board_writer: " + memName);
+	    	
+	    	boolean result = biz.deleteBoard(groupNo);
+	    	
+	    	if (result) {
+	        	jsResponse("게시글 삭제 성공", "BoardServlet.do?command=userBoard&board_writer=" + memName, response);
+	        } else {
+	        	jsResponse("게시글 삭제 실패", "BoardServlet.do?command=detail&groupNo=" + groupNo, response);
+	        }
+
+ 			response.setContentType("text/html;charset=utf-8");
 		}
 	}
 

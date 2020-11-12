@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
    
    	<!-- jQuery and Bootstrap Bundle (includes Popper) -->
-   	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <!-- 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	
 	<title>Insert title here</title>
@@ -50,7 +50,7 @@
             <!-- 검색 form -->
             <form class="form-inline my-2 my-lg-0 ml-auto" id="searchForm" onSubmit="formAction();">
             	<input type="hidden" name="command" value=""><!-- value 각 jsp에서 js로 설정 -->
-               	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="${param.search }">
+               	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search" value="${param.search }">
                	<button class="btn btn-outline-success my-2 my-sm-0 btn-outline-warning">Search</button>
             </form>
             
@@ -59,7 +59,7 @@
         		
         		<!-- 펫스타그램 droupdown 형식 (펫스타그램, 게시물 업로드) -->
       			<li class="nav-item dropdown">
-        			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        			<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         				<img src="resources/images/nav/nav01.png" width="30" height="30" >
         			</a>
         			
@@ -76,7 +76,7 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="Newscon.do?command=news">
         				<img src="resources/images/nav/nav03.png" width="30" height="30" >
         			</a>
       			</li>
