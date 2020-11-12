@@ -1,4 +1,4 @@
-function newsContentin(atagno){
+function newsContentin(atagno){ //뉴스 본문 데이터를 불러오는 함수.
     let newsno = atagno;
     console.log("newsno is "+ newsno);
     $.ajax({
@@ -20,8 +20,7 @@ function newsContentin(atagno){
     });
 }
 
-function getCommentInfo(atagno){
-	//후순위
+function getCommentInfo(atagno){  //댓글정보를 불러오는 함수.
 	let newsno = atagno;
 	$.ajax({
 		url:"Newscon.do?command=outcomment&newsno="+newsno,
@@ -48,8 +47,10 @@ function getCommentInfo(atagno){
                 writer = comment[i].writer;
                 ncomment = comment[i].ncomment;
                 commentdate = comment[i].commentdate;
-                tagc += "<p ><span>"+writer+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+ncomment
-				+"</span>&nbsp;&nbsp;<button type='button' class='btn btn-light' name='"+commentno+"' data-no='"+newsno+"'>삭제</button></p>";
+
+                tagc += "<p ><span>"+writer+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+ncomment+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='trevi'>"
+				+commentdate+"</span>&nbsp;&nbsp;<button type='button' class='btn btn-light' name='"
+				+commentno+"' data-no='"+newsno+"'>삭제</button></p>";
                 //$("#cobox2").append($("<p>").addClass("floR") );
 				//$("#cobox2 > p").last().append($("span").text(writer+"  ") );
 				//$("#cobox2 > p").last().append($("span").text(ncomment) );
@@ -60,29 +61,31 @@ function getCommentInfo(atagno){
             $("#cobox2").html(tagc);
 			$("#cobox2 p").addClass("floR wid");
 			//$("#cobox2 p").attr("floR wid");
-			$("#cobox2 p button").addClass("floR");
 			$("#cobox2 p span").first().addClass("floL");
+			$(".trevi").addClass("RA");
+			//document.querySelectorAll("#cobox2 > p").child.get(2).setAttribute("class","RA");
+			$("#cobox2 p button").addClass("floR");
             //$(".modal-footer").append;
             //$(".modal-footer").html(html+html2);
-			$('p').on('click', '>button', function(event){
-					//console.log("testinsert");
-					//let commentno = document.querySelector(this).getAttribute("name");
-					//let commentno = $("#cobox2 p").attr("name");
-					let commentno = $(this).attr("name");
-					let newsno = $(this).attr("data-no");
-					console.log("deletecomment no is "+commentno);
-					deleteComment(commentno, newsno);
+			$('p').on('click', '>button', function(event){  //동적으로 생성된 댓글의 삭제버튼을 클릭시 삭제되도록 이벤트처리. 
+				//console.log("testinsert");
+				//let commentno = document.querySelector(this).getAttribute("name");
+				//let commentno = $("#cobox2 p").attr("name");
+				let commentno = $(this).attr("name");
+				let newsno = $(this).attr("data-no");
+				console.log("deletecomment no is "+commentno);
+				deleteComment(commentno, newsno);
 			});
 			
         },
         error: function(){
-            alert("ajax 통신실패!")
+            alert("ajax 통신실패! 댓글 로드 실패..")
         }
 	});
 	
 }
 
-function insertComment(newsno){
+function insertComment(newsno){  //댓글입력의 내용을 controller로 전달하는 함수.
 	//alert("insertcomment test");
 	let ncomment = document.getElementById("commentarea").value;
 	console.log("ncomment is "+ncomment);
@@ -95,10 +98,6 @@ function insertComment(newsno){
 			console.log("insert comment success!!");
 			getCommentInfo(newsno);
 			document.getElementById("commentarea").value = "";
-			/*$('#newsmodal').on('shown.bs.modal', function(event){
-				newsContentin(newsno);
-				
-			});*/
 		},
 		error: function(){
 			console.log("insert comment error! ajax!");
@@ -107,7 +106,7 @@ function insertComment(newsno){
 	
 }
 
-function deleteComment(commentno, newsno){
+function deleteComment(commentno, newsno){ //댓글버튼 클릭시 작동하는 함수.
 	$.ajax({
 		url: "Newscon.do?command=delcomment&commentno="+commentno,
 		method: "post",
