@@ -50,17 +50,17 @@ public class NewsController extends HttpServlet {
 		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
 		
-		//int scnt = (int)request.getSession().getAttribute("cload1");
-		//scnt += 1;
-		//request.getSession().setAttribute("cload1", scnt);
+		int scnt = (int)request.getSession().getAttribute("cload1");
+		scnt += 1;
+		request.getSession().setAttribute("cload1", scnt);
 		
 		if (command.equals("news")) {	//뉴스 메인 화면 ㄱㄱ
-			//System.out.println("scnt: "+scnt);
-			//if(scnt < 2) {				//session test1의 값(페이지 새로고침수)에 따라 크롤링 로드율 감소
-				//getnewS(nlist);
-				//getkoreaS(nlist);
-				//newsbiz.insertData(nlist);
-			//}
+			System.out.println("scnt: "+scnt);
+			if(scnt < 2) {				//session test1의 값(페이지 새로고침수)에 따라 크롤링 로드율 감소
+				getnewS(nlist);
+				getkoreaS(nlist);
+				newsbiz.insertData(nlist);
+			}
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);
@@ -102,19 +102,18 @@ public class NewsController extends HttpServlet {
 			String jscomment = request.getParameter("jscomment");
 			Gson inputgs = new Gson();
 //			String st1 = inputgs.from
-			NewsCoDto tmpcom = inputgs.fromJson(jscomment, NewsCoDto.class);
-			//MemberDto tmpcomwriter = (MemberDto)request.getSession().getAttribute("memberDto");
-			System.out.println(tmpcom);
+			NewsCoDto tmpcom = inputgs.fromJson(jscomment, NewsCoDto.class); //댓글 ajax에서 newsno, ncomment 2개만 가져온다.
+			MemberDto tmpcomwriter = (MemberDto)request.getSession().getAttribute("memberDto");
+			tmpcom.setWriter(tmpcomwriter.getMemid());// session에서 mem_id를 받아와서 NewsDto의 write에 담아준다.
+			System.out.println("tmpcomwriter: "+ tmpcomwriter );
+			System.out.println("tmpcom: "+tmpcom);
 			
 			if(request.getSession().getAttribute("memberDto") != null) {
 				System.out.println("session null 아님");
 			} else {
 				System.out.println("session null");
 			}
-			//System.out.println("getMemname: "+ tmpcomwriter );
-			//tmpcom.setWriter(tmpcomwriter.getMemid());//이부분 완성되어야함.
-			System.out.println("tmpcom's writer(mem_id): "+tmpcom.getWriter());
-			System.out.println("tmpcom: "+tmpcom);
+			
 			int res = newsbiz.insertCo(tmpcom);
 			
 			if(res>0) {

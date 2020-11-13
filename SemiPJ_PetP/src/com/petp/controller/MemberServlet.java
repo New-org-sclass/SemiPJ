@@ -34,7 +34,7 @@ public class MemberServlet extends HttpServlet {
 	    MemberBiz biz = new MemberBizImpl();
 	    MemberDto dto = new MemberDto();
 	    HttpSession session = request.getSession();
-	    session.setAttribute("cload1", 0);
+	    session.setAttribute("cload1", 0);	//news에서 쓰는거
 	    
 	    if(command.equals("register")) {	
 	    	String email = request.getParameter("email");
