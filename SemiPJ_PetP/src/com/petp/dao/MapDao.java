@@ -10,7 +10,7 @@ public interface MapDao {
 	// 수정해야지
 	String selectAllSql = " SELECT * FROM WALKTABLE ORDER BY WALK_NO DESC";
 	String selectOneSql = " SELECT * FROM WALKTABLE WHERE WALK_NO=? ";
-	String insertSql = " INSERT INTO WALKTABLE VALUES(BOARDNOSQ.NEXTVAL,?,'박정우','역삼',SYSDATE,?) ";
+	String insertSql = " INSERT INTO WALKTABLE VALUES(BOARDNOSQ.NEXTVAL,?,'박정우',?,SYSDATE,?) ";
 	String deleteSql = " DELETE FROM WALKTABLE WHERE WALK_NO=? ";
 	
 	public List<MapDto> selectAll(); 
