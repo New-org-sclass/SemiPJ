@@ -93,7 +93,6 @@ public class BoardServlet extends HttpServlet {
 	    	
 	    	part.write(directory + filefullname);
   
-	        // db 에 저장
 	        dto = new BoardDto(groupsq, boardtab, memno, content, hashtag, filefullname);
 
 	        System.out.println("dto.getMemno : " + dto.getMem_no());

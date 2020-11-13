@@ -98,7 +98,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberDto login(String id, String pw) {
+	public MemberDto login(String email, String id, String pw) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		ResultSet rs= null;
@@ -108,9 +108,9 @@ public class MemberDaoImpl implements MemberDao {
 		
 		try {
 			pstm = con.prepareStatement(sql);
-			pstm.setString(1, id);
-			pstm.setString(2, pw);
-			pstm.setString(3, "Y");
+			pstm.setString(1, email);
+			pstm.setString(2, id);
+			pstm.setString(3, pw);
 			System.out.println("03.query 준비: "+sql);
 			
 			rs=pstm.executeQuery();
@@ -147,14 +147,12 @@ public class MemberDaoImpl implements MemberDao {
 		
 		String sql=insertSql;
 		
-		
 			try {
 				pstm=con.prepareStatement(sql);
 				pstm.setString(1, dto.getMemid());
-				pstm.setString(2, dto.getMempw());
-				pstm.setString(3, dto.getMemname());
+				pstm.setString(2, dto.getMemname());
+				pstm.setString(3, dto.getMempw());
 				pstm.setString(4, dto.getMememail());
-				pstm.setString(5, dto.getMempic());
 				System.out.println("03.query ready: "+sql);
 				
 				res=pstm.executeUpdate();

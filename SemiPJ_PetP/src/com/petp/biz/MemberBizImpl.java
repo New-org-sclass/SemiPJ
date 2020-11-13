@@ -34,5 +34,10 @@ public class MemberBizImpl implements MemberBiz {
 		return dao.delete(seq);
 	}
 
+	@Override
+	public MemberDto login(String email, String id, String pw) {
+		return dao.login(email, id, pw);
+	}
+
 	
 }
