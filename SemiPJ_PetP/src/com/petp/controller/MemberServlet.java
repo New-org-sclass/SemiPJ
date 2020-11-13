@@ -34,6 +34,7 @@ public class MemberServlet extends HttpServlet {
 	    MemberBiz biz = new MemberBizImpl();
 	    MemberDto dto = new MemberDto();
 	    HttpSession session = request.getSession();
+	    session.setAttribute("cload1", 0);
 	    
 	    if(command.equals("register")) {	
 	    	String email = request.getParameter("email");
@@ -62,6 +63,9 @@ public class MemberServlet extends HttpServlet {
 	    	
 	    	if(member != null) {
 	    		session.setAttribute("memberDto", member);
+	    		MemberDto tmp = (MemberDto)session.getAttribute("memberDto");
+	    		System.out.println("memberDto:" +tmp.getMemname());
+	    		System.out.println("memberDto:" +tmp);
 	    		dispatch("BoardServlet.do?command=userBoard&board_writer=" + member.getMemname(), request, response);
 	    		
 	    	} else {

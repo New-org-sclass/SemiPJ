@@ -15,10 +15,11 @@ public class NewsCoDto {
 	
 	
 
-	public NewsCoDto(int newsno, String ncomment) {
+	public NewsCoDto(int newsno, String ncomment, String writer) {
 		super();
 		this.newsno = newsno;
 		this.ncomment = ncomment;
+		this.writer = writer;
 	}
 
 

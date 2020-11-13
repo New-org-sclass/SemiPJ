@@ -21,6 +21,7 @@ public class MemberBizImpl implements MemberBiz {
 
 	@Override
 	public boolean insert(MemberDto dto) {
+		System.out.println("testtest");
 		return dao.insert(dto);
 	}
 

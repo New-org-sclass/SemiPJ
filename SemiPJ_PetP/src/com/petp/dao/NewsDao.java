@@ -176,14 +176,15 @@ public class NewsDao {
 		PreparedStatement pstm = null;
 		int res = 0; //member id 는 이 밑에 where mem_no = 1 << 여기부분을 바꿔줘야한다! 
 		String sql = " insert into newscomment values(newscommentnosq.nextval, ?,newscommentgroupnosq.nextval, "
-				+ "1, (select mem_id from member where mem_no = 1) ,?, "
-				+ "(select TO_CHAR(TO_DATE(SYSDATE), 'YYYY-MM-DD HH:mm') from dual) ) ";
+				+ "1, (select mem_name from member where mem_no = 1) ,?, "
+				+ "(select TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS') from dual) ) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
 			pstm.setInt(1, insertdto.getNewsno());
-			//pstm.setString(2, insertdto.getWriter()); mem_no추가해야되는 부분!
+			//pstm.setString(2, insertdto.getWriter());// mem_no추가해야되는 부분! //mem_name으로 변경.
 			pstm.setString(2, insertdto.getNcomment());
+			System.out.println("getwriter: "+ insertdto.getWriter());
 			
 			res = pstm.executeUpdate();
 			System.out.println("댓글 삽입 준비 및 쿼리실행");
