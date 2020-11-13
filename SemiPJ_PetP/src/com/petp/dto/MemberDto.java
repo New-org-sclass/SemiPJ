@@ -80,4 +80,12 @@ public class MemberDto {
 	public void setMemenabled(String memenabled) {
 		this.memenabled = memenabled;
 	}
+
+	@Override
+	public String toString() {
+		return "MemberDto [memno=" + memno + ", memid=" + memid + ", mempw=" + mempw + ", memname=" + memname
+				+ ", mememail=" + mememail + ", mempic=" + mempic + ", memenabled=" + memenabled + "]";
+	}
+	
+	
 }

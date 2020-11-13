@@ -40,6 +40,7 @@ public class MemberServlet extends HttpServlet {
 	    BoardBiz brdbiz = new BoardBizImpl();
 	    BoardDto brddto = new BoardDto();
 	    HttpSession session = request.getSession();
+	    session.setAttribute("cload1", 0);	//news에서 쓰는거
 	    
 	    if(command.equals("register")) {	
 	    	String email = request.getParameter("email");
@@ -68,9 +69,10 @@ public class MemberServlet extends HttpServlet {
 	    	
 	    	if(member != null) {
 	    		session.setAttribute("memberDto", member);
+
 	    		//dispatch("BoardServlet.do?command=userBoard&board_writer=" + member.getMemname(), request, response);
 	    		dispatch("MemberServlet.do?command=mypage&board_writer=" + member.getMemid(), request, response);
-	    		
+	    	
 	    	} else {
 	    		dispatch("home_login.jsp", request, response);
 	    	}

@@ -46,6 +46,8 @@ create table newscomment(
 	constraint fk_newscomment_writer foreign key(writer) references member(mem_id)
 );
 
+
+
 select * from newscomment;
 select * from petnews order by newsno desc;
 COMMIT;

@@ -189,6 +189,7 @@
 		} //paging1() 함수 끝.
 		
 		function rend(selectedPage, dataPerPage){ //페이지 내 데이터 만들기.
+			$('#commentwrite1').off('click.cwrite1');
 			// let cgroup = document.getElementsByClassName("card-group");
 			//let megroup = document.getElementsByClassName("list-unstyled");
 			let stdata = (selectedPage*dataPerPage)-dataPerPage;
@@ -293,7 +294,7 @@
 				
 			});
 			
-			$('#commentwrite1').on('click',  function(event){ //본문 내에서 댓글쓰기 이벤트를 처리.
+			$('#commentwrite1').on('click.cwrite1',  function(event){ //본문 내에서 댓글쓰기 이벤트를 처리.
 					//console.log("testinsert");
 				insertComment(atagnoInnewsmodal);
 			});
