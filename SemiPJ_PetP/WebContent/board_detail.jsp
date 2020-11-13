@@ -103,7 +103,7 @@ function getXMLHttpRequest(){
 									
     					<img src="resources/images/profile.png" class="profileimg ">&nbsp; 
     					<!-- 게시글 주인 -->
-    					<input class="bg-light font-weight-bold" type="text" name="memno" value="<%=member.getMemid()%>" readonly style="border: none; outline: none;">
+    					<input class="bg-light font-weight-bold" type="text" name="memno" value="${board.board_writer }" readonly style="border: none; outline: none;">
   					</div> 
           		
           			<div class="card-body overflow-auto">
@@ -138,7 +138,7 @@ function getXMLHttpRequest(){
                   	
                   	<!-- 서블릿으로 보내야할 값 boardNo, memNo, Comment -->
                   	<input type="hidden" name="command" value="addComment">
-                  	<input type="hidden" name="memNo" value="1">
+                  	<input type="hidden" name="memNo" value="<%=member.getMemno() %>">
                   	<input type="hidden" name="boardNo" value="${board.board_no}">
                   	<input type="hidden" name="groupNo" value="${board.group_no }">
                   	

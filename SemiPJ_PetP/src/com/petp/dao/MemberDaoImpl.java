@@ -80,9 +80,8 @@ public class MemberDaoImpl implements MemberDao {
 				res.setMememail(rs.getString(5));
 				res.setMempic(rs.getString(6));
 				res.setMemenabled(rs.getString(7));
-				
-				
 			}
+			
 			
 		} catch (SQLException e) {
 			System.out.println("3/4 단계 오류");

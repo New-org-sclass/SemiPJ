@@ -6,7 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import = "com.petp.dto.BoardDto" %>    
+<%@ page import = "com.petp.dto.MemberDto" %>    
 
 <!DOCTYPE html>
 <html>
@@ -35,6 +35,13 @@
 
 </head>
 <body>
+<%
+	MemberDto member = (MemberDto)session.getAttribute("memberDto");
+
+	if(session.getAttribute("memberDto") == null) {
+		response.sendRedirect("home_main.jsp");
+	} else {
+%>
 	<jsp:include page="form/header02.jsp" flush="false" />
 
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
@@ -45,7 +52,7 @@
 			<br>
 			
 			<!-- 프로필명 -->
-			<p class="font-weight-bold text-center" style="font-size: 25px" >${board_writer }</p>
+			<p class="font-weight-bold text-center" style="font-size: 25px" ><%= member.getMemid() %></p>
 			<br>
 			
 			<!-- 업로드한 게시물들 -->
@@ -121,5 +128,6 @@
 	</main>
 
 	<jsp:include page="form/footer.jsp" flush="false" />
+<% } %>
 </body>
 </html>

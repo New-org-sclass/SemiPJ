@@ -142,7 +142,7 @@
 					
 					<div class="card-header" style="background-color: white;" onclick="location.href='BoardServlet.do?command=userBoard&board_writer=${dto.board_writer}'">
 	    				<img src="resources/images/profile.png">&nbsp;
-	    				<b><%=member.getMemid() %></b>
+	    				<b>${dto.board_writer }</b>
 	  				</div>
 	  				
 					<!-- 사용자가 업로드한 이미지 -->

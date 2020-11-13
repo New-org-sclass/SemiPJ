@@ -62,46 +62,38 @@ public class MemberServlet extends HttpServlet {
 	    	String id = request.getParameter("id");
 	    	String password = request.getParameter("password");
 	    	
-	    	dto = new MemberDto(email, id, password);
+	    	System.out.println("확인: " + email + id + password);
+	    	
 	    	MemberDto member = biz.login(email, id, password);
 	    	
 	    	System.out.println("memname: " + member.getMemname());
+	    	System.out.println("memid: " + member.getMemid());
 	    	
-	    	if(member != null) {
-	    		session.setAttribute("memberDto", member);
+	    	if(member.getMemid() == null) {
 
-	    		//dispatch("BoardServlet.do?command=userBoard&board_writer=" + member.getMemname(), request, response);
-	    		dispatch("MemberServlet.do?command=mypage&board_writer=" + member.getMemid(), request, response);
+	    		jsResponse("Failed to Login :(", "home_login.jsp", response);
 	    	
 	    	} else {
-	    		dispatch("home_login.jsp", request, response);
+	    		session.setAttribute("memberDto", member);
+	    		dispatch("MemberServlet.do?command=mypage", request, response);
 	    	}
 	    
 	    } else if(command.equals("logout")) {
 	    	session.invalidate();
-	    	PrintWriter out = response.getWriter();
-	    	out.println("<script>alert('로그아웃되었습니다');</script>");
-	    	response.sendRedirect("home_main.jsp");
+	    	jsResponse("로그아웃 되었습니다.", "home_login.jsp", response);
 	    
 	    } else if(command.equals("mypage")) {
-	    	String page = request.getParameter("page");
-		    
-		    int pageDefault = 1; // 페이지 선택이 없는 경우 기본값
-		    if(page != null) { // 페이지를 선택한 경우
-		    	pageDefault = Integer.parseInt(page);
-		    }
 	    	
-	    	String memName = request.getParameter("board_writer");
-	    	System.out.println("board_writer: " + memName);
+		    MemberDto member = (MemberDto)request.getSession().getAttribute("memberDto");
+	    	System.out.println("board_writer: " + member.getMemid());
 	    	
-	    	List<BoardDto> list = brdbiz.selectUserBoard(memName, pageDefault);
+	    	List<BoardDto> list = brdbiz.selectUserBoard(member.getMemid(), 1);
 	    	
 	    	System.out.println("list_size" + list.size());
 	    	
 	    	request.setAttribute("list", list);
-	    	request.setAttribute("board_writer", memName);
 	    	
-	    	dispatch("board_user.jsp", request, response);
+	    	dispatch("profile_main.jsp", request, response);
 	    }
     }
     

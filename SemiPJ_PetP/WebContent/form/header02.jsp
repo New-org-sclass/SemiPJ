@@ -64,7 +64,7 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="location.href='chat_main.jsp'">
+        			<a class="nav-link" href="chat_main.jsp">
         				<img src="resources/images/nav/nav02.png" width="30" height="30" >
         			</a>
       			</li>
