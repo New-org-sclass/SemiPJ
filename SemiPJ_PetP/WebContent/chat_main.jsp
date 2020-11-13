@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("UTF-8"); %>
+<% response.setContentType("text/html; charset=UTF-8"); %>  
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +80,7 @@ function chatListFunction(type){
                      '<h4 class="media-heading">' +
                      chatName +
                      '<span class="small pull-right">' +
-                     regdate + 
+                     regdate +                    
                      '</span>' +
                      '</h4>' +
                      '<p>' +
@@ -128,6 +132,7 @@ function chatListFunction(type){
 
 padding-left: 30px;  /*왼쪽 30px띄우기*/
 }
+
 #i{
 padding-right: 30px; /*오른쪽 30px띄우기*/
 }

@@ -14,7 +14,7 @@ public class ChatDAO extends JDBCTemplate{      //현재시각에맞춰서 메�
         ResultSet rs = null;
         ArrayList<Chat> chatList = new ArrayList<Chat>();
         
-        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:mm:ss AM') FROM ANONYMOUSCHAT";
+        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:MI:ss AM') FROM ANONYMOUSCHAT";    //분 MI로하면 더 정확하게나옴
         
         try {
             pstm = con.prepareStatement(SQL);
@@ -49,7 +49,7 @@ public class ChatDAO extends JDBCTemplate{      //현재시각에맞춰서 메�
         ResultSet rs = null;
         ArrayList<Chat> chatList = new ArrayList<Chat>();
         
-        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:mm:ss AM') FROM ANONYMOUSCHAT WHERE SEQ > (SELECT MAX(SEQ) - ? FROM ANONYMOUSCHAT) ORDER BY REGDATE ";  //seq숫자이용해서 불러오기
+        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:MI:ss AM') FROM ANONYMOUSCHAT WHERE SEQ > (SELECT MAX(SEQ) - ? FROM ANONYMOUSCHAT) ORDER BY REGDATE ";  //seq숫자이용해서 불러오기
         
         try {
             pstm = con.prepareStatement(SQL);
@@ -86,7 +86,7 @@ public class ChatDAO extends JDBCTemplate{      //현재시각에맞춰서 메�
         ResultSet rs = null;
         ArrayList<Chat> chatList = new ArrayList<Chat>();
         
-        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:mm:ss AM') FROM ANONYMOUSCHAT WHERE SEQ > ? ORDER BY REGDATE ";  
+        String SQL = "SELECT SEQ, CHATNAME, CHATCONTENT, TO_CHAR(REGDATE,'HH:MI:ss AM') FROM ANONYMOUSCHAT WHERE SEQ > ? ORDER BY REGDATE ";  
         
         try {
             pstm = con.prepareStatement(SQL);
