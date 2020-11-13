@@ -6,7 +6,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import = "com.petp.dto.BoardDto" %>
+<%@ page import = "com.petp.dto.MemberDto" %>
+<%@ page import="java.net.URLEncoder" %>
 
 <!DOCTYPE html>
 <html>
@@ -116,6 +117,16 @@
 <title>PETP</title>
 </head>
 <body>
+<%
+	MemberDto member = (MemberDto)session.getAttribute("memberDto");
+	
+	if(session.getAttribute("memberDto") == null) {
+		response.sendRedirect("home_main.jsp");
+	} else {
+%>
+
+
+
 	<jsp:include page="form/header_test.jsp" flush="true" />
 	
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
@@ -125,13 +136,13 @@
 			<c:if test="${empty list }">
 				<p>현재 데이터가 없습니다.</p>
 			</c:if>
-		
+			
 			<c:forEach items="${list }" var="dto" >
 				<div class="card" style="margin-bottom: 30px;">
 					
 					<div class="card-header" style="background-color: white;" onclick="location.href='BoardServlet.do?command=userBoard&board_writer=${dto.board_writer}'">
 	    				<img src="resources/images/profile.png">&nbsp;
-	    				<b>${dto.board_writer }</b>
+	    				<b><%=member.getMemid() %></b>
 	  				</div>
 	  				
 					<!-- 사용자가 업로드한 이미지 -->
@@ -147,7 +158,7 @@
 						<!-- 개인 게시글 댓글창으로 넘어가는 버튼-->
 						<a href="BoardServlet.do?command=detail&groupNo=${dto.group_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
 						<!-- 카카오톡 공유 버튼-->
-						<a id="kakao-link-btn" onClick="sendLinkDefault('${dto.board_no}', '${dto.file_group}');"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
+						<a id="kakao-link-btn" ><img class="linkimg" src="resources/images/kakaoshare.png"></a>
 	  				</div>
 					
 				</div> <!-- end of card -->
@@ -211,6 +222,9 @@
 	</main>
 	
 	<jsp:include page="form/footer.jsp" flush="true" />
+<%
+	}
+%>
 </body>
 </html>
 

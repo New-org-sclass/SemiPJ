@@ -40,8 +40,4 @@ public interface MemberDao {
 	public String idChk(String id);
 	
 	
-	
-	String registerSql = " INSERT INTO MEMBER VALUES() ";
-	
-	
 }

@@ -49,17 +49,17 @@ public class NewsController extends HttpServlet {
 		newsbiz.tport(request.getLocalPort());
 		List<NewsDto> nlist = new ArrayList<NewsDto>();
 		
-		int scnt = (int)request.getSession().getAttribute("test1");
-		scnt += 1;
-		request.getSession().setAttribute("test1", scnt);
+		//int scnt = (int)request.getSession().getAttribute("test1");
+		//scnt += 1;
+		//request.getSession().setAttribute("test1", scnt);
 		
 		if (command.equals("news")) {	//뉴스 메인 화면 ㄱㄱ
-			System.out.println("scnt: "+scnt);
-			if(scnt < 2) {				//session test1의 값(페이지 새로고침수)에 따라 크롤링 로드율 감소
-				//getnewS(nlist);
-				//getkoreaS(nlist);
-				//newsbiz.insertData(nlist);
-			}
+			//System.out.println("scnt: "+scnt);
+			//if(scnt < 2) {				//session test1의 값(페이지 새로고침수)에 따라 크롤링 로드율 감소
+				getnewS(nlist);
+				getkoreaS(nlist);
+				newsbiz.insertData(nlist);
+			//}
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);
@@ -91,7 +91,7 @@ public class NewsController extends HttpServlet {
 			
 		} else if(command.equals("test1")) {	//newsdetail session test부문
 			//int test1 = (int)request.getSession().getAttribute("test1");
-			System.out.println("test1 is "+scnt);
+			//System.out.println("test1 is "+scnt);
 			request.getSession().setAttribute("tre1", "test1의 값");
 			request.getSession().setAttribute("tre2", "test22222222의 값");
 			

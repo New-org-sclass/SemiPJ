@@ -150,8 +150,8 @@ public class MemberDaoImpl implements MemberDao {
 			try {
 				pstm=con.prepareStatement(sql);
 				pstm.setString(1, dto.getMemid());
-				pstm.setString(2, dto.getMemname());
-				pstm.setString(3, dto.getMempw());
+				pstm.setString(2, dto.getMempw());
+				pstm.setString(3, dto.getMemname());
 				pstm.setString(4, dto.getMememail());
 				System.out.println("03.query ready: "+sql);
 				

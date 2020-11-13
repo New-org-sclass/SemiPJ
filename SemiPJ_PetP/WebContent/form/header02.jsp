@@ -64,19 +64,19 @@
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="location.href='chat_main.jsp'">
         				<img src="resources/images/nav/nav02.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="Newscon.do?command=news">
         				<img src="resources/images/nav/nav03.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="MapServlet.do?command=list">
         				<img src="resources/images/nav/nav04.png" width="30" height="30" >
         			</a>
       			</li>
