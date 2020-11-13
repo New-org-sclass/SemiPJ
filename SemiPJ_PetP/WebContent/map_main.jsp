@@ -36,7 +36,7 @@
 	#btnme:hover {background-color: #fcfcfc;border: 1px solid #c1c1c1;}  
 	
 	
-	#category {position:absolute;top:110px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+	#category {position:absolute;top:140px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
 	#category li {float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:10px 0;text-align: center; cursor: pointer;}
 	#category li.on {background: #ffe6e6;}
 	#category li:hover {background: #eee;border-left:1px solid #acacac;margin-left: -1px;}
@@ -126,6 +126,7 @@
 				<form action="MapServlet.do"  method="post">
 					 <input type="hidden" name="command" value="insertlist">
 					 <input type="hidden" id="ppp" name="path" value="" >
+					 <input type="hidden" id="dong" name="dong" value="">
 					 
 					  <table  id="writetable" style="display:none;" >
 					  	<col width="80"><col width="300"><col width="70"><col width="70">
@@ -165,7 +166,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="dto" items="${list }"  varStatus="status">
-									<tr id="selwalk" style="text-align:center; cursor:Pointer;" onclick="location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }'; " >
+									<tr class="selwalk" style="text-align:center; cursor:Pointer;" onclick="selwalk(); location.href='MapServlet.do?command=selectlist&seq=${dto.walk_no }';" >
 										<td>${fn:length(list)-status.index}</td>
 										<td>${dto.walk_name }</td>
 										<td>${dto.walk_writer }</td>
@@ -228,7 +229,9 @@ var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지�
 
 var polyline2;
 var pathlatlon = new Array() ;
+var latlonArray = new Array();
 
+var chek = false;
 
 $('table>tbody>tr').each(function(i) {
 this.title = (i+1) + '번째 최근글';
@@ -244,13 +247,19 @@ this.title = (i+1) + '번째 최근글';
 //**************************************/
 //**************************************/
 
+//페이지 키자마자 한 번 내위치 실행
+selwalk();
+setMyLoc();
+//selwalk();  
+//selwalk 이게 문제임. 조건걸어서 눌렀을 때만 실행 시킬 수 있게 해야하는데.
 
-$(function(){
-	$("#selWalk")
-	console.log("drawmap()실행!");
+
+
+//	$('.selwalk').click(function(){
+		
+function selwalk(){
+		console.log("selwalk()실행!");
 	
-		 var latlonArray = new Array();
-		 
 		 <c:forEach var='tlist' items='${latlon}'>
 		 	latlonArray.push("${tlist}");
 		 </c:forEach>
@@ -280,9 +289,14 @@ $(function(){
 				);
 			}
 		 console.log("pathlatlon : " + pathlatlon );
-		
-		 polyline2 = null;     // 저장된 산책로(선) 초기화
-		
+		 
+		 
+		 //polyline2.setMap(null);     // 저장된 산책로(선) 초기화
+		 polyline2 = null;
+		 
+		 
+		 if(pathlatlon!=null||pathlatlon!=[]){
+			 
 		  polyline2 = new kakao.maps.Polyline({
 				map: map, // 선을 표시할 지도입니다 
 	            path: pathlatlon, // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
@@ -291,11 +305,14 @@ $(function(){
 	            strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
 	            strokeStyle: 'solid' // 선의 스타일입니다
 			});
-	
+		 }else{
+			 alert("안됨..");
+		 }
+		 
 	console.log("polyline2.getPath() : " + polyline2.getPath());
 	
 	
-	polyline2.setMap(map); // 지도에 올린다.
+	//polyline2.setMap(map); // 지도에 올린다.
 	
 	 //그려진 길이 값 distance
 	var distance = Math.round(polyline2.getLength());
@@ -313,17 +330,36 @@ $(function(){
         yAnchor: 1,
         zIndex: 3  
     });  
-
-	//distanceOverlay.setPosition(position);
-    //distanceOverlay.setContent(content);
     
 	distanceOverlay2.setMap(map);
+	
+	//생선된 산책로 마지막지점에 화면이동
+	
+	//var panTo_res = kakao.maps.LatLng(pathlatlon[pathlatlon.length-1]) ;
+	var panTo_res = pathlatlon[pathlatlon.length-1];
+	console.log("pathlatlon[pathlatlon.length-1] : " + pathlatlon[pathlatlon.length-1]);
     
     
+    var panTo_res2 = panTo_res.toString();
+    var panTo_res3 = panTo_res2.substr(1, panTo_res2.length-2);
+    var panTo_res_spl = panTo_res3.toString().split(",");
+    
+    var lat_pan = panTo_res_spl[0];
+    var lon_pan = panTo_res_spl[1];
     
     
-});
-
+    console.log("lat_pan : " + lat_pan);
+    console.log("lon_pan : " + lon_pan);
+    
+    var pant = new kakao.maps.LatLng(lat_pan, lon_pan) ;
+    map.panTo(pant);
+    
+    
+	}
+	
+	
+//	);
+//}
 
 
 //**************************************/
@@ -342,6 +378,7 @@ function drawin(){
 
 	document.getElementById("focusplz").style.display="none";
 	kakao.maps.event.addListener(map, 'click', 	mouseEvent1);
+	 
 	polyline2 = null; // 저장된 산책로(선) 초기화
 	mouseEvent1_res = mouseEvent1;
 	    
@@ -374,10 +411,10 @@ function drawout(){ //그려진 선과 산책로명 저장
 	document.getElementById("focusplz").style.display="block";
 
 	
-	document.getElementById("ppp").value= path ;
+	document.getElementById("ppp").value= path ; //좌표 받아서 넘기기
+	document.getElementById("dong").value= dongname ; //동네임 받아서 넘기기
 	console.log("ppp-path : " + path);
 	console.log("realpaths : " + paths);
-	alert("산책로 작성 완료!");
 	
 }
 // 지도에 클릭 이벤트를 등록합니다
@@ -513,7 +550,27 @@ kakao.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
                 content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
                 
             // 그려진 선의 거리정보를 지도에 표시합니다
+            var dongname_res2 = (clickLine.getPath()[clickLine.getPath().length-1]).toString().split(",");
+                console.log("dongname_res2 : " + dongname_res2);
+            
+            var dongname_res3 = dongname_res2.toString();
+            var dongname_sub = dongname_res3.substr(1, dongname_res3.length-2);
+            var dongname_spl = dongname_sub.toString().split(",");
+            
+            var lat_dong = dongname_spl[0];
+            var lon_dong = dongname_spl[1];
+            
+            
+            console.log("lat_dong : " + lat_dong);
+            console.log("lon_dong : " + lon_dong);
+            
+            teaTimeS(lat_dong, lon_dong); //주소값 받기(해당 ex)역삼동 값)
+            
+            
             showDistance(content, path[path.length-1]);  
+            
+            
+            
              
         } else {
 
@@ -526,7 +583,8 @@ kakao.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
         }
         
         // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
-        drawingFlag = false;          
+        drawingFlag = false;
+        
     }  
 });    
 
@@ -665,10 +723,7 @@ function getTimeHTML(distance) {
 
 
 //지도 메소드 시작
-//페이지 키자마자 한 번 내위치 실행
-window.onload = function(){
-	setMyLoc();
-}
+
 
 
 //장소 검색 객체를 생성합니다
@@ -703,7 +758,7 @@ if (navigator.geolocation) {
      
      	
      var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-      console.log(locPosition);
+      console.log("locPosition : " + locPosition);
      
     //현재 위도 경도 값을 받아 넘겨주기
     
@@ -971,8 +1026,22 @@ function teaTime(lat,lon){
 	var callback = function(result, status) {
 		var dongname_res = result[0].region_3depth_name;
 		dongname = dongname_res;
+		console.log("teatime- dongname : " + dongname);
 	};
 	geocoder.coord2RegionCode(lon, lat, callback);
+	
+}
+
+function teaTimeS(lat,lon){
+	
+	var geocoder2 = new kakao.maps.services.Geocoder();
+	
+	var callback2 = function(result, status) {
+		var dongname_res = result[0].region_3depth_name;
+		dongname = dongname_res;
+		console.log("teatimeSSS - dongname : " + dongname);
+	};
+	geocoder2.coord2RegionCode(lon, lat, callback2);
 	
 }
 

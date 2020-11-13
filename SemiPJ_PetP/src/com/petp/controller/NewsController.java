@@ -61,6 +61,7 @@ public class NewsController extends HttpServlet {
 				getkoreaS(nlist);
 				newsbiz.insertData(nlist);
 			}
+
 			List<NewsDto> alist = newsbiz.pnewsAll();
 			request.setAttribute("alist", alist);
 			dp("news.jsp",request, response);

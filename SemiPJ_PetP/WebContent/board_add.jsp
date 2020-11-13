@@ -3,6 +3,9 @@
     
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page import = "com.petp.dto.MemberDto" %>
 
 <!DOCTYPE html>
 <html>
@@ -60,17 +63,18 @@
 			reader.readAsDataURL(f);
 		});
 	}
-	
-	// 업로드 이미지 이름 
-	$(".custom-file-input").on("change", function() {
-		  var fileName = $(this).val().split("\\").pop();
-		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-	});
-
 </script>
 
 </head>
 <body>
+<%
+	MemberDto member = (MemberDto)session.getAttribute("memberDto");
+
+	if(session.getAttribute("memberDto") == null) {
+		response.sendRedirect("home_main.jsp");
+	} else {
+%>
+
 	<jsp:include page="form/header01.jsp" flush="true" />
 
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
@@ -79,12 +83,13 @@
 		<div class="card">
 			<!-- 사진 업로드 -->
 			<form action="BoardServlet.do" method="post" enctype="multipart/form-data">  			
-  				<input type="hidden" name="command" value="boardadd"> 
+  				<input type="hidden" name="command" value="boardadd">
+  				<input type="hidden" name="memno" value="<%= member.getMemno() %>"> 
   				
   				
 	  			<div class="card-header" style="background-color: white;">
 	    			<img src="resources/images/profile.png"> 
-	    			<input type="text" name="memno" value="1" readonly style="border: none; outline: none;">
+	    			<input type="text" name="memid" value="<%=member.getMemid()%>" readonly style="border: none; outline: none;">
 	    			<!-- 
 	    			로그인 성공시 서블릿에서 세션 객체 생성
 	    			HttpSession session = request.getSession(true);
@@ -126,9 +131,7 @@
 	
 	  			
 	  			<div class="card-footer justify-content-around" style="background-color: white">
-					<button type="submit" class="btn btn-lg col-9" style="background-color: #f5f5dc;" >Upload</button>
-					<button type="reset" class="btn btn-lg col-2 float-right" style="background-color: #f5f5dc;" >Reset</button>
-					
+					<button type="submit" class="btn btn-lg" style="background-color: #f5f5dc;" >Upload</button>
 	  			</div>
   			
 			</form> <!-- end of form -->
@@ -138,6 +141,8 @@
 	</main>
 
 	<jsp:include page="form/footer.jsp" flush="true" />
-
+<%
+	}
+%>
 </body>
 </html>

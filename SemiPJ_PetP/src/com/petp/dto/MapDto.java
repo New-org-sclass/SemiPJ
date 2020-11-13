@@ -17,10 +17,11 @@ public class MapDto {
 	}
 
 
-	public MapDto(String walk_name, String walk_loc) {
+	public MapDto(String walk_name, String walk_loc, String walk_dong) {
 		super();
 		this.walk_name = walk_name;
 		this.walk_loc = walk_loc;
+		this.walk_dong = walk_dong;
 	}
 
 

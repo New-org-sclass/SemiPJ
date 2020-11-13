@@ -46,7 +46,8 @@ public class MapServlet extends HttpServlet {
 			dispatch("map_main.jsp", request, response);
 			
 		}else if(command.equals("selectlist")) {
-			 
+			
+			
 			int walk_no = Integer.parseInt(request.getParameter("seq"));
 			
 			MapDto dto = biz.selectOne(walk_no);
@@ -63,18 +64,13 @@ public class MapServlet extends HttpServlet {
 			System.out.println("latlon - split: " + latlon);
 			
 			
-			for (int i = 0; i < latlon.length; i++) {
-				
-			}
-			
-			
 			HttpSession session = request.getSession();
 			session.setAttribute("latlon", latlon);
 			
 			
 			//request.setAttribute("latlon", loca_res);
 			
-			dispatch("MapServlet.do?command=list", request, response);
+			dispatch("map_main.jsp", request, response);
 			
 			
 			//jsResponse("MapServlet.do?command=list", response);
@@ -82,9 +78,11 @@ public class MapServlet extends HttpServlet {
 		}else if(command.equals("insertlist")) {
 			String name = request.getParameter("name");
 			String path = request.getParameter("path");
+			String dong = request.getParameter("dong");
 			System.out.println("name : " + name);
 			System.out.println("path : " + path);
-			MapDto dto = new MapDto(name, path);
+			System.out.println("dong : " + dong);
+			MapDto dto = new MapDto(name, path, dong);
 			
 			boolean res = biz.insert(dto);
 			if(res) {
@@ -92,8 +90,6 @@ public class MapServlet extends HttpServlet {
 			}else {
 				jsResponse("입력되지 않았습니다. 다시 입력해주세요.","MapServlet.do?command=list", response);
 			}
-				
-				
 			}	
 	}
 

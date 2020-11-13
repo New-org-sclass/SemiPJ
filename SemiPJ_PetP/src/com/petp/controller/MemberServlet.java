@@ -2,6 +2,7 @@ package com.petp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.petp.biz.BoardBiz;
+import com.petp.biz.BoardBizImpl;
 import com.petp.biz.MemberBiz;
 import com.petp.biz.MemberBizImpl;
+import com.petp.dto.BoardDto;
 import com.petp.dto.MemberDto;
 
 @WebServlet("/MemberServlet")
@@ -28,11 +32,13 @@ public class MemberServlet extends HttpServlet {
 	    response.setContentType("text/html; charset=UTF-8");
 	    
 	    String command = request.getParameter("command");
-	    System.out.println("\n[BoardServlet]");
+	    System.out.println("\n[MemberServlet]");
 	    System.out.println("command: " + command);
 	    
 	    MemberBiz biz = new MemberBizImpl();
 	    MemberDto dto = new MemberDto();
+	    BoardBiz brdbiz = new BoardBizImpl();
+	    BoardDto brddto = new BoardDto();
 	    HttpSession session = request.getSession();
 	    session.setAttribute("cload1", 0);	//news에서 쓰는거
 	    
@@ -63,19 +69,40 @@ public class MemberServlet extends HttpServlet {
 	    	
 	    	if(member != null) {
 	    		session.setAttribute("memberDto", member);
-	    		MemberDto tmp = (MemberDto)session.getAttribute("memberDto");
-	    		System.out.println("memberDto:" +tmp.getMemname());
-	    		System.out.println("memberDto:" +tmp);
-	    		dispatch("BoardServlet.do?command=userBoard&board_writer=" + member.getMemname(), request, response);
-	    		
+
+	    		//dispatch("BoardServlet.do?command=userBoard&board_writer=" + member.getMemname(), request, response);
+	    		dispatch("MemberServlet.do?command=mypage&board_writer=" + member.getMemid(), request, response);
+	    	
 	    	} else {
 	    		dispatch("home_login.jsp", request, response);
 	    	}
 	    
 	    } else if(command.equals("logout")) {
 	    	session.invalidate();
+	    	PrintWriter out = response.getWriter();
+	    	out.println("<script>alert('로그아웃되었습니다');</script>");
 	    	response.sendRedirect("home_main.jsp");
-	    } 
+	    
+	    } else if(command.equals("mypage")) {
+	    	String page = request.getParameter("page");
+		    
+		    int pageDefault = 1; // 페이지 선택이 없는 경우 기본값
+		    if(page != null) { // 페이지를 선택한 경우
+		    	pageDefault = Integer.parseInt(page);
+		    }
+	    	
+	    	String memName = request.getParameter("board_writer");
+	    	System.out.println("board_writer: " + memName);
+	    	
+	    	List<BoardDto> list = brdbiz.selectUserBoard(memName, pageDefault);
+	    	
+	    	System.out.println("list_size" + list.size());
+	    	
+	    	request.setAttribute("list", list);
+	    	request.setAttribute("board_writer", memName);
+	    	
+	    	dispatch("board_user.jsp", request, response);
+	    }
     }
     
     private void dispatch(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
