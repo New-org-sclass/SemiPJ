@@ -70,7 +70,7 @@ public class MapServlet extends HttpServlet {
 			
 			//request.setAttribute("latlon", loca_res);
 			
-			dispatch("map_main.jsp", request, response);
+			dispatch("MapServlet.do?command=list", request, response);
 			
 			
 			//jsResponse("MapServlet.do?command=list", response);
