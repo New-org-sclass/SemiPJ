@@ -10,7 +10,7 @@ public interface BoardDao {
 	/* board_main & board_add & board_user */
 	public String insertFileSql = " INSERT INTO BPIC VALUES(BPICNO.NEXTVAL, ?, ?) ";
 	public String insertBoardSql = " INSERT INTO BOARD VALUES(BOARDNOSQ.NEXTVAL, GROUPNOSQ.NEXTVAL, ?, ?, "
-									+ " (SELECT MEM_NAME FROM MEMBER WHERE MEM_NO=?), "
+									+ " (SELECT MEM_ID FROM MEMBER WHERE MEM_NO=?), "
 									+ " ?, ?, ?, SYSDATE) ";
 	public String selectBoardSql = 
 			" SELECT * FROM "
@@ -46,7 +46,7 @@ public interface BoardDao {
 			" (SELECT GROUP_NO FROM BOARD WHERE BOARD_NO=?)," + 
 			" (SELECT GROUP_SQ FROM BOARD WHERE BOARD_NO=?)+1," + 
 			" (SELECT BOARD_TAB FROM BOARD WHERE BOARD_NO=?), " + 
-			" (SELECT MEM_NAME FROM MEMBER WHERE MEM_NO=?), " + 
+			" (SELECT MEM_ID FROM MEMBER WHERE MEM_NO=?), " + 
 			" ?, NULL, NULL ,SYSDATE) ";
 			// boardNo, memNo, Comment
 	

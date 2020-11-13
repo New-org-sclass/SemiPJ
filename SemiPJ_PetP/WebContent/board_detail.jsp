@@ -6,7 +6,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import = "com.petp.dto.BoardDto" %> 
+
+<%@ page import = "com.petp.dto.MemberDto" %>
     
 <!DOCTYPE html>
 <html>
@@ -72,6 +73,14 @@ function getXMLHttpRequest(){
 </head>
 
 <body>
+<%
+	MemberDto member = (MemberDto)session.getAttribute("memberDto");
+
+	if(session.getAttribute("memberDto") == null) {
+		response.sendRedirect("home_main.jsp");
+	} else {
+%>
+
 	<jsp:include page="form/header01.jsp" flush="true" />
 	
 	<main role="main" style="padding-top: 150px; padding-bottom: 100px; background-color: #fffff9; ">
@@ -88,13 +97,13 @@ function getXMLHttpRequest(){
 	    		<div class="card">
 		    		<div class="card-header">
 		    			<button type="button" class="close" aria-label="Close" style="outline: none;" 
-		    					onclick="location.href='BoardServlet.do?command=delBoard&groupNo=${board.group_no }&board_writer=관리자'">
+		    					onclick="location.href='BoardServlet.do?command=delBoard&groupNo=${board.group_no }&board_writer=<%=member.getMemid()%>'">
 	  						<span aria-hidden="true">&times;</span>
 						</button>
 									
     					<img src="resources/images/profile.png" class="profileimg ">&nbsp; 
     					<!-- 게시글 주인 -->
-    					<input class="bg-light font-weight-bold" type="text" name="memno" value="${board.board_writer }" readonly style="border: none; outline: none;">
+    					<input class="bg-light font-weight-bold" type="text" name="memno" value="<%=member.getMemid()%>" readonly style="border: none; outline: none;">
   					</div> 
           		
           			<div class="card-body overflow-auto">
@@ -148,5 +157,6 @@ function getXMLHttpRequest(){
 	
 	</main>
 	<jsp:include page="form/footer.jsp" flush="true" />
+<%} %>
 </body>
 </html>

@@ -74,7 +74,7 @@ public class MapServlet extends HttpServlet {
 			
 			//request.setAttribute("latlon", loca_res);
 			
-			dispatch("MapServlet.do?command=list", request, response);
+			dispatch("map_main.jsp", request, response);
 			
 			
 			//jsResponse("MapServlet.do?command=list", response);
@@ -92,8 +92,6 @@ public class MapServlet extends HttpServlet {
 			}else {
 				jsResponse("입력되지 않았습니다. 다시 입력해주세요.","MapServlet.do?command=list", response);
 			}
-				
-				
 			}	
 	}
 

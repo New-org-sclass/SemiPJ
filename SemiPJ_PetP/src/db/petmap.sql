@@ -1,9 +1,9 @@
 -- 펫지도 (산책로)
 
-create sequence WALK_NO_SEQ NOCACHE;
-
 DROP SEQUENCE WALK_NO_SEQ;
 DROP TABLE WALKTABLE;
+
+create sequence WALK_NO_SEQ NOCACHE;
 
 CREATE TABLE WALKTABLE(
 
