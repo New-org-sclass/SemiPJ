@@ -2,8 +2,6 @@ package com.petp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.ProcessBuilder.Redirect;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,13 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
-
-import org.apache.catalina.Session;
 
 import com.petp.biz.MapBiz;
 import com.petp.biz.MapBizImpl;
 import com.petp.dto.MapDto;
+import com.petp.dto.MemberDto;
 
 @WebServlet("/MapServlet")
 // MapServlet.do
@@ -77,12 +73,14 @@ public class MapServlet extends HttpServlet {
 			
 		}else if(command.equals("insertlist")) {
 			String name = request.getParameter("name");
+			MemberDto writer = (MemberDto)request.getSession().getAttribute("memberDto"); //세션용추가
 			String path = request.getParameter("path");
 			String dong = request.getParameter("dong");
 			System.out.println("name : " + name);
+			System.out.println("writer : " + writer); //세션용추가
 			System.out.println("path : " + path);
 			System.out.println("dong : " + dong);
-			MapDto dto = new MapDto(name, path, dong);
+			MapDto dto = new MapDto(name, writer.getMemid(), path, dong); //writer 세션id표시용 생성자도 추가
 			
 			boolean res = biz.insert(dto);
 			if(res) {

@@ -80,8 +80,9 @@ public class MemberDaoImpl implements MemberDao {
 				res.setMememail(rs.getString(5));
 				res.setMempic(rs.getString(6));
 				res.setMemenabled(rs.getString(7));
+				
+				
 			}
-			
 			
 		} catch (SQLException e) {
 			System.out.println("3/4 단계 오류");
@@ -97,7 +98,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberDto login(String email, String id, String pw) {
+	public MemberDto login(String id, String pw) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		ResultSet rs= null;
@@ -107,9 +108,9 @@ public class MemberDaoImpl implements MemberDao {
 		
 		try {
 			pstm = con.prepareStatement(sql);
-			pstm.setString(1, email);
-			pstm.setString(2, id);
-			pstm.setString(3, pw);
+			pstm.setString(1, id);
+			pstm.setString(2, pw);
+			pstm.setString(3, "Y");
 			System.out.println("03.query 준비: "+sql);
 			
 			rs=pstm.executeQuery();
@@ -146,12 +147,14 @@ public class MemberDaoImpl implements MemberDao {
 		
 		String sql=insertSql;
 		
+		
 			try {
 				pstm=con.prepareStatement(sql);
 				pstm.setString(1, dto.getMemid());
 				pstm.setString(2, dto.getMempw());
 				pstm.setString(3, dto.getMemname());
 				pstm.setString(4, dto.getMememail());
+		
 				System.out.println("03.query ready: "+sql);
 				
 				res=pstm.executeUpdate();
@@ -184,8 +187,9 @@ public class MemberDaoImpl implements MemberDao {
 		
 		try {
 			pstm=con.prepareStatement(sql);
-			pstm.setString(1, dto.getMemname());
+			pstm.setString(1, dto.getMempw());
 			pstm.setString(2, dto.getMememail());
+			pstm.setInt(3, dto.getMemno());
 			System.out.println("03.query 준비:"+sql);
 			
 			res=pstm.executeUpdate();
@@ -271,6 +275,39 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		
 		return res;
+	}
+
+	@Override
+	public boolean setPro(int memno, String img) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		int res =0;
+		
+		String sql=proSql;
+		
+		try {
+			pstm=con.prepareStatement(sql);
+			pstm.setString(1, img);
+			pstm.setInt(2, memno);
+			System.out.println("03.query 준비:"+sql);
+			
+			res=pstm.executeUpdate();
+			System.out.println("04.query 실행 및 리턴");
+			
+			if(res>0) {
+				commit(con);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println("3/4 단계 에러");
+			e.printStackTrace();
+		}finally {
+			close(pstm);
+			close(con);
+			System.out.println("05.db 종료\n");
+		}
+
+		return (res>0)?true:false;
 	}
 
 	

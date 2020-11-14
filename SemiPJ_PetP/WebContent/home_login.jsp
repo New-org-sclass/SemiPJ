@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <% request.setCharacterEncoding("UTF-8"); %>
+<% response.setContentType("text/html; charset=UTF-8"); %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+
+<script type="text/javascript">
+	function registForm(){
+		location.href="Member.do?command=regist";
+	}
+</script>
+
 
 <style type="text/css">
 main > div.container {
@@ -16,13 +26,9 @@ main > div.container {
 	border-radius: 100px;
 }
 
-.col {
-	align: center;
+#span {
 	font-size: 60px;
 	font-weight: bold;
-}
-.container > span {
-	padding: 0;
 }
 </style>
 
@@ -34,32 +40,28 @@ main > div.container {
 	<main role="main" style="padding-top: 250px; padding-bottom: 250px; background-color: #fffff9; ">
 		<div class="container">
 		
-			<span class="col" style="margin-left: 100px;">
-		    	<img src="resources/images/logo01.png" style="width: 80px;">
-    		</span>
-    		<span class="col">
-		    	PETP
-		    </span>
+			<div align="center">
+		    	<img src="resources/images/logo01.png" class="card-img2" style="width: 80px;">&nbsp;&nbsp;
+		    	<span id="span">PETP</span>
+    		</div>
 		
-			<form action="MemberServlet.do" method="post">
-			<input type="hidden" name="command" value="login">
-				  <div class="form-group" style="margin-top: 30px;">
-				    <label for="email">Email address</label>
-				    <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+			<form action="Member.do" method="post">
+				<input type="hidden" name="command" value="login">
+				  <div class="form-group">
+				    <label for="exampleInputPassword1">ID</label>
+				    <input type="text" class="form-control" id="exampleInputPassword1" name="id">
 				  </div>
 				  
 				  <div class="form-group">
-				    <label for="id">ID</label>
-				    <input type="text" class="form-control" name="id">
-				  </div>
-				  
-				  <div class="form-group">
-				    <label for="password">Password</label>
-				    <input type="password" class="form-control" name="password">
+				    <label for="exampleInputPassword1">Password</label>
+				    <input type="password" class="form-control" id="exampleInputPassword1" name="pw">
 				  </div>
 				  
 				  <div align="center" style="margin-top:50px;">
 				  	<button type="submit" class="btn btn-secondary btn-lg btn-block" style="border: none;  height: 50px;">Sign In</button>
+				  </div>
+				  <div align="center" style="margin-top:50px;">
+				  	<button type="button" class="btn btn-secondary btn-lg btn-white" style="border: none;  height: 50px;" onclick="registForm();">Sign Up</button>
 				  </div>
 			</form>
 

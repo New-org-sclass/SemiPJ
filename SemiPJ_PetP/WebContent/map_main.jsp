@@ -1,5 +1,6 @@
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.petp.dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%  request.setCharacterEncoding("UTF-8"); %>
@@ -77,7 +78,7 @@
 
 	
 
-	<jsp:include page="form/header01.jsp" flush="true" /> 
+	<jsp:include page="form/header01.jsp" flush="false" /> 
 
 
 <div class="map_wrap">
@@ -249,6 +250,21 @@ this.title = (i+1) + '번째 최근글';
 
 //페이지 키자마자 한 번 내위치 실행
 selwalk();
+
+<%	int loadcnt = (int)request.getSession().getAttribute("mylocload1");
+	System.out.println("loadcnt: "+loadcnt);
+	if(loadcnt < 1){
+%>
+		window.onload=function(){
+			console.log("나의 위치 로딩 실행 시작!");
+			setMyLoc();
+			console.log("나의 위치 로딩 실행 완료!");
+		}
+<%
+		loadcnt += 1;
+		request.getSession().setAttribute("mylocload1", loadcnt);
+	}
+%>	
 //selwalk();  
 //selwalk 이게 문제임. 조건걸어서 눌렀을 때만 실행 시킬 수 있게 해야하는데.
 

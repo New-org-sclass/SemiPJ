@@ -21,7 +21,6 @@ public class MemberBizImpl implements MemberBiz {
 
 	@Override
 	public boolean insert(MemberDto dto) {
-		System.out.println("testtest");
 		return dao.insert(dto);
 	}
 
@@ -33,11 +32,6 @@ public class MemberBizImpl implements MemberBiz {
 	@Override
 	public boolean delete(int seq) {
 		return dao.delete(seq);
-	}
-
-	@Override
-	public MemberDto login(String email, String id, String pw) {
-		return dao.login(email, id, pw);
 	}
 
 	

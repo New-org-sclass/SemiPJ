@@ -87,8 +87,9 @@ public class MapDaoImpl implements MapDao{
 		try {
 			pstm = con.prepareStatement(insertSql);
 			pstm.setString(1, dto.getWalk_name());
-			pstm.setString(2, dto.getWalk_dong());
-			pstm.setString(3, dto.getWalk_loc());
+			pstm.setString(2, dto.getWalk_writer()); //session용으로 추가했습니다!
+			pstm.setString(3, dto.getWalk_dong());
+			pstm.setString(4, dto.getWalk_loc());
 			System.out.println("03. query 준비 : " + insertSql);
 			
 			res = pstm.executeUpdate();

@@ -23,6 +23,16 @@ public class MapDto {
 		this.walk_loc = walk_loc;
 		this.walk_dong = walk_dong;
 	}
+	
+	public MapDto(String walk_name, String walk_writer, String walk_loc, String walk_dong) {
+		super();
+		this.walk_name = walk_name;
+		this.walk_writer = walk_writer; 
+		this.walk_loc = walk_loc;
+		this.walk_dong = walk_dong;
+	}
+	
+	
 
 
 	public MapDto(int walk_no) {

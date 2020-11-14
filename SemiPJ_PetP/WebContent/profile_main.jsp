@@ -6,13 +6,20 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import = "com.petp.dto.MemberDto" %>    
+<%@page import="com.petp.dto.MemberDto" %> 
+
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>PETP</title>
+
+<script type="text/javascript">
+	function updateForm(memno){
+		location.href="Member.do?command=updateForm&memno="+memno;
+	}
+</script>
 
 <style type="text/css">
 	.profileimg {
@@ -35,24 +42,18 @@
 
 </head>
 <body>
-<%
-	MemberDto member = (MemberDto)session.getAttribute("memberDto");
-
-	if(session.getAttribute("memberDto") == null) {
-		response.sendRedirect("home_main.jsp");
-	} else {
-%>
+<% MemberDto dto = (MemberDto)request.getAttribute("dto"); %>
 	<jsp:include page="form/header02.jsp" flush="false" />
 
 	<main role="main" style="padding-top: 100px; padding-bottom: 100px; background-color: #fffff9; ">
 		<div class="container">
 			
 			<!-- 프로필 사진 -->
-			<img src="resources/images/profile.png" class="rounded mx-auto d-block profileimg rounded-circle" alt="profile_photo">
+			<img src="<%= dto.getMempic() %>" class="rounded mx-auto d-block profileimg rounded-circle" alt="profile_photo">
 			<br>
 			
 			<!-- 프로필명 -->
-			<p class="font-weight-bold text-center" style="font-size: 25px" ><%= member.getMemid() %></p>
+			<p class="font-weight-bold text-center" style="font-size: 25px" >${board_writer }</p>
 			<br>
 			
 			<!-- 업로드한 게시물들 -->
@@ -86,7 +87,7 @@
 		<!-- 이전 버튼 -->
 		<c:if test="${startNum > 1 }">
 			<li class="page-item">
-				<a class="page-link text-warning" href="BoardServlet.do?command=userBoard&page=${startNum - 1 }&boardwriter=${board_writer}" aria-label="Previous">
+				<a class="page-link text-warning" href="?command=userBoard&page=${startNum - 1 }&boardwriter=${board_writer}" aria-label="Previous">
 	  				<span aria-hidden="true" class="btn-prev">&laquo;</span>
 	     		</a>
 	    	</li>
@@ -102,13 +103,13 @@
 		
 		<c:forEach var="i" begin="0" end="4">
 		<c:if test="${(startNum + i ) <= lastNum }"></c:if>
-		<li class="page-item"><a class="page-link text-warning" href="BoardServlet.do?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}">${startNum + i }</a></li>
+		<li class="page-item"><a class="page-link text-warning" href="?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}">${startNum + i }</a></li>
 		</c:forEach>
     			
     	<!-- 다음 버튼 -->
     	<c:if test="${startNum + 4 < lastNum }">
 		    <li class="page-item">
-		    	<a class="page-link text-warning" href="BoardServlet?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}" aria-label="Next">
+		    	<a class="page-link text-warning" href="?command=userBoard&page=${startNum + i }&boardwriter=${board_writer}" aria-label="Next">
 		    		<span aria-hidden="true">&raquo;</span>
 		      	</a>
 		   	</li>
@@ -125,9 +126,11 @@
 		</ul>
 		</nav>
 		</div>
+		<div align="center" style="margin-top:50px;">
+				  	<button type="button" class="btn btn-secondary btn-lg btn-white" style="border: none;  height: 50px;" onclick="updateForm(<%= dto.getMemno()%>);">프로필 수정</button>
+				  </div>
 	</main>
 
 	<jsp:include page="form/footer.jsp" flush="false" />
-<% } %>
 </body>
 </html>
