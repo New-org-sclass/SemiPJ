@@ -33,7 +33,7 @@
       <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f5f5dc;">
          
          <!-- 로고 클릭시 마이페이지로 이동 -->
-         <a class="navbar-brand" href="">
+         <a class="navbar-brand" href="profile_main.jsp">
              <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
              PetP
           </a>
