@@ -40,7 +40,9 @@ public class MemberServlet extends HttpServlet {
 	    BoardBiz brdbiz = new BoardBizImpl();
 	    BoardDto brddto = new BoardDto();
 	    HttpSession session = request.getSession();
-	    session.setAttribute("cload1", 0);	//news에서 쓰는거
+	    session.setAttribute("cload1", 0);	//news에서 쓰는 것 
+	    session.setAttribute("mylocload1", 0);	//map에서 쓰는 것
+	    
 	    
 	    if(command.equals("register")) {	
 	    	String email = request.getParameter("email");
