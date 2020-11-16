@@ -77,7 +77,7 @@
 
 	
 
-	<jsp:include page="form/header01.jsp" flush="true" /> 
+	<jsp:include page="form/header02.jsp" flush="true" /> 
 
 
 <div class="map_wrap">

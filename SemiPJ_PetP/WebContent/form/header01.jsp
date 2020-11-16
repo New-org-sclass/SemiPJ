@@ -35,7 +35,7 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
          <!-- 로고 클릭시 마이페이지로 이동 -->
          <a class="navbar-brand" href="">
              <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
-             PetP
+             <b>PetP</b>
           </a>
           
           <!-- 화면 축소시 메뉴아이콘 -->
@@ -70,19 +70,19 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="chat_main.jsp">
         				<img src="resources/images/nav/nav02.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="Newscon.do?command=news">
         				<img src="resources/images/nav/nav03.png" width="30" height="30" >
         			</a>
       			</li>
       			
       			<li class="nav-item active">
-        			<a class="nav-link" href="#">
+        			<a class="nav-link" href="MapServlet.do?command=list">
         				<img src="resources/images/nav/nav04.png" width="30" height="30" >
         			</a>
       			</li>
@@ -95,7 +95,7 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
         			
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
           				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=logout'">Logout</button>
-          				<button class="dropdown-item" onclick="location.href='profile_main.jsp'">Profile</button>
+          				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=mypage'">Profile</button>
           			</div>
       			</li>
     		</ul>
