@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
-<title>채팅채팅</title>
+<title>PETP</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
@@ -136,10 +136,79 @@ padding-left: 30px;  /*왼쪽 30px띄우기*/
 #i{
 padding-right: 30px; /*오른쪽 30px띄우기*/
 }
+
 </style>  
 </head>
 <body>
-<jsp:include page="form/header02.jsp" flush="true" />   
+<jsp:include page="form/header02.jsp" flush="true" /><header>
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f5f5dc;">
+         
+         <!-- 로고 클릭시 마이페이지로 이동 -->
+         <a class="navbar-brand" href="">
+             <img src="resources/images/logo01.png" width="40" height="40" class="d-inline-block align-top" alt="">
+             <b style="font-size: 20px">PetP</b>
+          </a>
+          
+          <!-- 화면 축소시 메뉴아이콘 -->
+         <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            <!-- 오른쪽 정렬 nav -->
+            <ul class="navbar-nav">
+        		
+        		<!-- 펫스타그램 droupdown 형식 (펫스타그램, 게시물 업로드) -->
+      			<li class="nav-item dropdown">
+        			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        				<img src="resources/images/nav/nav01.png" width="30" height="30" >
+        			</a>
+        			
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          				<button class="dropdown-item" style="font-size: 15px;" onclick="location.href='BoardServlet.do?command=boardmain'">Petstagram</button>
+          				<button class="dropdown-item" style="font-size: 15px;" onclick="location.href='board_add.jsp'">Upload</button>
+          			</div>
+      			</li>
+      			
+      			<li class="nav-item active">
+        			<a class="nav-link" href="chat_main.jsp">
+        				<img src="resources/images/nav/nav02.png" width="30" height="30" >
+        			</a>
+      			</li>
+      			
+      			<li class="nav-item active">
+        			<a class="nav-link" href="Newscon.do?command=news">
+        				<img src="resources/images/nav/nav03.png" width="30" height="30" >
+        			</a>
+      			</li>
+      			
+      			<li class="nav-item active">
+        			<a class="nav-link" href="MapServlet.do?command=list">
+        				<img src="resources/images/nav/nav04.png" width="30" height="30" >
+        			</a>
+      			</li>
+      			
+      			<!-- profile droupdown 형식 (로그아웃, 마이페이지) -->
+      			<li class="nav-item dropdown">
+        			<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        				<img src="resources/images/profile.png" width="30" height="30" >
+        			</a>
+        			
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          				<button class="dropdown-item fontSize" style="font-size: 15px;" onclick="location.href='MemberServlet.do?command=logout'">Logout</button>
+          				<button class="dropdown-item fontSize" style="font-size: 15px;" onclick="location.href='MemberServlet.do?command=mypage'">Profile</button>
+          			</div>
+      			</li>
+    		</ul>
+    		
+         </div>
+      </nav>
+   </header>
+   <!-- -------------------------------------------- header ---------------------------------------------------- -->
 <br><br><br><br><br><br><br>
     <div class="container">
       <div class="container bootstrap snippet">
@@ -148,7 +217,7 @@ padding-right: 30px; /*오른쪽 30px띄우기*/
              <div class="portlet portlet-default">
              <div class="portlet-heading" id="room">
                <div class="portlet-title">
-                 <h4><i class="fa fa-circle text-yellow">펫톡</i></h4>
+                 <h4><i class="fa fa-circle text-warning">펫톡</i></h4>
                </div>
                <div class="clearfix"></div>
              </div>
@@ -187,4 +256,5 @@ padding-right: 30px; /*오른쪽 30px띄우기*/
     </div>    
     </div>
 </body>
+
 </html>

@@ -35,7 +35,7 @@
          <!-- 로고 클릭시 마이페이지로 이동 -->
          <a class="navbar-brand" href="">
              <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
-             PetP
+             <b>PetP</b>
          </a>
 
       </nav>

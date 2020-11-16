@@ -35,7 +35,7 @@
          <!-- 로고 클릭시 마이페이지로 이동 -->
          <a class="navbar-brand" href="profile_main.jsp">
              <img src="resources/images/logo01.png" width="30" height="30" class="d-inline-block align-top" alt="">
-             PetP
+             <b>PetP</b>
           </a>
           
           <!-- 화면 축소시 메뉴아이콘 -->
@@ -89,7 +89,7 @@
         			
         			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
           				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=logout'">Logout</button>
-          				<button class="dropdown-item" onclick="location.href='profile_main.jsp'">Profile</button>
+          				<button class="dropdown-item" onclick="location.href='MemberServlet.do?command=mypage'">Profile</button>
           			</div>
       			</li>
     		</ul>

@@ -37,9 +37,7 @@
 <script>	
 	
 	try {
-			function sendLinkDefault(boardNo, boardImg) {
-				alert(boardNo);
-				alert(boardImg);
+			function sendLinkDefault(groupNo) {
 				
 			Kakao.init('8beadd0ec13f943b2e3c8d21a0f51bd0')
 			Kakao.Link.sendDefault({
@@ -49,15 +47,15 @@
     				description: '#귀여운 댕댕이 #펫스타그램',
     				imageUrl: 'https://ppss.kr/wp-content/uploads/2018/09/gggg.png',
     				link: {
-      					mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
-      					webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
+      					mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&groupNo=' + groupNo,
+      					webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&groupNo=' + groupNo,
     				},
   				},
   				buttons: [{
       				title: '자세히 보기',
       				link: {
-        				mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + boardNo,
-        				webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&board_no=' + + boardNo,
+        				mobileWebUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&groupNo=' + groupNo,
+        				webUrl: 'http://localhost:8787/SemiPJ_PetP/BoardServlet.do?command=detail&groupNo=' + groupNo,
       				},
     			}],
 				})
@@ -158,7 +156,7 @@
 						<!-- 개인 게시글 댓글창으로 넘어가는 버튼-->
 						<a href="BoardServlet.do?command=detail&groupNo=${dto.group_no }" ><img class="linkimg" src="resources/images/comment.png"></a>&nbsp;
 						<!-- 카카오톡 공유 버튼-->
-						<a id="kakao-link-btn" ><img class="linkimg" src="resources/images/kakaoshare.png"></a>
+						<a id="kakao-link-btn" onClick="sendLinkDefault('${dto.group_no}');"><img class="linkimg" src="resources/images/kakaoshare.png"></a>
 	  				</div>
 					
 				</div> <!-- end of card -->

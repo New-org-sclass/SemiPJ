@@ -131,7 +131,7 @@
 	
 	  			
 	  			<div class="card-footer justify-content-around" style="background-color: white">
-					<button type="submit" class="btn btn-lg" style="background-color: #f5f5dc;" >Upload</button>
+					<button type="submit" class="btn btn-lg btn-block" style="background-color: #f5f5dc" >Upload</button>
 	  			</div>
   			
 			</form> <!-- end of form -->

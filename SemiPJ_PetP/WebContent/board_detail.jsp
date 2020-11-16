@@ -50,25 +50,23 @@ function getSize(obj) {
 	document.getElementsByClassName('card')[0].style.setProperty ("max-height", imgheight+"px");
 }
 
-// httpRequest 객체 생성
-function getXMLHttpRequest(){
-    var httpRequest = null;
-
-    if(window.ActiveXObject){
-        try{
-            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");    
-        } catch(e) {
-            try{
-                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e2) { httpRequest = null; }
-        }
-    }
-    else if(window.XMLHttpRequest){
-        httpRequest = new window.XMLHttpRequest();
-    }
-    return httpRequest;    
+// 댓글 작성자만 삭제 가능
+function delComFunc() {
+	var writer = document.getElementById('writer');
+	var sessionId = document.getElementById("sessionId");
+	alert(writer);
+	alert(sessionId);
+	if(writer != sessionId) {
+		alert('작성자만 삭제 가능합니다.');
+	} else {
+		formAction();
+	}
 }
 
+function formAction() {
+	alert("작동");
+	form.action;
+}
 </script>
 </head>
 
@@ -83,49 +81,57 @@ function getXMLHttpRequest(){
 
 	<jsp:include page="form/header01.jsp" flush="true" />
 	
-	<main role="main" style="padding-top: 150px; padding-bottom: 100px; background-color: #fffff9; ">
+	<main role="main" style="padding-top: 200px; padding-bottom: 200px; background-color: #fffff9; ">
 	<div class="container">	
 
 			<c:if test="${list ne null }">
 			<div class="card-group">
 				<!-- 게시글 보여주는 부분 -->
-				<div class="col-mb-3">
+				<div class="col-mb-3" >
 			    <img src="./resources/board_uploadimg/${board.file_group }"  class="uploadimg" alt="#게시글  이미지" onload="javascript:getSize(this);">
 	   			</div>
 	   			
 	   			<!-- 댓글 보여주는 부분 -->
 	    		<div class="card">
 		    		<div class="card-header">
-		    			<button type="button" class="close" aria-label="Close" style="outline: none;" 
-		    					onclick="location.href='BoardServlet.do?command=delBoard&groupNo=${board.group_no }&board_writer=<%=member.getMemid()%>'">
-	  						<span aria-hidden="true">&times;</span>
-						</button>
+		    			<!-- 게시글 주인만 삭제 가능 -->
+		    			<c:set var="sessionId" value="<%= member.getMemid() %>"></c:set>
+			  			<c:if test="${board.board_writer == sessionId }">
+			    			<button type="button" class="close" aria-label="Close" style="outline: none;" 
+			    					onclick="location.href='BoardServlet.do?command=delBoard&groupNo=${board.group_no }&board_writer=<%=member.getMemid()%>'">
+		  						<span aria-hidden="true">&times;</span>
+							</button>
+						</c:if>
 									
     					<img src="resources/images/profile.png" class="profileimg ">&nbsp; 
     					<!-- 게시글 주인 -->
-    					<input class="bg-light font-weight-bold" type="text" name="memno" value="${board.board_writer }" readonly style="border: none; outline: none;">
+    					<div style="display: inline;"onclick="location.href='BoardServlet.do?command=userBoard&board_writer=${board.board_writer}'">
+    						<input class="bg-light font-weight-bold" type="text" name="memno" value="${board.board_writer }" readonly style="border: none; outline: none;">
+  						</div>
   					</div> 
           		
+          			<!-- 댓글 목록 부분 -->
           			<div class="card-body overflow-auto">
           			<c:forEach items="${list }" var="list" >
-                     	<!-- 댓글 작성자만 삭제 가능하도록 
-                     	<c:if test="${list.board_writer == session.sessionID }"></c:if>
-                     	-->
-	                     	<form action="BoardServlet.do" method="post">
+	                     	<form action="BoardServlet.do" method="post" id="delComForm">
 			          			<div class="badge rounded-pill text-wrap " id="comments" style="background-color: #f5f5dc; width: 100%; padding: 10px 10px; margin-bottom: 10px;">
 								
 			    					<img src="resources/images/profile.png" class="profileimg">
 			  						<!-- 댓글 주인 -->
-			  						<input type="text" value="${list.board_writer }" readonly style="border: none; outline: none; background-color: #f5f5dc; ">
+			  						<input type="text" id="writer" value="${list.board_writer }" readonly style="border: none; outline: none; background-color: #f5f5dc; ">
 			  						<input type="text" value="${list.board_content }" readonly style="border: none; outline: none; background-color: #f5f5dc;">
-			  						<input type="text" value="${list.board_regdate }"readonly style="border: none; outline: none; background-color: #f5f5dc;">
+			  						<input type="text" value="${list.board_regdate }"readonly style="border: none; outline: none; background-color: #f5f5dc; padding: 0; margin-left: 50px;">
 			  						<input type="hidden" name="boardNo" value="${list.board_no }">
 			  						<input type="hidden" name="groupNo" value="${list.group_no }">
 			  						<input type="hidden" name="command" value="delComment">
-			  									          			
-				          			<button type="submit" class="close" aria-label="Close" style="outline: none;">
-	  									<span aria-hidden="true">&times;</span>
-									</button>
+			  						
+			  						<!-- 댓글 주인만 삭제 가능 -->
+			  						<c:set var="sessionId" value="<%= member.getMemid() %>"></c:set>
+			  						<c:if test="${list.board_writer == sessionId }">			          			
+					          			<button type="submit" class="close" aria-label="Close" style="outline: none; float: right;">
+		  									<span aria-hidden="true">&times;</span>
+										</button>
+									</c:if>
 			  					</div>
 		  					</form>
 	  				</c:forEach>
